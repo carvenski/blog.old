@@ -24,7 +24,8 @@ disqus_url: "http://yxzoro.github.io"
 #########################################
 
 # Build settings
-markdown: kramdown
+# markdown: kramdown
+markdown: markdown
 
 # highlight
 # highlighter: pygments
