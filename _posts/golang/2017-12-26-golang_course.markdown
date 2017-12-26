@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "hello jekyll!"
+title:  "golang course"
 date:   2017-12-26 14:00:00
 categories: golang
 comments: true
