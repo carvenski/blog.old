@@ -1,0 +1,411 @@
+Found ffmpeg: /usr/lib/chromium-browser/libffmpeg.so
+	avcodec: 3762789
+	avformat: 3756644
+	avutil: 3623780
+Ffmpeg version is OK! Let's use it.
+[5599:5599:1228/112833.824538:ERROR:clids_storage.cc(185)] Clid clid1010 not found!
+[5836:5850:1228/112842.397376:ERROR:adm_helpers.cc(62)] Failed to query stereo recording.
+[5599:5656:1228/112843.237947:ERROR:socket_dispatcher_host.cc(90)] Failed to resolve address for x., errorcode: -105
+[5599:5656:1228/112843.238012:ERROR:socket_dispatcher_host.cc(90)] Failed to resolve address for x., errorcode: -105
+[5599:5599:1228/112846.548721:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5599:1228/112853.334279:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5656:1228/112853.884706:ERROR:ssl_client_socket_impl.cc(1211)] handshake failed; returned -1, SSL error code 1, net_error -100
+[5599:5656:1228/112909.182874:ERROR:connection_factory_impl.cc(386)] Failed to connect to MCS endpoint with error -7
+[5836:5850:1228/112922.577451:ERROR:stunport.cc(88)] Binding request timed out from 0.0.0.x:49701 (any)
+[5599:5599:1228/112934.650724:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5599:1228/113002.756360:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5599:1228/113100.004246:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1228/113137.264101:ERROR:connection_factory_impl.cc(386)] Failed to connect to MCS endpoint with error -118
+[5599:5656:1228/113234.163555:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1228/113251.280183:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5599:1228/113258.196618:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5599:1228/113300.484059:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5656:1228/113305.789364:ERROR:connection_handler_impl.cc(475)] Timed out waiting for GCM Protocol buffer.
+[5599:5599:1228/113311.398752:ERROR:smartbox_location_bar.cc(129)] Do not use this function: SmartboxLocationBar::Revert
+[5599:5599:1228/113313.617779:ERROR:smartbox_location_bar.cc(129)] Do not use this function: SmartboxLocationBar::Revert
+[5599:5599:1228/113313.904790:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5599:1228/113319.845087:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5599:1228/113321.914868:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5599:1228/113429.090728:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5599:1228/113621.741044:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1228/113658.273393:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1228/114149.046885:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1228/114150.881618:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5656:1228/114743.519044:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1228/115149.987906:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1228/115502.373039:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1228/120150.930915:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1228/120454.164155:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1228/121152.032964:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1228/121854.166944:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1228/122152.962409:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5599:1228/123153.904618:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1228/123254.168691:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1228/124154.818263:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1228/124654.171084:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1228/125155.724862:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1228/130054.173707:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1228/130156.636865:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5599:1228/131157.568256:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1228/131454.175556:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1228/132158.501653:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5599:1228/132742.067836:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[6995:7011:1228/132743.628967:ERROR:adm_helpers.cc(62)] Failed to query stereo recording.
+[5599:5599:1228/132744.061821:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5656:1228/132744.149783:ERROR:socket_dispatcher_host.cc(90)] Failed to resolve address for x., errorcode: -105
+[5599:5656:1228/132744.149858:ERROR:socket_dispatcher_host.cc(90)] Failed to resolve address for x., errorcode: -105
+[5599:5662:1228/132746.459641:ERROR:domains_info.cc(110)] Bad domain info json v2
+[6995:7011:1228/132823.570621:ERROR:stunport.cc(88)] Binding request timed out from 0.0.0.x:35067 (any)
+[5599:5656:1228/132854.178562:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1228/132946.033747:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5599:1228/132949.946273:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5599:1228/132950.052064:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5599:1228/133043.243322:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5599:1228/133046.524354:ERROR:smartbox_location_bar.cc(129)] Do not use this function: SmartboxLocationBar::Revert
+[5599:5599:1228/133159.419318:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5599:1228/133332.812771:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5599:1228/133339.453818:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5599:1228/133342.850668:ERROR:smartbox_location_bar.cc(129)] Do not use this function: SmartboxLocationBar::Revert
+[5599:5599:1228/133342.915447:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5599:1228/133343.024268:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5599:1228/133345.684933:ERROR:smartbox_location_bar.cc(129)] Do not use this function: SmartboxLocationBar::Revert
+[5599:5599:1228/133345.788475:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5599:1228/133347.412383:ERROR:smartbox_location_bar.cc(129)] Do not use this function: SmartboxLocationBar::Revert
+[5599:5599:1228/133347.476785:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5599:1228/133349.174343:ERROR:smartbox_location_bar.cc(129)] Do not use this function: SmartboxLocationBar::Revert
+[5599:5599:1228/133349.236448:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5599:1228/133430.659745:ERROR:smartbox_location_bar.cc(129)] Do not use this function: SmartboxLocationBar::Revert
+[5599:5599:1228/133432.185959:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5599:1228/133506.858070:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5599:1228/133508.858822:ERROR:smartbox_location_bar.cc(129)] Do not use this function: SmartboxLocationBar::Revert
+[5599:5599:1228/133510.039804:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5599:1228/133536.269078:ERROR:smartbox_location_bar.cc(129)] Do not use this function: SmartboxLocationBar::Revert
+[5599:5599:1228/134104.315802:ERROR:smartbox_location_bar.cc(129)] Do not use this function: SmartboxLocationBar::Revert
+[5599:5599:1228/134123.305898:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5599:1228/134127.998233:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5599:1228/134142.939543:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5599:1228/134148.916012:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5599:1228/134156.053494:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5599:1228/134200.930693:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5599:1228/134204.842500:ERROR:smartbox_location_bar.cc(129)] Do not use this function: SmartboxLocationBar::Revert
+[5599:5599:1228/134205.158545:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5599:1228/134208.792185:ERROR:smartbox_location_bar.cc(129)] Do not use this function: SmartboxLocationBar::Revert
+[5599:5599:1228/134209.091014:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5599:1228/134225.168155:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5599:1228/134230.740193:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5599:1228/134232.236713:ERROR:smartbox_location_bar.cc(129)] Do not use this function: SmartboxLocationBar::Revert
+[5599:5599:1228/134232.365944:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5599:1228/134234.158527:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5599:1228/134238.632410:ERROR:smartbox_location_bar.cc(129)] Do not use this function: SmartboxLocationBar::Revert
+[5599:5599:1228/134238.736535:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5656:1228/134254.181910:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1228/134645.604910:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5599:1228/134714.248511:ERROR:smartbox_location_bar.cc(129)] Do not use this function: SmartboxLocationBar::Revert
+[5599:5599:1228/134715.430366:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5599:1228/134717.659475:ERROR:smartbox_location_bar.cc(129)] Do not use this function: SmartboxLocationBar::Revert
+[5599:5599:1228/134718.221430:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5599:1228/134719.897188:ERROR:smartbox_location_bar.cc(129)] Do not use this function: SmartboxLocationBar::Revert
+[5599:5599:1228/134720.445759:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5599:1228/134722.096120:ERROR:smartbox_location_bar.cc(129)] Do not use this function: SmartboxLocationBar::Revert
+[5599:5599:1228/134722.631030:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5599:1228/134723.761458:ERROR:smartbox_location_bar.cc(129)] Do not use this function: SmartboxLocationBar::Revert
+[5599:5599:1228/134724.347675:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5599:1228/134725.692608:ERROR:smartbox_location_bar.cc(129)] Do not use this function: SmartboxLocationBar::Revert
+[5599:5599:1228/134726.255296:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5599:1228/134729.364001:ERROR:smartbox_location_bar.cc(129)] Do not use this function: SmartboxLocationBar::Revert
+[5599:5599:1228/134729.942418:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5599:1228/134731.047597:ERROR:smartbox_location_bar.cc(129)] Do not use this function: SmartboxLocationBar::Revert
+[5599:5599:1228/134731.632523:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5599:1228/134734.119962:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5599:1228/134738.259794:ERROR:smartbox_location_bar.cc(129)] Do not use this function: SmartboxLocationBar::Revert
+[5599:5599:1228/134741.649751:ERROR:smartbox_location_bar.cc(129)] Do not use this function: SmartboxLocationBar::Revert
+[5599:5599:1228/134742.212078:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5599:1228/134742.713904:ERROR:smartbox_location_bar.cc(129)] Do not use this function: SmartboxLocationBar::Revert
+[5599:5599:1228/134743.276065:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5599:1228/134804.912351:ERROR:smartbox_location_bar.cc(129)] Do not use this function: SmartboxLocationBar::Revert
+[5599:5599:1228/134806.086279:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5599:1228/134807.715993:ERROR:smartbox_location_bar.cc(129)] Do not use this function: SmartboxLocationBar::Revert
+[5599:5599:1228/134808.254206:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5599:1228/135116.667345:ERROR:smartbox_location_bar.cc(129)] Do not use this function: SmartboxLocationBar::Revert
+[5599:5599:1228/135117.855701:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5599:1228/135119.381058:ERROR:smartbox_location_bar.cc(129)] Do not use this function: SmartboxLocationBar::Revert
+[5599:5599:1228/135120.077271:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5599:1228/135120.438376:ERROR:smartbox_location_bar.cc(129)] Do not use this function: SmartboxLocationBar::Revert
+[5599:5599:1228/135121.030527:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5599:1228/135121.256538:ERROR:smartbox_location_bar.cc(129)] Do not use this function: SmartboxLocationBar::Revert
+[5599:5599:1228/135122.000492:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5599:1228/135201.867859:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1228/135654.186927:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1228/135819.906499:ERROR:smartbox_location_bar.cc(129)] Do not use this function: SmartboxLocationBar::Revert
+[5599:5599:1228/135821.187653:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5599:1228/135841.450296:ERROR:smartbox_location_bar.cc(129)] Do not use this function: SmartboxLocationBar::Revert
+[5599:5599:1228/135842.301970:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5599:1228/135843.177210:ERROR:smartbox_location_bar.cc(129)] Do not use this function: SmartboxLocationBar::Revert
+[5599:5599:1228/135843.808176:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5599:1228/140018.307195:ERROR:smartbox_location_bar.cc(129)] Do not use this function: SmartboxLocationBar::Revert
+[5599:5599:1228/140019.180603:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5599:1228/140057.905470:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5599:1228/140058.691606:ERROR:smartbox_location_bar.cc(129)] Do not use this function: SmartboxLocationBar::Revert
+[5599:5599:1228/140058.865674:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5599:1228/140100.348590:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5599:1228/140102.276794:ERROR:smartbox_location_bar.cc(129)] Do not use this function: SmartboxLocationBar::Revert
+[5599:5599:1228/140102.404661:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5599:1228/140105.507061:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5599:1228/140126.522716:ERROR:smartbox_location_bar.cc(129)] Do not use this function: SmartboxLocationBar::Revert
+[5599:5599:1228/140127.692884:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5599:1228/140129.938978:ERROR:smartbox_location_bar.cc(129)] Do not use this function: SmartboxLocationBar::Revert
+[5599:5599:1228/140130.103843:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5599:1228/140138.212226:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5599:1228/140149.251604:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5599:1228/140202.785512:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5599:1228/140623.832369:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5599:1228/140625.103642:ERROR:smartbox_location_bar.cc(129)] Do not use this function: SmartboxLocationBar::Revert
+[5599:5599:1228/140625.601460:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5656:1228/141054.190766:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1228/141203.704538:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5599:1228/142205.242342:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5599:1228/142251.354471:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5656:1228/142454.194796:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1228/143206.166004:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1228/143854.199840:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1228/144210.190638:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5599:1228/145211.148161:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1228/145254.205062:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1228/150212.080965:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5599:1228/150323.878200:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5599:1228/150330.170773:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5599:1228/150331.590052:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5599:1228/150333.379284:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5599:1228/150616.416669:ERROR:clids_storage.cc(185)] Clid clid31 not found!
+[5599:5656:1228/150654.211016:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1228/151212.994361:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1228/152054.214764:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1228/152216.767704:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5599:1228/152236.810757:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5599:1228/152734.809181:ERROR:clids_storage.cc(185)] Clid clid31 not found!
+[5599:5599:1228/153217.717611:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1228/153454.217267:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1228/153848.089653:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+Gtk-Message: GtkDialog mapped without a transient parent. This is discouraged.
+[5599:5599:1228/154218.648517:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5599:1228/154645.368403:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5599:1228/154650.226358:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5599:1228/154651.652830:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5599:1228/154736.070422:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5656:1228/154854.219883:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1228/155219.570765:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5599:1228/160220.487504:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1228/160254.224303:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1228/161222.707525:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1228/161654.227304:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1228/162224.933250:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1228/163054.231506:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1228/163225.864688:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5599:1228/163914.943066:ERROR:smartbox_location_bar.cc(129)] Do not use this function: SmartboxLocationBar::Revert
+[5599:5599:1228/163915.553758:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5599:1228/163949.405444:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5599:1228/164159.234560:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5599:1228/164206.817374:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5599:1228/164207.918178:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5599:1228/164211.105979:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5599:1228/164226.810030:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1228/164454.234751:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1228/165227.744351:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1228/165854.237207:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1228/170228.672753:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5599:1228/170822.997898:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5599:1228/170827.060150:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5599:1228/170836.384517:ERROR:smartbox_location_bar.cc(129)] Do not use this function: SmartboxLocationBar::Revert
+[5599:5599:1228/170836.455239:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5599:1228/170849.404829:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5599:1228/170855.047021:ERROR:smartbox_location_bar.cc(129)] Do not use this function: SmartboxLocationBar::Revert
+[5599:5599:1228/170855.124017:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5599:1228/170957.638572:ERROR:smartbox_location_bar.cc(129)] Do not use this function: SmartboxLocationBar::Revert
+[5599:5599:1228/170958.063124:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5599:1228/171000.314060:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5599:1228/171001.448728:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5599:1228/171005.267477:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5599:1228/171009.230673:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5599:1228/171229.623253:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1228/171254.240166:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1228/171312.065238:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5599:1228/171315.597542:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5599:1228/171316.556331:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5599:1228/172230.544123:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1228/172654.242750:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1228/173231.553125:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1228/174054.245613:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1228/174232.544274:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5599:1228/175233.465417:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1228/175454.248604:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1228/180234.374986:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1228/180854.251135:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1228/181235.327070:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5599:1228/182236.257236:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1228/182254.253733:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1228/183237.200546:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1228/183654.257710:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1228/184239.153698:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1228/185054.260879:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1228/185240.077574:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5599:1228/190241.022712:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1228/190454.263539:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1228/191241.955238:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1228/191854.266213:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1228/192246.137858:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5599:1228/193247.062819:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1228/193254.269860:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1228/194248.001542:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1228/194654.272850:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1228/195248.934416:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1228/200054.275614:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1228/200258.129252:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5599:1228/201259.073047:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1228/201454.279151:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1228/202300.041699:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1228/202854.281758:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1228/203300.999988:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1228/204254.284124:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1228/204301.951303:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5599:1228/205302.886047:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1228/205654.286611:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1228/210303.834410:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1228/211054.289410:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1228/211304.742359:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5599:1228/212306.925357:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1228/212454.292002:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1228/213310.402893:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1228/213854.294532:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1228/214311.355551:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1228/215254.297692:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1228/215316.272291:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5599:1228/220317.218450:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1228/220654.300266:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1228/221320.025928:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1228/222054.302662:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1228/222342.865010:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5599:1228/223343.798137:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1228/223454.305118:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1228/224344.760576:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1228/224854.308502:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1228/225345.740971:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1228/230254.311857:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1228/230404.722367:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5599:1228/231405.938583:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1228/231654.315375:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1228/232406.923237:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1228/233054.318311:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1228/233407.900799:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5599:1228/234408.855851:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1228/234454.320831:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1228/235411.087966:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1228/235854.323949:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1229/000430.220339:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1229/001254.326384:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1229/001431.472688:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5599:1229/002433.228829:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1229/002654.329948:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1229/003434.177434:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1229/004054.333583:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1229/004435.132754:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5599:1229/005436.069395:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1229/005454.336847:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1229/010436.998938:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1229/010854.339826:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1229/011437.934742:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1229/012254.342948:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1229/012438.887444:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5599:1229/013441.448647:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1229/013654.346042:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1229/014442.382532:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1229/015054.348563:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1229/015443.329204:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5599:1229/020444.282100:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1229/020454.351409:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1229/021445.214919:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1229/021854.354110:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1229/022252.307187:ERROR:clids_storage.cc(185)] Clid clid21 not found!
+[5599:5599:1229/022446.153551:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1229/023254.357476:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1229/023447.137708:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5599:1229/024448.254133:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1229/024654.360222:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1229/025449.179695:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1229/030054.363689:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1229/030450.112933:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5599:1229/031451.035987:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1229/031454.366236:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1229/032451.974425:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1229/032854.369190:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1229/033452.909992:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1229/034254.372587:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1229/034453.838204:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5599:1229/035454.870925:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1229/035654.374650:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1229/040455.813761:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1229/041054.377591:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1229/041456.760321:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1229/042454.380201:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1229/042457.688193:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5599:1229/043458.641383:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1229/043854.382698:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1229/044459.603847:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1229/045254.385765:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1229/045500.527390:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5599:1229/050501.450611:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1229/050654.389554:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1229/051502.397223:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1229/052054.391831:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1229/052503.328587:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1229/053454.394138:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1229/053504.265550:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5599:1229/054505.188203:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1229/054854.397433:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1229/055506.113814:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1229/060254.400957:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1229/060507.025222:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5599:1229/061507.958299:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1229/061654.403941:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1229/062508.886205:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1229/063054.406279:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1229/063509.831974:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1229/064454.409747:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1229/064510.752027:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5599:1229/065511.680981:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1229/065854.412345:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1229/070512.619331:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1229/071254.415142:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1229/071513.556377:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5599:1229/072514.468106:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1229/072654.418322:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1229/073515.391584:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1229/074054.420852:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1229/074516.326288:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1229/075454.423482:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1229/075517.262885:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5599:1229/080518.181695:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1229/080854.426008:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1229/081519.093018:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1229/082254.429066:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1229/082519.997922:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5599:1229/083520.922371:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1229/083654.432295:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1229/084521.852017:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1229/085054.436080:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1229/085522.781201:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1229/090454.438990:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1229/090523.701905:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5599:1229/091524.636754:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1229/091854.442662:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1229/092525.560687:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1229/093254.445744:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1229/093526.505732:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5599:1229/094527.427259:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1229/094654.448771:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1229/095528.354356:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5599:1229/095608.598179:ERROR:smartbox_location_bar.cc(129)] Do not use this function: SmartboxLocationBar::Revert
+[5599:5599:1229/095645.970369:ERROR:smartbox_location_bar.cc(129)] Do not use this function: SmartboxLocationBar::Revert
+[5599:5656:1229/100054.451542:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1229/100529.297609:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
+[5599:5656:1229/101454.455084:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+[5599:5599:1229/101530.203386:ERROR:gcm_channel_status_request.cc(132)] GCM channel request failed. HTTP status: 404
