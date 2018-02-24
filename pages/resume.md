@@ -6,5 +6,6 @@ permalink: /resume/
 ---
 
 #### 简历
-[杨兴的简历](http://yxzoro.github.io/test_git/)
+[杨兴中文简历](http://redhair.top/resume-cn.html)
+[resume of XingYang](http://redhair.top/resume-en.html)
 
