@@ -1,0 +1,1884 @@
+<!DOCTYPE html>
+<!-- saved from url=(0032)http://python.jobbole.com/88291/ -->
+<html lang="zh-CN" prefix="og: http://ogp.me/ns#" class="js rgba borderradius boxshadow textshadow opacity cssanimations cssgradients csstransitions fontface generatedcontent video audio js gr__python_jobbole_com"><!--<![endif]--><!-- BEGIN head --><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><script src="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/shares.php" charset="utf-8"></script>
+
+	<!-- Title -->
+	<title>深入理解 Python 异步编程(上) - Python - 伯乐在线</title>
+	
+	<!-- Meta Tags -->
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+	<!-- Favicon & Mobileicon -->
+	<link rel="shortcut icon" href="http://python.jobbole.com/wp-content/uploads/sites/13/2014/12/favicon.png">
+	<link rel="apple-touch-icon" href="http://python.jobbole.com/wp-content/themes/jobboleblogv3/mobileicon.png">
+	
+	<!-- RSS, Atom & Pingbacks -->
+		<link rel="alternate" title="Python – 伯乐在线 RSS Feed" href="http://python.jobbole.com/feed/">
+		<link rel="alternate" title="RSS .92" href="http://python.jobbole.com/feed/rss/">
+	<link rel="alternate" title="Atom 0.3" href="http://python.jobbole.com/feed/atom/">
+	<link rel="pingback" href="http://python.jobbole.com/xmlrpc.php">
+	
+	<!-- Theme Hook -->
+	
+<!-- This site is optimized with the Yoast WordPress SEO plugin v1.4.13 - http://yoast.com/wordpress/seo/ -->
+<meta name="description" content="本文深入地学习了异步编程是什么、为什么、在Python里是怎么样发展的。我们找到了一种让代码看起来跟同步代码一样简单，而效率却提升N倍（具体提升情况取决于项目规模、网络环境、实现细节）的异步编程方法。">
+<link rel="canonical" href="http://python.jobbole.com/88291/">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:type" content="article">
+<meta property="og:title" content="深入理解 Python 异步编程(上) - Python - 伯乐在线">
+<meta property="og:description" content="本文深入地学习了异步编程是什么、为什么、在Python里是怎么样发展的。我们找到了一种让代码看起来跟同步代码一样简单，而效率却提升N倍（具体提升情况取决于项目规模、网络环境、实现细节）的异步编程方法。">
+<meta property="og:url" content="http://python.jobbole.com/88291/">
+<meta property="og:site_name" content="Python - 伯乐在线">
+<meta property="og:image" content="http://jbcdn2.b0.upaiyun.com/2017/08/c4d9d606f774db64be492d4acd8c2cf1.png">
+<meta property="og:image" content="http://jbcdn2.b0.upaiyun.com/2017/08/df5c9b2ea851e5be0af26a201adcc33c.png">
+<meta property="og:image" content="http://jbcdn2.b0.upaiyun.com/2017/08/e40124c2b29c297270e5c3cf83984cd6.png">
+<meta property="og:image" content="http://jbcdn2.b0.upaiyun.com/2017/08/e67c2998155f1830795139fbb202192d.png">
+<meta property="og:image" content="http://jbcdn2.b0.upaiyun.com/2017/08/4cc1cce576902e1b7794d45c480dea74.png">
+<meta property="og:image" content="http://jbcdn2.b0.upaiyun.com/2017/08/fa837bc7650e9cda6069b86f44b9cf2c.png">
+<meta property="og:image" content="http://jbcdn2.b0.upaiyun.com/2017/08/4d2984a2e636568b5265bbacdd6a71fd.png">
+<meta property="og:image" content="http://jbcdn2.b0.upaiyun.com/2017/08/b2bc8baa26ec664a0064de51fd58b27f.png">
+<meta property="og:image" content="http://jbcdn2.b0.upaiyun.com/2017/08/815c8151acb7d4fec01f637bec5bd4a3.png">
+<meta property="og:image" content="http://jbcdn2.b0.upaiyun.com/2017/08/13a05fa1bcc865ccf7940839c7529104.png">
+<meta property="og:image" content="http://jbcdn2.b0.upaiyun.com/2017/08/2702feaec0918e6ac1efd009e9222b0a.png">
+<meta property="og:image" content="http://jbcdn2.b0.upaiyun.com/2017/08/f73d1e5d440798c92bc0a4dfb334270f.png">
+<meta property="og:image" content="http://jbcdn2.b0.upaiyun.com/2017/08/46d52cc58abf84225a529c280f199c7c.png">
+<meta property="og:image" content="http://jbcdn2.b0.upaiyun.com/2017/08/429685e8f353d20d8bce9990ceb529e1.png">
+<meta property="og:image" content="http://jbcdn2.b0.upaiyun.com/2017/08/47558d12801fd122257c3feff7c94a61.png">
+<meta property="og:image" content="http://jbcdn2.b0.upaiyun.com/2017/08/b80205ab137273a4224d7284203c6ed9.png">
+<meta property="og:image" content="http://jbcdn2.b0.upaiyun.com/2017/08/7e131eb91da34645a3d4fa24280fec62.png">
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel="stylesheet" id="dashicons-css" href="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/dashicons.min.css" type="text/css" media="all">
+<link rel="stylesheet" id="thickbox-css" href="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/thickbox.css" type="text/css" media="all">
+<link rel="stylesheet" id="fancybox-css-css" href="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/jquery.fancybox.css" type="text/css" media="all">
+<link rel="stylesheet" id="jobbole-wp-css-css" href="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/jobbole-wp-plugin.css" type="text/css" media="all">
+<link rel="stylesheet" id="crayon_colorbox_css-css" href="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/colorbox.css" type="text/css" media="all">
+<link rel="stylesheet" id="crayon_style-css" href="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/crayon_style.css" type="text/css" media="all">
+<link rel="stylesheet" id="crayon_global_style-css" href="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/global_style.css" type="text/css" media="all">
+<link rel="stylesheet" id="crayon-theme-github-css" href="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/github.css" type="text/css" media="all">
+<link rel="stylesheet" id="crayon-font-monaco-css" href="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/monaco.css" type="text/css" media="all">
+<link rel="stylesheet" id="v48fv_images-css" href="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/images.css" type="text/css" media="all">
+<link rel="stylesheet" id="v48fv_front-css" href="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/front.css" type="text/css" media="all">
+<link rel="stylesheet" id="v48fv_common-css" href="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/common.css" type="text/css" media="all">
+<div class="fit-vids-style">­<style>               .fluid-width-video-wrapper {                 width: 100%;                              position: relative;                       padding: 0;                            }                                                                                   .fluid-width-video-wrapper iframe,        .fluid-width-video-wrapper object,        .fluid-width-video-wrapper embed {           position: absolute;                       top: 0;                                   left: 0;                                  width: 100%;                              height: 100%;                          }                                       </style></div><script type="text/javascript" src="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/jquery.js.下载"></script>
+<script type="text/javascript" src="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/jquery-migrate.min.js.下载"></script>
+<script type="text/javascript" src="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/jquery.fancybox.pack.js.下载"></script>
+<script type="text/javascript" src="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/superfish.js.下载"></script>
+<script type="text/javascript" src="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/menu-effects.js.下载"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var JobboleAjax = {"ajaxurl":"http:\/\/python.jobbole.com\/wp-admin\/admin-ajax.php"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/jobbole-wp-plugin.js.下载"></script>
+<script type="text/javascript" src="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/jquery.colorbox-min.js.下载"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var CrayonSyntaxSettings = {"version":"2.7.1.1","is_admin":"0","ajaxurl":"http:\/\/python.jobbole.com\/wp-admin\/admin-ajax.php","prefix":"crayon-","setting":"crayon-setting","selected":"crayon-setting-selected","changed":"crayon-setting-changed","special":"crayon-setting-special","orig_value":"data-orig-value","debug":""};
+var CrayonSyntaxStrings = {"copy":"\u4f7f\u7528 %s \u590d\u5236\uff0c\u4f7f\u7528 %s \u7c98\u8d34\u3002","minimize":"\u70b9\u51fb\u5c55\u5f00\u4ee3\u7801"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/util.js.下载"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var CrayonTagEditorSettings = {"home_url":"http:\/\/python.jobbole.com","css":"crayon-te","css_selected":"crayon-selected","code_css":"#crayon-code","url_css":"#crayon-url","url_info_css":"#crayon-te-url-info","lang_css":"#crayon-lang","title_css":"#crayon-title","mark_css":"#crayon-mark","range_css":"#crayon-range","inline_css":"crayon-inline","inline_hide_css":"crayon-hide-inline","inline_hide_only_css":"crayon-hide-inline-only","hl_css":"#crayon-highlight","switch_html":"#content-html","switch_tmce":"#content-tmce","tinymce_button_generic":".mce-btn","tinymce_button":"a.mce_crayon_tinymce,.mce-i-crayon_tinymce","tinymce_button_unique":"mce_crayon_tinymce","tinymce_highlight":"mce-active","submit_css":"#crayon-te-ok","cancel_css":"#crayon-te-cancel","content_css":"#crayon-te-content","dialog_title_css":"#crayon-te-title","submit_wrapper_css":"#crayon-te-submit-wrapper","data_value":"data-value","attr_sep":":","css_sep":"_","fallback_lang":"python","add_text":"Add Code","edit_text":"Edit Code","quicktag_text":"crayon","submit_add":"\u63d2\u5165","submit_edit":"\u4fdd\u5b58","bar":"#crayon-te-bar","bar_content":"#crayon-te-bar-content","extensions":{"scpt":"applescript","applescript":"applescript","swf":"as","fla":"as","cs":"c#","h":"c++","hh":"c++","hpp":"c++","hxx":"c++","h++":"c++","cc":"c++","cpp":"c++","cxx":"c++","c++":"c++","pas":"delphi","java":"java","class":"java","jar":"java","mv":"miva","mvc":"miva","mvt":"miva","m":"objc","mm":"objc","psc":"papyrus","pl":"perl","py":"python","pyw":"python","pyc":"python","pyo":"python","pyd":"python","rb":"ruby","rbx":"ruby","rhtml":"ruby","vbs":"vb"}};
+/* ]]> */
+</script>
+<script type="text/javascript" src="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/crayon_tag_editor.js.下载"></script>
+<script type="text/javascript" src="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/jquery.popup.js.下载"></script>
+<script type="text/javascript" src="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/crayon.js.下载"></script>
+<script type="text/javascript" src="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/modernizr.js.下载"></script>
+<link rel="https://api.w.org/" href="http://python.jobbole.com/wp-json/">
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://python.jobbole.com/xmlrpc.php?rsd">
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://python.jobbole.com/wp-includes/wlwmanifest.xml"> 
+<link rel="shortlink" href="http://python.jobbole.com/?p=88291">
+<link rel="alternate" type="application/json+oembed" href="http://python.jobbole.com/wp-json/oembed/1.0/embed?url=http%3A%2F%2Fpython.jobbole.com%2F88291%2F">
+<link rel="alternate" type="text/xml+oembed" href="http://python.jobbole.com/wp-json/oembed/1.0/embed?url=http%3A%2F%2Fpython.jobbole.com%2F88291%2F&amp;format=xml">
+    <script type="text/javascript">
+        jQuery(function($){
+            $('.comment-reply-link').click(function(e){
+                e.preventDefault();
+                var args = $(this).data('onclick');
+                args = args.replace(/.*\(|\)/gi, '').replace(/\"|\s+/g, '');
+                args = args.split(',');
+                tinymce.EditorManager.execCommand('mceRemoveEditor', true, 'comment_editor');
+                addComment.moveForm.apply( addComment, args );
+                tinymce.EditorManager.execCommand('mceAddEditor', true, 'comment_editor');
+            });
+
+            $('#cancel-comment-reply-link').click(function(e){
+                e.preventDefault();
+                tinymce.EditorManager.execCommand('mceRemoveEditor', true, 'comment_editor');
+                tinymce.EditorManager.execCommand('mceAddEditor', true, 'comment_editor');
+            });
+        });
+    </script>
+	
+	<!-- CSS -->
+    <link rel="stylesheet" type="text/css" media="screen" href="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/style.css">
+	<style>
+				*::selection { background: #0099cc; }
+		*::-moz-selection { background: #0099cc; }
+		body {
+            background: #ffffff         }
+
+        a,
+        .tabs ul.nav li a:hover,
+        .tabs ul.nav li.active a,
+        .dropcap,
+        .toggle.hover .toggle-title,
+        li.comment cite a:hover,
+        h3.widget-title,
+        .post-meta .meta-title:hover,
+        .the-latest a:hover h4,
+        .aw_socialcounter_widget li a:hover,
+        .aw_tabbed_widget #tab-latest-comments a:hover
+        {
+            color: #0099cc;
+        }
+
+		a:hover { color: #b30000; }
+		input:focus, textarea:focus { border-color: #0099cc; }
+
+		#searchsubmit,
+        .highlight,
+        .aw_tabbed_widget .tabs ul.nav li.active a, footer .aw_tabbed_widget .tabs ul.nav li.active a,
+        #top .aw_tabbed_widget .tabs ul.nav li.active a,
+        .aw_tabbed_widget .tabs ul.nav li a:hover,
+        footer .aw_tabbed_widget .tabs ul.nav li a:hover,
+        #top .aw_tabbed_widget .tabs ul.nav li a:hover,
+        .aw_twitter_widget .twitter-icon, .testimonial-icon,
+        #top-closed:hover,
+        .flex-control-nav a:hover,
+        .flex-control-nav a.flex-active {
+            background-color: #0099cc;
+        }
+
+		.submit { background-color: #0099cc; border-color: #007399; }
+		.submit:hover { background-color: #b30000; border-color: #860000; }
+		#searchsubmit:hover { background-color: #b30000; }
+		.toggle.hover .toggle-icon { border-top-color: #0099cc; }
+		.toggle.hover.active .toggle-icon { border-bottom-color: #0099cc; }
+		.flex-direction-nav li .flex-prev:hover { border-right-color: #0099cc; }
+		.flex-direction-nav li .flex-next:hover { border-left-color: #0099cc; }
+		@media only screen and (min-width: 768px) and (max-width: 959px) {
+			.aw_tabbed_widget .tabs ul.nav li a:hover, .tabs ul.nav li.active a { color: #0099cc; }
+		}
+		@media screen and (max-width: 767px) {
+			.tabs ul.nav li a:hover, .tabs ul.nav li.active a { color: #0099cc; }
+		}
+	</style>
+
+	<!--[if IE 8]>
+		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+		<script src="http://ie7-js.googlecode.com/svn/version/2.1(beta4)/IE9.js"></script>
+    <![endif]-->
+
+	<!-- Links: RSS + Atom Syndication + Pingback etc. -->
+	<link rel="alternate" type="application/rss+xml" title="Python – 伯乐在线 RSS Feed" href="http://python.jobbole.com/feed/">
+	<link rel="alternate" type="text/xml" title="RSS .92" href="http://python.jobbole.com/feed/rss/">
+	<link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="http://python.jobbole.com/feed/atom/">
+	<link rel="pingback" href="http://python.jobbole.com/xmlrpc.php">
+
+<!-- END head -->
+<style type="text/css">.fancybox-margin{margin-right:11px;}</style></head>
+
+<!-- BEGIN body -->
+<body class="single single-post postid-88291 single-format-standard chrome" data-gr-c-s-loaded="true"><link href="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/jiathis_counter.css" rel="stylesheet" type="text/css"><link href="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/jiathis_share.css" rel="stylesheet" type="text/css"><iframe frameborder="0" style="position: absolute; display: none; opacity: 0;" src="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/saved_resource.html"></iframe><div class="jiathis_style" style="position: absolute; z-index: 1000000000; display: none; top: 50%; left: 50%; overflow: auto;"></div><div class="jiathis_style" style="position: absolute; z-index: 1000000000; display: none; overflow: auto;"></div><iframe frameborder="0" src="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/jiathis_utility.html" style="display: none;"></iframe>
+
+		
+	    <nav id="top-nav" class="menu-nav" style="opacity: 1;">
+
+        <!-- BEGIN .container -->
+        <div class="container">
+
+            <div class="grid-7 hide-on-480 hide-on-767">
+                <ul id="menu-main-menu" class="menu left sf-js-enabled">
+                    <li class="menu-item">
+                        <a href="http://www.jobbole.com/">首页</a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="http://top.jobbole.com/">资讯</a>
+                    </li>
+                    <li class="menu-item">
+                        <span><a href="http://blog.jobbole.com/">文章 <i class="fa fa-angle-double-down"></i></a></span>
+                        <ul class="sub-menu sf-js-enabled" style="display: none; visibility: hidden;">
+                            <li class="menu-item"><a href="http://blog.jobbole.com/">全部文章</a></li>
+                            <li class="menu-item"><a href="http://web.jobbole.com/">Web前端</a></li>
+                            <li class="menu-item"><a href="http://python.jobbole.com/">Python开发</a></li>
+                            <li class="menu-item"><a href="http://www.importnew.com/?utm_source=home-top-nav">Java技术</a></li>
+                            <li class="menu-item"><a href="http://android.jobbole.com/">Android应用</a></li>
+                            <li class="menu-item"><a href="http://ios.jobbole.com/">iOS应用</a></li>
+                        </ul>
+                    </li>
+                    <li class="menu-item">
+                        <a href="http://hao.jobbole.com/">资源</a>
+                    </li>
+
+                    <li class="menu-item">
+                        <a href="http://date.jobbole.com/"><i class="fa fa-heart-o pinkiconcolor"></i> 相亲</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="grid-5">
+                <ul id="menu-main-menu" class="menu sf-js-enabled">
+                    <li class="menu-item hide-on-768-wider left">
+                        <span><a href="http://python.jobbole.com/88291/#">频道 <i class="fa fa-angle-double-down"></i></a></span>
+                        <ul class="sub-menu sf-js-enabled" style="display: none; visibility: hidden;">
+                            <li class="menu-item"><a href="http://www.jobbole.com/">首页</a></li>
+                            <li class="menu-item"><a href="http://top.jobbole.com/">资讯</a></li>
+                            <li class="menu-item"><a href="http://group.jobbole.com/">小组</a></li>
+                            <li class="menu-item"><a href="http://date.jobbole.com/">相亲 <i class="fa fa-heart-o pinkiconcolor"></i></a></li>
+                            <li class="menu-item"><a href="http://hao.jobbole.com/">资源</a></li>
+                            <li class="menu-item"><a href="http://blog.jobbole.com/">全部文章</a></li>
+                            <li class="menu-item"><a href="http://web.jobbole.com/">前端</a></li>
+                            <li class="menu-item"><a href="http://python.jobbole.com/">Python</a></li>
+                            <li class="menu-item"><a href="http://www.importnew.com/">Java</a></li>
+                            <li class="menu-item"><a href="http://android.jobbole.com/">安卓</a></li>
+                            <li class="menu-item"><a href="http://ios.jobbole.com/">iOS</a></li>
+                        </ul>
+                    </li>
+
+                                            <li class="menu-item"><a href="http://www.jobbole.com/login?redirect=http%3A%2F%2Fpython.jobbole.com%2F88291%2F"><i class="fa fa-sign-in"></i> 登录</a></li>
+                        <li class="menu-item"><a href="http://www.jobbole.com/register"><i class="fa fa-user-plus"></i> 注册</a></li>
+                    
+                    
+                    <li class="menu-item"><a title="帮助" href="http://blog.jobbole.com/87622/"><i class="fa fa-question-circle fa-lg"></i></a></li>
+                </ul>
+            </div>
+            <div class="clear"></div>
+
+        </div>
+        <!-- END .container -->
+
+    </nav>
+    <!-- END #top-nav -->
+  	
+	<!-- BEGIN #wrapper -->
+	<div id="wrapper" class="container">
+
+		<!-- BEGIN header -->
+		<header>
+		
+						
+			<div class="header-wrapper">
+								
+				<!-- BEGIN #logo -->
+				<div id="logo" class="leaderboard-true">
+                    <a href="http://python.jobbole.com/"><img src="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/jobbole-logo.png" alt="Python – 伯乐在线"></a>
+				</div>
+				<!-- END #logo -->
+				
+				<!-- BEGIN #leaderboard -->
+				<div id="leaderboard">
+				
+					<a href="http://date.jobbole.com/4164/" target="_blank"><img width="728" height="90" src="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/bfdcef89gy1ffimc8bgf3j20k802i3zn.jpg"></a>				
+				</div>
+				<!-- END #leaderboard -->
+				
+				<div class="clear"></div>
+			
+			</div>
+			
+						
+			<div class="clear"></div>
+
+            			<!-- BEGIN #main-nav -->
+			<nav id="main-nav" class="grid-12 menu-nav">
+                <div class="menu-sub-menu-container"><ul id="main-nav-menu" class="menu sf-js-enabled"><li id="menu-item-80741" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-80741"><a href="http://python.jobbole.com/">首页</a></li>
+<li id="menu-item-80740" class="menu-item menu-item-type-post_type menu-item-object-page current_page_parent menu-item-80740"><a href="http://python.jobbole.com/all-posts/">所有文章</a></li>
+<li id="menu-item-83414" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-83414"><a href="http://python.jobbole.com/category/news/">观点与动态</a></li>
+<li id="menu-item-83410" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-83410"><a href="http://python.jobbole.com/category/basic/">基础知识</a></li>
+<li id="menu-item-83411" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-83411"><a href="http://python.jobbole.com/category/guide/">系列教程</a></li>
+<li id="menu-item-83412" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-83412"><a href="http://python.jobbole.com/category/project/">实践项目</a></li>
+<li id="menu-item-83413" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-83413"><a href="http://python.jobbole.com/category/tools/">工具与框架</a></li>
+<li id="menu-item-80742" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-80742"><a href="http://hao.jobbole.com/?catid=144">工具资源</a></li>
+<li id="menu-item-85851" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-85851"><a href="http://group.jobbole.com/category/tech/python/">Python小组</a></li>
+</ul><select class="selectnav" id="selectnav1"><option value="">- 导航条 -</option><option value="http://python.jobbole.com/">首页</option><option value="http://python.jobbole.com/all-posts/">所有文章</option><option value="http://python.jobbole.com/category/news/">观点与动态</option><option value="http://python.jobbole.com/category/basic/">基础知识</option><option value="http://python.jobbole.com/category/guide/">系列教程</option><option value="http://python.jobbole.com/category/project/">实践项目</option><option value="http://python.jobbole.com/category/tools/">工具与框架</option><option value="http://hao.jobbole.com/?catid=144">工具资源</option><option value="http://group.jobbole.com/category/tech/python/">Python小组</option></select></div>				<div class="clear"></div>
+			</nav>
+			<!-- END #main-nav -->
+                        <div class="clear"></div>
+
+		</header>
+		<!-- END header -->
+		
+		<div id="breadcrumb" class="grid-12 margin-20"><div class="breadcrumb-wrapper"><!-- Breadcrumb NavXT 4.4.0 -->
+<a title="Go to 伯乐在线." href="http://www.jobbole.com/" class="main-home">伯乐在线</a> &gt; <a title="Go to Python - 伯乐在线." href="http://python.jobbole.com/" class="home">Python - 伯乐在线</a> &gt; <a title="Go to 所有文章." href="http://python.jobbole.com/all-posts/" class="post-root post-post">所有文章</a> &gt; <a title="Go to the 基础知识 category archives." href="http://python.jobbole.com/category/basic/" class="category">基础知识</a> &gt; 深入理解 Python 异步编程(上)</div></div><div class="clear"></div>
+
+<!-- BEGIN .grid-8 -->
+<div class="grid-8">
+
+		
+	<!-- BEGIN .post -->
+<div class="post-88291 post type-post status-publish format-standard hentry category-basic tag-1561 odd" id="post-88291">
+	
+	<!-- BEGIN .entry-header -->
+	<div class="entry-header">
+	
+				
+		<h1>深入理解 Python 异步编程(上)</h1>
+		
+							
+	</div>
+	<!-- BEGIN .entry-header -->
+	
+	<!-- BEGIN .entry-meta -->
+	<div class="entry-meta">
+	
+		<p class="entry-meta-hide-on-mobile">
+
+            2017/08/08 ·  <a href="http://python.jobbole.com/category/basic/" rel="category tag">基础知识</a>
+            
+                            · <a href="http://python.jobbole.com/88291/#article-comment"> 8 评论 </a>
+            
+
+            
+             ·  <a href="http://python.jobbole.com/tag/%e5%bc%82%e6%ad%a5%e7%bc%96%e7%a8%8b/">异步编程</a>
+            
+</p>
+
+<!-- JiaThis Button BEGIN -->
+<div class="jiathis_style" style="display: block; margin: 0 0px; clear: both;"><span class="jiathis_txt">分享到：</span>
+<a class="jiathis_button_tsina" title="分享到微博"><span class="jiathis_txt jtico jtico_tsina"></span></a>
+<a class="jiathis_button_weixin" title="分享到微信"><span class="jiathis_txt jtico jtico_weixin"></span></a>
+<a class="jiathis_button_qzone" title="分享到QQ空间"><span class="jiathis_txt jtico jtico_qzone"></span></a>
+<a class="jiathis_button_fb" title="分享到Facebook"><span class="jiathis_txt jtico jtico_fb"></span></a>
+<a class="jiathis_button_douban" title="分享到豆瓣"><span class="jiathis_txt jtico jtico_douban"></span></a>
+<a class="jiathis_button_readitlater"></a>
+<a class="jiathis_button_evernote" title="分享到印象笔记"><span class="jiathis_txt jtico jtico_evernote"></span></a>
+<a class="jiathis_button_ydnote" title="分享到有道云笔记"><span class="jiathis_txt jtico jtico_ydnote"></span></a>
+<a href="http://www.jiathis.com/share?uid=1745061" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+<a class="jiathis_counter_style"><span class="jiathis_button_expanded jiathis_counter jiathis_bubble_style" id="jiathis_counter_54" title="累计分享31次">31</span></a>
+</div>
+<!-- JiaThis Button END -->
+
+
+	</div>
+	<!-- END .entry-meta -->
+
+	<!-- BEGIN .entry -->
+	<div class="entry">
+
+        
+		<div class="copyright-area">原文出处： <a target="_blank" href="https://mp.weixin.qq.com/s?__biz=MzIxMjY5NTE0MA==&amp;mid=2247483720&amp;idx=1&amp;sn=f016c06ddd17765fd50b705fed64429c">阿驹</a>&nbsp;&nbsp;&nbsp;</div><h1>前言</h1>
+<p>很多朋友对异步编程都处于“听说很强大”的认知状态。鲜有在生产项目中使用它。而使用它的同学，则大多数都停留在知道如何使用 Tornado、Twisted、Gevent 这类异步框架上，出现各种古怪的问题难以解决。而且使用了异步框架的部分同学，由于用法不对，感觉它并没牛逼到哪里去，所以很多同学做 Web 后端服务时还是采用 Flask、Django等传统的非异步框架。</p>
+<p>从上两届 PyCon 技术大会看来，异步编程已经成了 Python 生态下一阶段的主旋律。如新兴的 Go、Rust、Elixir 等编程语言都将其支持异步和高并发作为主要“卖点”，技术变化趋势如此。Python 生态为不落人后，从2013年起由 Python 之父 Guido 亲自操刀主持了Tulip(asyncio)项目的开发。</p>
+<p>本系列教程分为上中下篇，让读者深入理解Python异步编程，解决在使用异步编程中的疑惑，深入学习Python3中新增的<strong><span style="color: #ff0000">asyncio</span></strong>库和<span style="color: #ff0000"><strong>async/await</strong></span>语法，尽情享受 Python 带来的简洁优雅和高效率。</p>
+<h2>内容安排</h2>
+<h3>上篇</h3>
+<ul>
+<li>了解 异步编程及其紧密相关的概念，如阻塞/非阻塞、同步/异步、并发/并行等</li>
+<li>理解 异步编程是什么，以及异步编程的困难之处</li>
+<li>理解 为什么需要异步编程</li>
+<li>熟悉 如何从同步阻塞发展到异步非阻塞的</li>
+<li>掌握<strong><span style="color: #ff0000">epoll + Callback + Event loop</span></strong>是如何工作的</li>
+<li>掌握 Python 是如何逐步从回调到生成器再到原生协程以支持异步编程的</li>
+<li>掌握<strong><span style="color: #ff0000"> asyncio</span></strong> 的工作原理</li>
+</ul>
+<h3>中篇</h3>
+<ul>
+<li>掌握 asyncio 标准库基本使用</li>
+<li>掌握 asyncio 的事件循环</li>
+<li>掌握 协程与任务如何使用与管理（如调度与取消调度）</li>
+<li>掌握 同步原语的使用(Lock、Event、Condition、Queue)</li>
+<li>掌握 asyncio 和多进程、多线程结合使用</li>
+</ul>
+<h3>下篇</h3>
+<ul>
+<li>理解 GIL 对异步编程的影响</li>
+<li>理解 asyncio 踩坑经验</li>
+<li>理解 回调、协程、绿程(Green-Thread)、线程对比总结</li>
+<li>掌握 多进程、多线程、协程各自的适用场景</li>
+<li>了解 Gevent/libev、uvloop/libuv 与asyncio的区别和联系</li>
+<li>掌握 Python异步编程的一些指导细则</li>
+</ul>
+<h1>1 什么是异步编程</h1>
+<p>通过学习相关概念，我们逐步解释异步编程是什么。</p>
+<h2>1.1 阻塞</h2>
+<ul>
+<li>程序未得到所需计算资源时被挂起的状态。</li>
+<li><strong>程序在等待某个操作完成期间，自身无法继续干别的事情，则称该程序在该操作上是阻塞的。</strong></li>
+<li>常见的阻塞形式有：网络I/O阻塞、磁盘I/O阻塞、用户输入阻塞等。</li>
+</ul>
+<p>阻塞是无处不在的，包括CPU切换上下文时，所有的进程都无法真正干事情，它们也会被阻塞。（如果是多核CPU则正在执行上下文切换操作的核不可被利用。）</p>
+<h2>1.2 非阻塞</h2>
+<ul>
+<li><strong>程序在等待某操作过程中，自身不被阻塞，可以继续运行干别的事情，则称该程序在该操作上是非阻塞的。</strong></li>
+<li>非阻塞并<strong>不是</strong>在任何程序级别、任何情况下都可以存在的。</li>
+<li>仅当程序封装的级别可以囊括独立的子程序单元时，它才可能存在非阻塞状态。</li>
+</ul>
+<p>非阻塞的存在是因为阻塞存在，正因为某个操作阻塞导致的耗时与效率低下，我们才要把它变成非阻塞的。</p>
+<h2>1.3 同步</h2>
+<ul>
+<li>不同程序单元为了完成某个任务，在执行过程中需靠某种通信方式以<strong>协调一致</strong>，称这些程序单元是同步执行的。</li>
+<li>例如购物系统中更新商品库存，需要用“行锁”作为通信信号，让不同的更新请求强制排队顺序执行，那更新库存的操作是同步的。</li>
+<li>简言之，<strong>同步意味着有序</strong>。</li>
+</ul>
+<h2>1.4 异步</h2>
+<ul>
+<li>为完成某个任务，不同程序单元之间<strong>过程中无需通信协调</strong>，也能完成任务的方式。</li>
+<li>不相关的程序单元之间可以是异步的。</li>
+<li>例如，爬虫下载网页。调度程序调用下载程序后，即可调度其他任务，而无需与该下载任务保持通信以协调行为。不同网页的下载、保存等操作都是无关的，也无需相互通知协调。这些异步操作的完成时刻并不确定。</li>
+<li>简言之，<strong>异步意味着无序</strong>。</li>
+</ul>
+<p>上文提到的“通信方式”通常是指异步和并发编程提供的同步原语，如信号量、锁、同步队列等等。我们需知道，虽然这些通信方式是为了让多个程序在一定条件下同步执行，但正因为是异步的存在，才需要这些通信方式。如果所有程序都是按序执行，其本身就是同步的，又何需这些同步信号呢？</p>
+<h2>1.5 并发</h2>
+<ul>
+<li>并发描述的是程序的组织结构。指程序要被设计成多个可独立执行的子任务。</li>
+<li><strong>以利用有限的计算机资源使多个任务可以被实时或近实时执行为目的。</strong></li>
+</ul>
+<h2>1.6 并行</h2>
+<ul>
+<li>并行描述的是程序的执行状态。指多个任务同时被执行。</li>
+<li><strong>以利用富余计算资源（多核CPU）加速完成多个任务为目的。</strong></li>
+</ul>
+<p>并发提供了一种程序组织结构方式，让问题的解决方案可以并行执行，但并行执行不是必须的。</p>
+<h2>1.7 概念总结</h2>
+<ul>
+<li><strong>并行</strong>是为了利用多核加速多任务完成的进度</li>
+<li><strong>并发</strong>是为了让独立的子任务都有机会被尽快执行，但不一定能加速整体进度</li>
+<li><strong>非阻塞</strong>是为了提高程序整体执行效率</li>
+<li><strong>异步</strong>是高效地组织非阻塞任务的方式</li>
+</ul>
+<p>要支持并发，必须拆分为多任务，不同任务相对而言才有阻塞/非阻塞、同步/异步。所以，并发、异步、非阻塞三个词总是如影随形。</p>
+<h2>1.8 异步编程</h2>
+<ul>
+<li><strong>以进程、线程、协程、函数/方法作为执行任务程序的基本单位，结合回调、事件循环、信号量等机制，以提高程序整体执行效率和并发能力的编程方式。</strong></li>
+</ul>
+<p>如果在某程序的运行时，能根据已经执行的指令准确判断它接下来要进行哪个具体操作，那它是同步程序，反之则为异步程序。（无序与有序的区别）</p>
+<p>同步/异步、阻塞/非阻塞并非水火不容，要看讨论的程序所处的封装级别。例如购物程序在处理多个用户的浏览请求可以是异步的，而更新库存时必须是同步的。</p>
+<h2>1.9 异步之难(nán)</h2>
+<ul>
+<li>控制不住“计几”写的程序，因为其执行顺序不可预料，<strong>当下正要发生什么事件不可预料</strong>。在并行情况下更为复杂和艰难。</li>
+</ul>
+<p>所以，几乎所有的异步框架都将异步编程模型<strong>简化</strong>：<strong>一次只允许处理一个事件</strong>。故而有关异步的讨论几乎都集中在了单线程内。</p>
+<ul>
+<li>如果某事件处理程序需要长时间执行，所有其他部分都会被阻塞。</li>
+</ul>
+<p>所以，<strong>一旦采取异步编程，每个异步调用必须“足够小”</strong>，不能耗时太久。如何拆分异步任务成了难题。</p>
+<ul>
+<li>程序下一步行为往往依赖上一步执行结果，如何知晓上次异步调用已完成并获取结果？</li>
+<li><strong>回调（Callback）</strong>成了必然选择。那又需要面临“回调地狱”的折磨。</li>
+<li>同步代码改为异步代码，必然破坏代码结构。</li>
+<li>解决问题的逻辑也要转变，不再是一条路走到黑，需要精心安排异步任务。</li>
+</ul>
+<h1>2 苦心异步为哪般</h1>
+<p>如上文所述，异步编程面临诸多难点，Python 之父亲自上阵打磨4年才使 asyncio 模块在Python 3.6中“转正”，如此苦心为什么？答案只有一个：它值得！下面我们看看为何而值得。</p>
+<h2>2.1 CPU的时间观</h2>
+<p><a href="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/c4d9d606f774db64be492d4acd8c2cf1.png"><img class="aligncenter wp-image-88292 size-full" src="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/c4d9d606f774db64be492d4acd8c2cf1.png" alt="01_cpu_time" width="2044" height="1530"></a></p>
+<p>我们将一个 2.6GHz 的 CPU 拟人化，假设它执行一条命令的时间，他它感觉上过了一秒钟。CPU是计算机的处理核心，也是最宝贵的资源，如果有浪费CPU的运行时间，导致其利用率不足，那程序效率必然低下（因为实际上有资源可以使效率更高）。</p>
+<p>如上图所示，在千兆网上传输2KB数据，CPU感觉过了14个小时，如果是在10M的公网上呢？那效率会低百倍！如果在这么长的一段时间内，CPU只是傻等结果而不能去干其他事情，是不是在浪费CPU的青春？</p>
+<p>鲁迅说，浪费“CPU”的时间等于谋财害命。而凶手就是程序猿。</p>
+<h2>2.2 面临的问题</h2>
+<ul>
+<li><strong>成本问题</strong></li>
+</ul>
+<p>如果一个程序不能有效利用一台计算机资源，那必然需要更多的计算机通过运行更多的程序实例来弥补需求缺口。例如我前不久主导重写的项目，使用Python异步编程，改版后由原来的7台服务器削减至3台，成本骤降57%。一台AWS m4.xlarge 型通用服务器按需付费实例一年价格约 1.2 万人民币。</p>
+<ul>
+<li><strong>效率问题</strong></li>
+</ul>
+<p>如果不在乎钱的消耗，那也会在意效率问题。当服务器数量堆叠到一定规模后，如果不改进软件架构和实现，加机器是徒劳，而且运维成本会骤然增加。比如别人家的电商平台支持6000单/秒支付，而自家在下单量才支撑2000单/秒，在双十一这种活动的时候，钱送上门也赚不到。</p>
+<ul>
+<li><strong>C10k/C10M挑战</strong></li>
+</ul>
+<p>C10k（concurrently handling 10k connections）是一个在1999年被提出来的技术挑战，如何在一颗1GHz CPU，2G内存，1gbps网络环境下，让单台服务器同时为1万个客户端提供FTP服务。而到了2010年后，随着硬件技术的发展，这个问题被延伸为C10M，即如何利用8核心CPU，64G内存，在10gbps的网络上保持1000万并发连接，或是每秒钟处理100万的连接。（两种类型的计算机资源在各自的时代都约为1200美元）</p>
+<p>成本和效率问题是从企业经营角度讲，C10k/C10M问题则是从技术角度出发挑战软硬件极限。C10k/C10M 问题得解，成本问题和效率问题迎刃而解。</p>
+<h2>2.3 解决方案</h2>
+<p>《约束理论与企业优化》中指出：“<strong>除了瓶颈之外，任何改进都是幻觉。</strong>”</p>
+<p>CPU告诉我们，它自己很快，而上下文切换慢、内存读数据慢、磁盘寻址与取数据慢、网络传输慢……总之，离开CPU 后的一切，除了一级高速缓存，都很慢。我们观察计算机的组成可以知道，主要由运算器、控制器、存储器、输入设备、输出设备五部分组成。运算器和控制器主要集成在CPU中，除此之外全是I/O，包括读写内存、读写磁盘、读写网卡全都是I/O。<strong>I/O成了最大的瓶颈</strong>。</p>
+<p>异步程序可以提高效率，而最大的瓶颈在I/O，业界诞生的解决方案没出意料：<strong>异步I/O吧，异步I/O吧，异步I/O吧吧！</strong></p>
+<h1>3 异步I/O进化之路</h1>
+<p>如今，地球上最发达、规模最庞大的计算机程序，莫过于因特网。而从CPU的时间观中可知，<strong>网络I/O是最大的I/O瓶颈</strong>，除了宕机没有比它更慢的。所以，诸多异步框架都对准的是网络I/O。</p>
+<p>我们从一个爬虫例子说起，从因特网上下载10篇网页。</p>
+<h2>3.1 同步阻塞方式</h2>
+<p>最容易想到的解决方案就是依次下载，从建立socket连接到发送网络请求再到读取响应数据，顺序进行。</p>
+<p><a href="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/df5c9b2ea851e5be0af26a201adcc33c.png"><img class="aligncenter wp-image-88293 size-full" src="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/df5c9b2ea851e5be0af26a201adcc33c.png" alt="02_blocking" width="1320" height="830"></a></p>
+<p>注：总体耗时约为4.5秒。（因网络波动每次测试结果有所变动，本文取多次平均值）</p>
+<p>如上图所示，<strong><span style="color: #ff0000">blocking_way()</span> </strong>的作用是建立<span style="color: #800000"> socket </span>连接，发送HTTP请求，然后从<span style="color: #000000"> socket</span> 读取HTTP响应并返回数据。示例中我们请求了 example.com 的首页。在<strong><span style="color: #ff0000">sync_way()</span></strong> 执行了10次，即下载 example.com 首页10次。</p>
+<p>在示例代码中有两个关键点。一是第10行的<strong><span style="color: #ff0000"> sock.connect((‘example.com’, 80))</span></strong>，该调用的作用是向<span style="color: #ff0000"><strong>example.com</strong></span>主机的<strong><span style="color: #ff0000">80</span></strong>端口发起网络连接请求。 二是第14行、第18行的<strong><span style="color: #ff0000">sock.recv(4096)</span></strong>，该调用的作用是从socket上读取4K字节数据。</p>
+<p>我们知道，创建网络连接，多久能创建完成不是客户端决定的，而是由网络状况和服务端处理能力共同决定。服务端什么时候返回了响应数据并被客户端接收到可供程序读取，也是不可预测的。<strong>所以<span style="color: #ff0000">sock.connect()</span>和<span style="color: #ff0000">sock.recv()</span>这两个调用在默认情况下是阻塞的。</strong></p>
+<blockquote><p>注：<strong><span style="color: #ff0000">sock.send()</span></strong>函数并不会阻塞太久，它只负责将请求数据拷贝到TCP/IP协议栈的系统缓冲区中就返回，并不等待服务端返回的应答确认。</p></blockquote>
+<p>假设网络环境很差，创建网络连接需要1秒钟，那么<strong><span style="color: #ff0000">sock.connect()</span></strong>就得阻塞1秒钟，等待网络连接成功。这1秒钟对一颗2.6GHz的CPU来讲，仿佛过去了83年，然而它不能干任何事情。<strong><span style="color: #ff0000">sock.recv()</span></strong>也是一样的必须得等到服务端的响应数据已经被客户端接收。我们下载10篇网页，这个阻塞过程就得重复10次。如果一个爬虫系统每天要下载1000万篇网页呢？！</p>
+<p>上面说了很多，我们力图说明一件事：<strong>同步阻塞的网络交互方式，效率低十分低下。</strong>特别是在网络交互频繁的程序中。这种方式根本<strong>不可能</strong>挑战C10K/C10M。</p>
+<h2>3.2 改进方式：多进程</h2>
+<p>在一个程序内，依次执行10次太耗时，那开10个一样的程序同时执行不就行了。于是我们想到了多进程编程。<strong>为什么会先想到多进程呢</strong>？发展脉络如此。在更早的操作系统（Linux 2.4）及其以前，进程是 OS 调度任务的实体，是面向进程设计的OS。</p>
+<p><a href="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/e40124c2b29c297270e5c3cf83984cd6.png"><img class="aligncenter wp-image-88294 size-full" src="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/e40124c2b29c297270e5c3cf83984cd6.png" alt="03_multiproc" width="1322" height="866"></a></p>
+<p>注：总体耗时约为 0.6 秒。</p>
+<p>改善效果立竿见影。但仍然有问题。总体耗时并没有缩减到原来的十分之一，而是九分之一左右，还有一些时间耗到哪里去了？<strong>进程切换开销</strong>。</p>
+<p>进程切换开销不止像“CPU的时间观”所列的“上下文切换”那么低。CPU从一个进程切换到另一个进程，需要把旧进程运行时的寄存器状态、内存状态全部保存好，再将另一个进程之前保存的数据恢复。对CPU来讲，几个小时就干等着。<strong>当进程数量大于CPU核心数量时，进程切换是必然需要的。</strong></p>
+<p>除了切换开销，多进程还有另外的缺点。一般的服务器在能够稳定运行的前提下，可以同时处理的进程数在数十个到数百个规模。如果进程数量规模更大，系统运行将不稳定，而且可用内存资源往往也会不足。</p>
+<p>多进程解决方案在面临每天需要成百上千万次下载任务的爬虫系统，或者需要同时搞定数万并发的电商系统来说，并不适合。</p>
+<p>除了<strong>切换开销大</strong>，以及<strong>可支持的任务规模小</strong>之外，多进程还有其他缺点，如状态共享等问题，后文会有提及，此处不再细究。</p>
+<h2>3.3 继续改进：多线程</h2>
+<p>由于线程的数据结构比进程更轻量级，同一个进程可以容纳多个线程，从进程到线程的优化由此展开。后来的OS也把调度单位由进程转为线程，进程只作为线程的容器，用于管理进程所需的资源。而且OS级别的线程是可以被分配到不同的CPU核心同时运行的。</p>
+<p><a href="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/e67c2998155f1830795139fbb202192d.png"><img class="aligncenter wp-image-88295 size-full" src="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/e67c2998155f1830795139fbb202192d.png" alt="04_multithread" width="1330" height="870"></a></p>
+<p>注：总体运行时间约0.43秒。</p>
+<p>结果符合预期，比多进程耗时要少些。从运行时间上看，多线程似乎已经解决了切换开销大的问题。而且可支持的任务数量规模，也变成了数百个到数千个。</p>
+<p>但是，多线程仍有问题，特别是Python里的多线程。首先，Python中的多线程因为GIL的存在，它们并不能利用CPU多核优势，<strong>一个Python进程中，只允许有一个线程处于运行状态</strong>。那为什么结果还是如预期，耗时缩减到了十分之一？</p>
+<p>因为在做阻塞的系统调用时，例如<strong><span style="color: #ff0000">sock.connect(),sock.recv()</span></strong>时，当前线程会释放GIL，让别的线程有执行机会。但是单个线程内，在阻塞调用上还是阻塞的。</p>
+<blockquote><p>小提示：Python中 time.sleep 是阻塞的，都知道使用它要谨慎，但在多线程编程中，time.sleep 并不会阻塞其他线程。</p></blockquote>
+<p>除了GIL之外，所有的多线程还有通病。它们是被OS调度，调度策略是抢占式的，以保证同等优先级的线程都有均等的执行机会，那带来的问题是：并不知道下一时刻是哪个线程被运行，也不知道它正要执行的代码是什么。所以就可能存在<strong>竞态条件</strong>。</p>
+<p>例如爬虫工作线程从任务队列拿待抓取URL的时候，如果多个爬虫线程同时来取，那这个任务到底该给谁？那就需要用到“锁”或“同步队列”来保证下载任务不会被重复执行。</p>
+<p>而且线程支持的多任务规模，在数百到数千的数量规模。在大规模的高频网络交互系统中，仍然有些吃力。当然，<strong>多线程最主要的问题还是竞态条件</strong>。</p>
+<h2>3.4 非阻塞方式</h2>
+<p>终于，我们来到了非阻塞解决方案。先来看看最原始的非阻塞如何工作的。</p>
+<p><a href="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/4cc1cce576902e1b7794d45c480dea74.png"><img class="aligncenter wp-image-88296 size-full" src="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/4cc1cce576902e1b7794d45c480dea74.png" alt="05_nonblocking" width="1334" height="1450"></a></p>
+<p>注：总体耗时约4.3秒。</p>
+<p>首先注意到两点，就感觉被骗了。一是耗时与同步阻塞相当，二是代码更复杂。要非阻塞何用？且慢。</p>
+<p>上图第9行代码<span style="color: #ff0000"><strong>sock.setblocking(False)</strong></span>告诉OS，让socket上阻塞调用都改为非阻塞的方式。之前我们说到，非阻塞就是在做一件事的时候，不阻碍调用它的程序做别的事情。上述代码在执行完 <strong><span style="color: #ff0000">sock.connect()</span> </strong>和 <strong><span style="color: #ff0000">sock.recv()</span></strong> 后的确不再阻塞，可以继续往下执行请求准备的代码或者是执行下一次读取。</p>
+<p>代码变得更复杂也是上述原因所致。第11行要放在<strong><span style="color: #ff0000">try</span></strong>语句内，是因为<strong><span style="color: #ff0000">socket</span></strong>在发送非阻塞连接请求过程中，系统底层也会抛出异常。<strong><span style="color: #ff0000">connect()</span></strong>被调用之后，立即可以往下执行第15和16行的代码。</p>
+<p>需要while循环不断尝试 <strong><span style="color: #ff0000">send()</span></strong>，是因为<strong><span style="color: #ff0000">connect()</span></strong>已经非阻塞，在<strong><span style="color: #ff0000">send()</span></strong>之时并不知道 <strong><span style="color: #ff0000">socket</span></strong> 的连接是否就绪，只有不断尝试，尝试成功为止，即发送数据成功了。<strong><span style="color: #ff0000">recv()</span></strong>调用也是同理。</p>
+<p><strong>虽然 <span style="color: #ff0000">connect()</span> 和 <span style="color: #ff0000">recv()</span> 不再阻塞主程序，空出来的时间段CPU没有空闲着，但并没有利用好这空闲去做其他有意义的事情，而是在循环尝试读写 socket （不停判断非阻塞调用的状态是否就绪）。还得处理来自底层的可忽略的异常。也不能同时处理多个 socket 。</strong></p>
+<p>然后10次下载任务仍然按序进行。所以总体执行时间和同步阻塞相当。如果非得这样子，那还不如同步阻塞算了。</p>
+<h2>3.5 非阻塞改进</h2>
+<h3>3.5.1 epoll</h3>
+<p>判断非阻塞调用是否就绪如果 OS 能做，是不是应用程序就可以不用自己去等待和判断了，就可以利用这个空闲去做其他事情以提高效率。</p>
+<p>所以<strong>OS将I/O状态的变化都封装成了事件</strong>，如可读事件、可写事件。并且<strong>提供了专门的系统模块让应用程序可以接收事件通知</strong>。这个模块就是<strong><span style="color: #ff0000">select</span></strong>。让应用程序可以通过<strong><span style="color: #ff0000">select</span></strong>注册文件描述符和回调函数。当文件描述符的状态发生变化时，<strong><span style="color: #ff0000">select</span></strong> 就调用事先注册的回调函数。</p>
+<p><strong><span style="color: #ff0000">select</span></strong>因其算法效率比较低，后来改进成了<strong><span style="color: #ff0000">poll</span></strong>，再后来又有进一步改进，BSD内核改进成了<strong><span style="color: #ff0000">kqueue</span></strong>模块，而Linux内核改进成了<strong><span style="color: #ff0000">epoll</span></strong>模块。这四个模块的作用都相同，暴露给程序员使用的API也几乎一致，区别在于<strong><span style="color: #ff0000">kqueue</span></strong> 和 <strong><span style="color: #ff0000">epoll</span></strong> 在处理大量文件描述符时效率更高。</p>
+<p>鉴于 Linux 服务器的普遍性，以及为了追求更高效率，所以我们常常听闻被探讨的模块都是 <strong><span style="color: #ff0000">epoll</span></strong> 。</p>
+<h3>3.5.2 回调(Callback)</h3>
+<p>把I/O事件的等待和监听任务交给了 OS，那 OS 在知道I/O状态发生改变后（例如socket连接已建立成功可发送数据），它又怎么知道接下来该干嘛呢？<strong>只能回调</strong>。</p>
+<p>需要我们将发送数据与读取数据封装成独立的函数，让<strong><span style="color: #ff0000">epoll</span></strong>代替应用程序监听<strong><span style="color: #ff0000">socket</span></strong>状态时，得告诉<strong><span style="color: #ff0000">epoll</span></strong>：“如果<strong><span style="color: #ff0000">socket</span></strong>状态变为可以往里写数据（连接建立成功了），请调用HTTP请求发送函数。如果<strong><span style="color: #ff0000">socket</span></strong> 变为可以读数据了（客户端已收到响应），请调用响应处理函数。”</p>
+<p>于是我们利用<strong><span style="color: #ff0000">epoll</span></strong>结合回调机制重构爬虫代码：</p>
+<p><a href="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/fa837bc7650e9cda6069b86f44b9cf2c.png"><img class="aligncenter wp-image-88297 size-full" src="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/fa837bc7650e9cda6069b86f44b9cf2c.png" alt="06_callback" width="1326" height="1442"></a></p>
+<p>此处和前面稍有不同的是，我们将下载不同的10个页面，相对URL路径存放于urls_todo集合中。现在看看改进在哪。</p>
+<p>首先，不断尝试<strong><span style="color: #ff0000">send()</span></strong> 和 <strong><span style="color: #ff0000">recv()</span></strong> 的两个循环被消灭掉了。</p>
+<p>其次，导入了<strong><span style="color: #ff0000">selectors</span></strong>模块，并创建了一个<strong><span style="color: #ff0000">DefaultSelector</span> </strong>实例。Python标准库提供的<strong><span style="color: #ff0000">selectors</span></strong>模块是对底层<strong><span style="color: #ff0000">select/poll/epoll/kqueue</span></strong>的封装。<strong><span style="color: #ff0000">DefaultSelector</span></strong>类会根据 OS 环境自动选择最佳的模块，那在 Linux 2.5.44 及更新的版本上都是<strong><span style="color: #ff0000">epoll</span></strong>了。</p>
+<p>然后，在第25行和第31行分别注册了<strong><span style="color: #ff0000">socket</span></strong>可写事件<strong><span style="color: #ff0000">(EVENT_WRITE)</span></strong>和可读事件<strong><span style="color: #ff0000">(EVENT_READ)</span></strong>发生后应该采取的回调函数。</p>
+<p>虽然代码结构清晰了，阻塞操作也交给OS去等待和通知了，但是，我们要抓取10个不同页面，就得创建10个<strong><span style="color: #ff0000">Crawler</span></strong>实例，就有20个事件将要发生，那如何从<strong><span style="color: #ff0000">selector</span></strong>里获取当前正发生的事件，并且得到对应的回调函数去执行呢？</p>
+<h3>3.5.3 事件循环（Event Loop）</h3>
+<p>为了解决上述问题，那我们只得采用老办法，写一个循环，去访问selector模块，等待它告诉我们当前是哪个事件发生了，应该对应哪个回调。<strong>这个等待事件通知的循环，称之为事件循环</strong>。</p>
+<p><a href="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/4d2984a2e636568b5265bbacdd6a71fd.png"><img class="aligncenter wp-image-88298 size-full" src="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/4d2984a2e636568b5265bbacdd6a71fd.png" alt="07_ioloop" width="1334" height="264"></a></p>
+<p>上述代码中，我们用<strong><span style="color: #ff0000">stopped</span></strong>全局变量控制事件循环何时停止。当<strong><span style="color: #ff0000">urls_todo</span></strong>消耗完毕后，会标记<strong><span style="color: #ff0000">stopped</span></strong>为<strong><span style="color: #ff0000">True</span></strong>。</p>
+<p>重要的是第49行代码，<strong><span style="color: #ff0000">selector.select()</span> 是一个阻塞调用</strong>，因为如果事件不发生，那应用程序就没事件可处理，所以就干脆阻塞在这里等待事件发生。那可以推断，如果只下载一篇网页，一定要<strong><span style="color: #ff0000">connect()</span></strong>之后才能<strong><span style="color: #ff0000">send()</span></strong>继而<strong><span style="color: #ff0000">recv()</span></strong>，那它的效率和阻塞的方式是一样的。因为不在<strong><span style="color: #ff0000">connect()/recv()</span></strong>上阻塞，也得在<strong><span style="color: #ff0000">select()</span></strong>上阻塞。</p>
+<p>所以，<strong><span style="color: #ff0000">selector</span>机制(后文以此称呼代指<span style="color: #ff0000">epoll/kqueue)</span>是设计用来解决大量并发连接的</strong>。当系统中有大量非阻塞调用，能随时产生事件的时候，<strong><span style="color: #ff0000">selector</span></strong>机制才能发挥最大的威力。</p>
+<p>下面是如何启创建10个下载任务和启动事件循环的：</p>
+<p><a href="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/b2bc8baa26ec664a0064de51fd58b27f.png"><img class="aligncenter wp-image-88299 size-full" src="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/b2bc8baa26ec664a0064de51fd58b27f.png" alt="08_useloop" width="1328" height="298"></a></p>
+<p>注：总体耗时约0.45秒。</p>
+<p>上述执行结果令人振奋。在单线程内用 <strong>事件循环+回调</strong> 搞定了10篇网页同时下载的问题。这，已经是<strong>异步编程</strong>了。虽然有一个for 循环顺序地创建Crawler 实例并调用<strong><span style="color: #ff0000"> fetch</span></strong> 方法，但是<strong><span style="color: #ff0000">fetch</span></strong> 内仅有<strong><span style="color: #ff0000">connect()</span></strong>和注册可写事件，而且从执行时间明显可以推断，多个下载任务确实在同时进行！</p>
+<p>上述代码异步执行的过程：</p>
+<ol>
+<li>创建<strong><span style="color: #ff0000">Crawler</span></strong> 实例；</li>
+<li>调用<strong><span style="color: #ff0000">fetch</span></strong>方法，会创建<strong><span style="color: #ff0000">socket</span></strong>连接和在<strong><span style="color: #ff0000">selector</span></strong>上注册可写事件；</li>
+<li>fetch内并无阻塞操作，该方法立即返回；</li>
+<li>重复上述3个步骤，将10个不同的下载任务都加入事件循环；</li>
+<li>启动事件循环，进入第1轮循环，阻塞在事件监听上；</li>
+<li>当某个下载任务<strong><span style="color: #ff0000">EVENT_WRITE</span></strong>被触发，回调其<strong><span style="color: #ff0000">connected</span></strong>方法，第一轮事件循环结束；</li>
+<li>进入第2轮事件循环，当某个下载任务有事件触发，执行其回调函数；此时已经不能推测是哪个事件发生，因为有可能是上次<strong><span style="color: #ff0000">connected</span></strong>里的<strong><span style="color: #ff0000">EVENT_READ</span></strong>先被触发，也可能是其他某个任务的<strong><span style="color: #ff0000">EVENT_WRITE</span></strong>被触发；（<strong>此时，原来在一个下载任务上会阻塞的那段时间被利用起来执行另一个下载任务了</strong>）</li>
+<li>循环往复，直至所有下载任务被处理完成</li>
+<li>退出事件循环，结束整个下载程序</li>
+</ol>
+<h3>3.5.4 总结</h3>
+<p>目前为止，我们已经从同步阻塞学习到了异步非阻塞。掌握了在单线程内同时并发执行多个网络I/O阻塞型任务的黑魔法。而且与多线程相比，连线程切换都没有了，执行回调函数是函数调用开销，在线程的栈内完成，因此性能也更好，单机支持的任务规模也变成了数万到数十万个。（不过我们知道：没有免费午餐，也没有银弹。）</p>
+<p>部分编程语言中，对异步编程的支持就止步于此（不含语言官方之外的扩展）。需要程序猿直接使用epoll去注册事件和回调、维护一个事件循环，然后大多数时间都花在设计回调函数上。</p>
+<p>通过本节的学习，我们应该认识到，不论什么编程语言，但凡要做异步编程，上述的“事件循环+回调”这种模式是逃不掉的，尽管它可能用的不是<strong><span style="color: #ff0000">epoll</span></strong>，也可能不是<strong><span style="color: #ff0000">while</span></strong>循环。如果你找到了一种不属于 “<strong>等会儿告诉你</strong>” 模型的异步方式，请立即给我打电话（注意，打电话是Call）。</p>
+<p>为什么我们在某些异步编程中并没有看到 CallBack 模式呢？这就是我们接下来要探讨的问题。本节是学习异步编程的一个终点，也是另一个起点。毕竟咱们讲 Python 异步编程，还没提到其主角<strong>协程</strong>的用武之地。</p>
+<h1>4 Python 对异步I/O的优化之路</h1>
+<p>我们将在本节学习到 Python 生态对异步编程的支持是如何继承前文所述的“<strong>事件循环+回调</strong>”模式演变到asyncio的原生协程模式。</p>
+<h2>4.1 回调之痛，以终为始</h2>
+<p>在第3节中，我们已经学会了“<strong>事件循环+回调</strong>”的基本运行原理，可以基于这种方式在单线程内实现异步编程。也确实能够大大提高程序运行效率。但是，刚才所学的只是最基本的，然而在生产项目中，要应对的复杂度会大大增加。考虑如下问题：</p>
+<ul>
+<li>如果回调函数执行不正常该如何？</li>
+<li>如果回调里面还要嵌套回调怎么办？要嵌套很多层怎么办？</li>
+<li>如果嵌套了多层，其中某个环节出错了会造成什么后果？</li>
+<li>如果有个数据需要被每个回调都处理怎么办？</li>
+<li>……</li>
+</ul>
+<p>在实际编程中，上述系列问题不可避免。在这些问题的背后隐藏着回调编程模式的一些<strong>缺点</strong>：</p>
+<ul>
+<li><strong>回调层次过多时代码可读性差</strong></li>
+</ul>
+<p></p><!-- Crayon Syntax Highlighter v2.7.1.1 -->
+
+		<div id="crayon-5accb875c635d143825237" class="crayon-syntax crayon-theme-github crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style="margin-top: 12px; margin-bottom: 12px; font-size: 13px !important; line-height: 15px !important; height: auto;">
+		
+			<div class="crayon-toolbar" data-settings=" show" style="font-size: 13px !important;height: 19.5px !important; line-height: 19.5px !important;"><span class="crayon-title"></span>
+			<div class="crayon-tools" style="font-size: 13px !important;height: 19.5px !important; line-height: 19.5px !important;"><div class="crayon-button crayon-nums-button crayon-pressed" title="切换是否显示行编号"><div class="crayon-button-icon" style="background-size: 48px 128px; background-image: url(&quot;http://python.jobbole.com/wp-content/plugins/crayon-syntax-highlighter/css/images/toolbar/buttons@2x.png&quot;);"></div></div><div class="crayon-button crayon-plain-button" title="纯文本显示代码"><div class="crayon-button-icon" style="background-size: 48px 128px; background-image: url(&quot;http://python.jobbole.com/wp-content/plugins/crayon-syntax-highlighter/css/images/toolbar/buttons@2x.png&quot;);"></div></div><div class="crayon-button crayon-wrap-button" title="切换自动换行"><div class="crayon-button-icon" style="background-size: 48px 128px; background-image: url(&quot;http://python.jobbole.com/wp-content/plugins/crayon-syntax-highlighter/css/images/toolbar/buttons@2x.png&quot;);"></div></div><div class="crayon-button crayon-expand-button" title="点击展开代码" style="display: none;"><div class="crayon-button-icon" style="background-size: 48px 128px; background-image: url(&quot;http://python.jobbole.com/wp-content/plugins/crayon-syntax-highlighter/css/images/toolbar/buttons@2x.png&quot;);"></div></div><div class="crayon-button crayon-copy-button" title="复制代码"><div class="crayon-button-icon" style="background-size: 48px 128px; background-image: url(&quot;http://python.jobbole.com/wp-content/plugins/crayon-syntax-highlighter/css/images/toolbar/buttons@2x.png&quot;);"></div></div><div class="crayon-button crayon-popup-button" title="在新窗口中显示代码"><div class="crayon-button-icon" style="background-size: 48px 128px; background-image: url(&quot;http://python.jobbole.com/wp-content/plugins/crayon-syntax-highlighter/css/images/toolbar/buttons@2x.png&quot;);"></div></div></div></div>
+			<div class="crayon-info" style="min-height: 18.2px !important; line-height: 18.2px !important;"></div>
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly="" style="tab-size: 4; font-size: 13px !important; line-height: 15px !important; z-index: 0; opacity: 0;">def callback_1():
+  # processing ...
+  def callback_2():
+      # processing.....
+      def callback_3():
+          # processing ....
+          def callback_4():
+              #processing .....
+              def callback_5():
+                  # processing ......
+              async_function(callback_5)
+          async_function(callback_4)
+      async_function(callback_3)
+  async_function(callback_2)
+async_function(callback_1)</textarea></div>
+			<div class="crayon-main" style="position: relative; z-index: 1;">
+				<table class="crayon-table">
+					<tbody><tr class="crayon-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="crayon-nums-content" style="font-size: 13px !important; line-height: 15px !important;"><div class="crayon-num" data-line="crayon-5accb875c635d143825237-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-5accb875c635d143825237-2">2</div><div class="crayon-num" data-line="crayon-5accb875c635d143825237-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-5accb875c635d143825237-4">4</div><div class="crayon-num" data-line="crayon-5accb875c635d143825237-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-5accb875c635d143825237-6">6</div><div class="crayon-num" data-line="crayon-5accb875c635d143825237-7">7</div><div class="crayon-num crayon-striped-num" data-line="crayon-5accb875c635d143825237-8">8</div><div class="crayon-num" data-line="crayon-5accb875c635d143825237-9">9</div><div class="crayon-num crayon-striped-num" data-line="crayon-5accb875c635d143825237-10">10</div><div class="crayon-num" data-line="crayon-5accb875c635d143825237-11">11</div><div class="crayon-num crayon-striped-num" data-line="crayon-5accb875c635d143825237-12">12</div><div class="crayon-num" data-line="crayon-5accb875c635d143825237-13">13</div><div class="crayon-num crayon-striped-num" data-line="crayon-5accb875c635d143825237-14">14</div><div class="crayon-num" data-line="crayon-5accb875c635d143825237-15">15</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 13px !important; line-height: 15px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5accb875c635d143825237-1"><span class="crayon-e">def </span><span class="crayon-e">callback_1</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span><span class="crayon-o">:</span></div><div class="crayon-line crayon-striped-line" id="crayon-5accb875c635d143825237-2"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-p"># processing ...</span></div><div class="crayon-line" id="crayon-5accb875c635d143825237-3"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-e">def </span><span class="crayon-e">callback_2</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span><span class="crayon-o">:</span></div><div class="crayon-line crayon-striped-line" id="crayon-5accb875c635d143825237-4"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-p"># processing.....</span></div><div class="crayon-line" id="crayon-5accb875c635d143825237-5"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-e">def </span><span class="crayon-e">callback_3</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span><span class="crayon-o">:</span></div><div class="crayon-line crayon-striped-line" id="crayon-5accb875c635d143825237-6"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-p"># processing ....</span></div><div class="crayon-line" id="crayon-5accb875c635d143825237-7"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-e">def </span><span class="crayon-e">callback_4</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span><span class="crayon-o">:</span></div><div class="crayon-line crayon-striped-line" id="crayon-5accb875c635d143825237-8"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-p">#processing .....</span></div><div class="crayon-line" id="crayon-5accb875c635d143825237-9"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-e">def </span><span class="crayon-e">callback_5</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span><span class="crayon-o">:</span></div><div class="crayon-line crayon-striped-line" id="crayon-5accb875c635d143825237-10"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-p"># processing ......</span></div><div class="crayon-line" id="crayon-5accb875c635d143825237-11"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-e">async_function</span><span class="crayon-sy">(</span><span class="crayon-v">callback_5</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="crayon-5accb875c635d143825237-12"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-e">async_function</span><span class="crayon-sy">(</span><span class="crayon-v">callback_4</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="crayon-5accb875c635d143825237-13"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-e">async_function</span><span class="crayon-sy">(</span><span class="crayon-v">callback_3</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="crayon-5accb875c635d143825237-14"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-e">async_function</span><span class="crayon-sy">(</span><span class="crayon-v">callback_2</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="crayon-5accb875c635d143825237-15"><span class="crayon-e">async_function</span><span class="crayon-sy">(</span><span class="crayon-v">callback_1</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</tbody></table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0015 seconds] -->
+<p></p>
+<ul>
+<li><strong>破坏代码结构</strong></li>
+</ul>
+<p>写同步代码时，关联的操作时自上而下运行：</p><!-- Crayon Syntax Highlighter v2.7.1.1 -->
+
+		<div id="crayon-5accb875c636b702805388" class="crayon-syntax crayon-theme-github crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style="margin-top: 12px; margin-bottom: 12px; font-size: 13px !important; line-height: 15px !important; height: auto;">
+		
+			<div class="crayon-toolbar" data-settings=" show" style="font-size: 13px !important;height: 19.5px !important; line-height: 19.5px !important;"><span class="crayon-title"></span>
+			<div class="crayon-tools" style="font-size: 13px !important;height: 19.5px !important; line-height: 19.5px !important;"><div class="crayon-button crayon-nums-button crayon-pressed" title="切换是否显示行编号"><div class="crayon-button-icon" style="background-size: 48px 128px; background-image: url(&quot;http://python.jobbole.com/wp-content/plugins/crayon-syntax-highlighter/css/images/toolbar/buttons@2x.png&quot;);"></div></div><div class="crayon-button crayon-plain-button" title="纯文本显示代码"><div class="crayon-button-icon" style="background-size: 48px 128px; background-image: url(&quot;http://python.jobbole.com/wp-content/plugins/crayon-syntax-highlighter/css/images/toolbar/buttons@2x.png&quot;);"></div></div><div class="crayon-button crayon-wrap-button" title="切换自动换行"><div class="crayon-button-icon" style="background-size: 48px 128px; background-image: url(&quot;http://python.jobbole.com/wp-content/plugins/crayon-syntax-highlighter/css/images/toolbar/buttons@2x.png&quot;);"></div></div><div class="crayon-button crayon-expand-button" title="点击展开代码" style="display: none;"><div class="crayon-button-icon" style="background-size: 48px 128px; background-image: url(&quot;http://python.jobbole.com/wp-content/plugins/crayon-syntax-highlighter/css/images/toolbar/buttons@2x.png&quot;);"></div></div><div class="crayon-button crayon-copy-button" title="复制代码"><div class="crayon-button-icon" style="background-size: 48px 128px; background-image: url(&quot;http://python.jobbole.com/wp-content/plugins/crayon-syntax-highlighter/css/images/toolbar/buttons@2x.png&quot;);"></div></div><div class="crayon-button crayon-popup-button" title="在新窗口中显示代码"><div class="crayon-button-icon" style="background-size: 48px 128px; background-image: url(&quot;http://python.jobbole.com/wp-content/plugins/crayon-syntax-highlighter/css/images/toolbar/buttons@2x.png&quot;);"></div></div><span class="crayon-language">Python</span></div></div>
+			<div class="crayon-info" style="min-height: 18.2px !important; line-height: 18.2px !important;"></div>
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly="" style="tab-size: 4; font-size: 13px !important; line-height: 15px !important; z-index: 0; opacity: 0;">do_a()
+do_b()</textarea></div>
+			<div class="crayon-main" style="position: relative; z-index: 1;">
+				<table class="crayon-table">
+					<tbody><tr class="crayon-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="crayon-nums-content" style="font-size: 13px !important; line-height: 15px !important;"><div class="crayon-num" data-line="crayon-5accb875c636b702805388-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-5accb875c636b702805388-2">2</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 13px !important; line-height: 15px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5accb875c636b702805388-1"><span class="crayon-e">do_a</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="crayon-5accb875c636b702805388-2"><span class="crayon-e">do_b</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</tbody></table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0004 seconds] -->
+<p>如果 b 处理依赖于 a 处理的结果，而 a 过程是异步调用，就不知 a 何时能返回值，需要将后续的处理过程以callback的方式传递给 a ，让 a 执行完以后可以执行 b。代码变化为：</p><!-- Crayon Syntax Highlighter v2.7.1.1 -->
+
+		<div id="crayon-5accb875c636f158119809" class="crayon-syntax crayon-theme-github crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style="margin-top: 12px; margin-bottom: 12px; font-size: 13px !important; line-height: 15px !important; height: auto;">
+		
+			<div class="crayon-toolbar" data-settings=" show" style="font-size: 13px !important;height: 19.5px !important; line-height: 19.5px !important;"><span class="crayon-title"></span>
+			<div class="crayon-tools" style="font-size: 13px !important;height: 19.5px !important; line-height: 19.5px !important;"><div class="crayon-button crayon-nums-button crayon-pressed" title="切换是否显示行编号"><div class="crayon-button-icon" style="background-size: 48px 128px; background-image: url(&quot;http://python.jobbole.com/wp-content/plugins/crayon-syntax-highlighter/css/images/toolbar/buttons@2x.png&quot;);"></div></div><div class="crayon-button crayon-plain-button" title="纯文本显示代码"><div class="crayon-button-icon" style="background-size: 48px 128px; background-image: url(&quot;http://python.jobbole.com/wp-content/plugins/crayon-syntax-highlighter/css/images/toolbar/buttons@2x.png&quot;);"></div></div><div class="crayon-button crayon-wrap-button" title="切换自动换行"><div class="crayon-button-icon" style="background-size: 48px 128px; background-image: url(&quot;http://python.jobbole.com/wp-content/plugins/crayon-syntax-highlighter/css/images/toolbar/buttons@2x.png&quot;);"></div></div><div class="crayon-button crayon-expand-button" title="点击展开代码" style="display: none;"><div class="crayon-button-icon" style="background-size: 48px 128px; background-image: url(&quot;http://python.jobbole.com/wp-content/plugins/crayon-syntax-highlighter/css/images/toolbar/buttons@2x.png&quot;);"></div></div><div class="crayon-button crayon-copy-button" title="复制代码"><div class="crayon-button-icon" style="background-size: 48px 128px; background-image: url(&quot;http://python.jobbole.com/wp-content/plugins/crayon-syntax-highlighter/css/images/toolbar/buttons@2x.png&quot;);"></div></div><div class="crayon-button crayon-popup-button" title="在新窗口中显示代码"><div class="crayon-button-icon" style="background-size: 48px 128px; background-image: url(&quot;http://python.jobbole.com/wp-content/plugins/crayon-syntax-highlighter/css/images/toolbar/buttons@2x.png&quot;);"></div></div><span class="crayon-language">Python</span></div></div>
+			<div class="crayon-info" style="min-height: 18.2px !important; line-height: 18.2px !important;"></div>
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly="" style="tab-size: 4; font-size: 13px !important; line-height: 15px !important; z-index: 0; opacity: 0;">do_a(do_b())</textarea></div>
+			<div class="crayon-main" style="position: relative; z-index: 1;">
+				<table class="crayon-table">
+					<tbody><tr class="crayon-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="crayon-nums-content" style="font-size: 13px !important; line-height: 15px !important;"><div class="crayon-num" data-line="crayon-5accb875c636f158119809-1">1</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 13px !important; line-height: 15px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5accb875c636f158119809-1"><span class="crayon-e">do_a</span><span class="crayon-sy">(</span><span class="crayon-e">do_b</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</tbody></table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0004 seconds] -->
+<p>如果整个流程中全部改为异步处理，而流程比较长的话，代码逻辑就会成为这样：</p><!-- Crayon Syntax Highlighter v2.7.1.1 -->
+
+		<div id="crayon-5accb875c6372327281821" class="crayon-syntax crayon-theme-github crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style="margin-top: 12px; margin-bottom: 12px; font-size: 13px !important; line-height: 15px !important; height: auto;">
+		
+			<div class="crayon-toolbar" data-settings=" show" style="font-size: 13px !important;height: 19.5px !important; line-height: 19.5px !important;"><span class="crayon-title"></span>
+			<div class="crayon-tools" style="font-size: 13px !important;height: 19.5px !important; line-height: 19.5px !important;"><div class="crayon-button crayon-nums-button crayon-pressed" title="切换是否显示行编号"><div class="crayon-button-icon" style="background-size: 48px 128px; background-image: url(&quot;http://python.jobbole.com/wp-content/plugins/crayon-syntax-highlighter/css/images/toolbar/buttons@2x.png&quot;);"></div></div><div class="crayon-button crayon-plain-button" title="纯文本显示代码"><div class="crayon-button-icon" style="background-size: 48px 128px; background-image: url(&quot;http://python.jobbole.com/wp-content/plugins/crayon-syntax-highlighter/css/images/toolbar/buttons@2x.png&quot;);"></div></div><div class="crayon-button crayon-wrap-button" title="切换自动换行"><div class="crayon-button-icon" style="background-size: 48px 128px; background-image: url(&quot;http://python.jobbole.com/wp-content/plugins/crayon-syntax-highlighter/css/images/toolbar/buttons@2x.png&quot;);"></div></div><div class="crayon-button crayon-expand-button" title="点击展开代码" style="display: none;"><div class="crayon-button-icon" style="background-size: 48px 128px; background-image: url(&quot;http://python.jobbole.com/wp-content/plugins/crayon-syntax-highlighter/css/images/toolbar/buttons@2x.png&quot;);"></div></div><div class="crayon-button crayon-copy-button" title="复制代码"><div class="crayon-button-icon" style="background-size: 48px 128px; background-image: url(&quot;http://python.jobbole.com/wp-content/plugins/crayon-syntax-highlighter/css/images/toolbar/buttons@2x.png&quot;);"></div></div><div class="crayon-button crayon-popup-button" title="在新窗口中显示代码"><div class="crayon-button-icon" style="background-size: 48px 128px; background-image: url(&quot;http://python.jobbole.com/wp-content/plugins/crayon-syntax-highlighter/css/images/toolbar/buttons@2x.png&quot;);"></div></div><span class="crayon-language">Python</span></div></div>
+			<div class="crayon-info" style="min-height: 18.2px !important; line-height: 18.2px !important;"></div>
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly="" style="tab-size: 4; font-size: 13px !important; line-height: 15px !important; z-index: 0; opacity: 0;">do_a(do_b(do_c(do_d(do_e(do_f(......))))))</textarea></div>
+			<div class="crayon-main" style="position: relative; z-index: 1;">
+				<table class="crayon-table">
+					<tbody><tr class="crayon-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="crayon-nums-content" style="font-size: 13px !important; line-height: 15px !important;"><div class="crayon-num" data-line="crayon-5accb875c6372327281821-1">1</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 13px !important; line-height: 15px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5accb875c6372327281821-1"><span class="crayon-e">do_a</span><span class="crayon-sy">(</span><span class="crayon-e">do_b</span><span class="crayon-sy">(</span><span class="crayon-e">do_c</span><span class="crayon-sy">(</span><span class="crayon-e">do_d</span><span class="crayon-sy">(</span><span class="crayon-e">do_e</span><span class="crayon-sy">(</span><span class="crayon-e">do_f</span><span class="crayon-sy">(</span><span class="crayon-sy">.</span><span class="crayon-sy">.</span><span class="crayon-sy">.</span><span class="crayon-sy">.</span><span class="crayon-sy">.</span><span class="crayon-sy">.</span><span class="crayon-sy">)</span><span class="crayon-sy">)</span><span class="crayon-sy">)</span><span class="crayon-sy">)</span><span class="crayon-sy">)</span><span class="crayon-sy">)</span></div></div></td>
+					</tr>
+				</tbody></table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0008 seconds] -->
+<p>上面实际也是回调地狱式的风格，但这不是主要矛盾。主要在于，原本从上而下的代码结构，要改成从内到外的。先f，再e，再d，…，直到最外层 a 执行完成。在同步版本中，执行完a后执行b，这是线程的指令指针控制着的流程，而在回调版本中，流程就是程序猿需要注意和安排的。</p>
+<ul>
+<li><strong>共享状态管理困难</strong><br>
+回顾第3节爬虫代码，同步阻塞版的<strong><span style="color: #ff0000">sock</span></strong>对象从头使用到尾，而在回调的版本中，我们必须在<strong><span style="color: #ff0000">Crawler</span></strong>实例化后的对象<strong><span style="color: #ff0000">self</span></strong>里保存它自己的<strong><span style="color: #ff0000">sock</span></strong>对象。如果不是采用OOP的编程风格，那需要把要共享的状态接力似的传递给每一个回调。多个异步调用之间，到底要共享哪些状态，事先就得考虑清楚，精心设计。</li>
+<li><strong>错误处理困难</strong><br>
+一连串的回调构成一个完整的调用链。例如上述的 a 到 f。假如 d 抛了异常怎么办？整个调用链断掉，接力传递的状态也会丢失，这种现象称为<strong>调用栈撕裂</strong>。 c 不知道该干嘛，继续异常，然后是 b 异常，接着 a 异常。好嘛，报错日志就告诉你，a 调用出错了，但实际是 d 出错。<strong>所以，为了防止栈撕裂，异常必须以数据的形式返回，而不是直接抛出异常，然后每个回调中需要检查上次调用的返回值，以防错误吞没。</strong></li>
+</ul>
+<p>如果说代码风格难看是小事，但栈撕裂和状态管理困难这两个缺点会让基于回调的异步编程很艰难。所以不同编程语言的生态都在致力于解决这个问题。才诞生了后来的<strong><span style="color: #ff0000">Promise、Co-routine</span></strong>等解决方案。</p>
+<p>Python 生态也以终为始，秉承着“程序猿不必难程序猿”的原则，让语言和框架开发者苦逼一点，也要让应用开发者舒坦。在<strong>事件循环+回调</strong>的基础上衍生出了基于协程的解决方案，代表作有 <strong><span style="color: #ff0000">Tornado、Twisted、asyncio</span></strong> 等。接下来我们随着 Python 生态异步编程的发展过程，深入理解Python异步编程。</p>
+<h2>4.2 核心问题</h2>
+<p>通过前面的学习，我们清楚地认识到异步编程最大的困难：异步任务何时执行完毕？接下来要对异步调用的返回结果做什么操作？</p>
+<p>上述问题我们已经通过事件循环和回调解决了。但是回调会让程序变得复杂。要异步，必回调，又是否有办法规避其缺点呢？那需要弄清楚其本质，为什么回调是必须的？还有使用回调时克服的那些缺点又是为了什么？</p>
+<p>答案是程序为了知道自己已经干了什么？正在干什么？将来要干什么？<strong>换言之，程序得知道当前所处的状态，而且要将这个状态在不同的回调之间延续下去。</strong></p>
+<p>多个回调之间的状态管理困难，那让每个回调都能管理自己的状态怎么样？链式调用会有栈撕裂的困难，让回调之间不再链式调用怎样？不链式调用的话，那又如何让被调用者知道已经完成了？那就让这个回调通知那个回调如何？而且一个回调，不就是一个待处理任务吗？</p>
+<p>任务之间得相互通知，每个任务得有自己的状态。那不就是很古老的编程技法：协作式多任务？然而要在单线程内做调度，<strong>啊哈，协程！</strong>每个协程具有自己的栈帧，当然能知道自己处于什么状态，协程之间可以协作那自然可以通知别的协程。</p>
+<h2>4.3 协程</h2>
+<ul>
+<li><strong>协程(Co-routine)，即是协作式的例程。</strong></li>
+</ul>
+<p>它是非抢占式的多任务子例程的概括，可以允许有多个入口点在例程中确定的位置来控制程序的暂停与恢复执行。</p>
+<p>例程是什么？编程语言定义的可被调用的代码段，为了完成某个特定功能而封装在一起的一系列指令。一般的编程语言都用称为函数或方法的代码结构来体现。</p>
+<h2>4.4 基于生成器的协程</h2>
+<p>早期的 Pythoner 发现 Python 中有种特殊的对象——生成器（Generator），它的特点和协程很像。每一次迭代之间，会暂停执行，继续下一次迭代的时候还不会丢失先前的状态。</p>
+<p>为了支持用生成器做简单的协程，Python 2.5 对生成器进行了增强(PEP 342)，该增强提案的标题是 “Coroutines via Enhanced Generators”。有了PEP 342的加持，生成器可以通过<strong><span style="color: #ff0000">yield</span></strong> 暂停执行和向外返回数据，也可以通过<strong><span style="color: #ff0000">send()</span></strong>向生成器内发送数据，还可以通过<strong><span style="color: #ff0000">throw()</span></strong>向生成器内抛出异常以便随时终止生成器的运行。</p>
+<p>接下来，我们用基于生成器的协程来重构先前的爬虫代码。</p>
+<h3>4.4.1 未来对象(Future)</h3>
+<p>不用回调的方式了，怎么知道异步调用的结果呢？先设计一个对象，异步调用执行完的时候，就把结果放在它里面。这种对象称之为未来对象。</p>
+<p><a href="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/815c8151acb7d4fec01f637bec5bd4a3.png"><img class="aligncenter wp-image-88300 size-full" src="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/815c8151acb7d4fec01f637bec5bd4a3.png" alt="09_future" width="1324" height="722"></a></p>
+<p>未来对象有一个<strong><span style="color: #ff0000">result</span></strong>属性，用于存放未来的执行结果。还有个<strong><span style="color: #ff0000">set_result()</span></strong>方法，是用于设置<strong><span style="color: #ff0000">result</span></strong>的，并且会在给<strong><span style="color: #ff0000">result</span></strong>绑定值以后运行事先给future添加的回调。回调是通过未来对象的<strong><span style="color: #ff0000">add_done_callback()</span></strong>方法添加的。</p>
+<p>不要疑惑此处的<strong><span style="color: #ff0000">callback</span></strong>，说好了不回调的嘛？难道忘了我们曾经说的<strong>要异步，必回调</strong>。不过也别急，此处的回调，和先前学到的回调，还真有点不一样。</p>
+<h3>4.4.2 重构 Crawler</h3>
+<p>现在不论如何，我们有了未来对象可以代表未来的值。先用<strong><span style="color: #ff0000">Future</span></strong>来重构爬虫代码。</p>
+<p><a href="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/13a05fa1bcc865ccf7940839c7529104.png"><img class="aligncenter wp-image-88301 size-full" src="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/13a05fa1bcc865ccf7940839c7529104.png" alt="10_gen_crawler" width="1332" height="1456"></a></p>
+<p>和先前的回调版本对比，已经有了较大差异。fetch 方法内有了yield表达式，使它成为了生成器。我们知道生成器需要先调用<strong><span style="color: #ff0000">next()</span></strong>迭代一次或者是先<strong><span style="color: #ff0000">send(None)</span></strong>启动，遇到yield之后便暂停。那这fetch生成器如何再次恢复执行呢？至少 <strong><span style="color: #ff0000">Future</span></strong> 和 <strong><span style="color: #ff0000">Crawler</span></strong>都没看到相关代码。</p>
+<h3>4.4.3 任务对象(Task)</h3>
+<p>为了解决上述问题，我们只需遵循一个编程规则：单一职责，每种角色各司其职，如果还有工作没有角色来做，那就创建一个角色去做。没人来恢复这个生成器的执行么？没人来管理生成器的状态么？创建一个，就叫<strong><span style="color: #ff0000">Task</span></strong>好了，很合适的名字。</p>
+<p><a href="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/2702feaec0918e6ac1efd009e9222b0a.png"><img class="aligncenter wp-image-88302 size-full" src="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/2702feaec0918e6ac1efd009e9222b0a.png" alt="11_task" width="1332" height="552"></a></p>
+<p>上述代码中<strong><span style="color: #ff0000">Task</span></strong>封装了<strong><span style="color: #ff0000">coro</span></strong>对象，即初始化时传递给他的对象，被管理的任务是待执行的协程，故而这里的coro就是<strong><span style="color: #ff0000">fetch()</span></strong>生成器。它还有个<strong><span style="color: #ff0000">step()</span></strong>方法，在初始化的时候就会执行一遍。<strong><span style="color: #ff0000">step()</span></strong>内会调用生成器的<strong><span style="color: #ff0000">send()</span></strong>方法，初始化第一次发送的是None就驱动了coro即<strong><span style="color: #ff0000">fetch()</span></strong>的第一次执行。</p>
+<p><strong><span style="color: #ff0000">send()</span></strong>完成之后，得到下一次的<strong><span style="color: #ff0000">future</span></strong>，然后给下一次的<strong><span style="color: #ff0000">future</span></strong>添加<strong><span style="color: #ff0000">step()</span></strong>回调。原来<strong><span style="color: #ff0000">add_done_callback()</span></strong>不是给写爬虫业务逻辑用的。此前的<strong><span style="color: #ff0000">callback</span></strong>可就干的是业务逻辑呀。</p>
+<p>再看<strong><span style="color: #ff0000">fetch()</span></strong>生成器，其内部写完了所有的业务逻辑，包括如何发送请求，如何读取响应。而且注册给selector的回调相当简单，就是给对应的<strong><span style="color: #ff0000">future</span></strong>对象绑定结果值。两个yield表达式都是返回对应的future对象，然后返回<strong><span style="color: #ff0000">Task.step()</span></strong>之内，这样<strong><span style="color: #ff0000">Task, Future, Coroutine</span></strong>三者精妙地串联在了一起。</p>
+<p>初始化Task对象以后，把<span style="color: #ff0000"><strong>fetch()</strong></span>给驱动到了第44行<strong><span style="color: #ff0000">yied f</span></strong>就完事了，接下来怎么继续？</p>
+<h3>4.4.4 事件循环(Event Loop)驱动协程运行</h3>
+<p>该事件循环上场了。接下来，只需等待已经注册的EVENT_WRITE事件发生。事件循环就像心脏一般，只要它开始跳动，整个程序就会持续运行。</p>
+<p><a href="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/f73d1e5d440798c92bc0a4dfb334270f.png"><img class="aligncenter wp-image-88303 size-full" src="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/f73d1e5d440798c92bc0a4dfb334270f.png" alt="12_evloop" width="1328" height="616"></a></p>
+<p>注：总体耗时约0.43秒。</p>
+<p>现在loop有了些许变化，<strong><span style="color: #ff0000">callback()</span></strong>不再传递<strong><span style="color: #ff0000">event_key</span></strong>和<strong><span style="color: #ff0000">event_mask</span></strong>参数。也就是说，这里的回调根本不关心是谁触发了这个事件，结合<strong><span style="color: #ff0000">fetch()</span></strong>可以知道，它只需完成对<strong><span style="color: #ff0000">future</span></strong>设置结果值即可<strong><span style="color: #ff0000">f.set_result()</span></strong>。而且<strong><span style="color: #ff0000">future</span></strong>是谁它也不关心，因为<strong>协程</strong>能够保存自己的状态，知道自己的<strong><span style="color: #ff0000">future</span></strong>是哪个。也不用关心到底要设置什么值，因为要设置什么值也是协程内安排的。</p>
+<p><strong>此时的loop()，真的成了一个心脏，它只管往外泵血，不论这份血液是要输送给大脑还是要给脚趾，只要它还在跳动，生命就能延续。</strong></p>
+<h3>4.4.5 生成器协程风格和回调风格对比总结</h3>
+<p>在回调风格中：</p>
+<ul>
+<li>存在链式回调（虽然示例中嵌套回调只有一层）</li>
+<li>请求和响应也不得不分为两个回调以至于破坏了同步代码那种结构</li>
+<li>程序员必须在回调之间维护必须的状态。</li>
+</ul>
+<p>还有更多示例中没有展示，但确实存在的问题，参见4.1节。</p>
+<p>而基于生成器协程的风格：</p>
+<ul>
+<li>无链式调用</li>
+<li><strong><span style="color: #ff0000">selector</span></strong>的回调里只管给<strong><span style="color: #ff0000">future</span></strong>设置值，不再关心业务逻辑</li>
+<li>loop 内回调<strong><span style="color: #ff0000">callback()</span></strong>不再关注是谁触发了事件</li>
+<li>已趋近于同步代码的结构</li>
+<li>无需程序员在多个协程之间维护状态，例如哪个才是自己的<strong><span style="color: #ff0000">sock</span></strong></li>
+</ul>
+<h3>4.4.6 碉堡了，但是代码很丑！能不能重构？</h3>
+<p>如果说<strong><span style="color: #ff0000">fetch</span></strong>的容错能力要更强，业务功能也需要更完善，怎么办？而且技术处理的部分（socket相关的）和业务处理的部分（请求与返回数据的处理）混在一起。</p>
+<ul>
+<li>创建<strong><span style="color: #ff0000">socket</span></strong>连接可以抽象复用吧？</li>
+<li>循环读取整个<strong><span style="color: #ff0000">response</span></strong>可以抽象复用吧？</li>
+<li>循环内处理<strong><span style="color: #ff0000">socket.recv()</span></strong>的可以抽象复用吧？</li>
+</ul>
+<p>但是这些关键节点的地方都有<strong><span style="color: #ff0000">yield</span></strong>，抽离出来的代码也需要是生成器。而且<strong><span style="color: #ff0000">fetch()</span></strong>自己也得是生成器。生成器里玩生成器，代码好像要写得更丑才可以……</p>
+<p>Python 语言的设计者们也认识到了这个问题，再次秉承着“程序猿不必为难程序猿”的原则，他们捣鼓出了一个<strong><span style="color: #ff0000">yield from</span></strong>来解决生成器里玩生成器的问题。</p>
+<h2>4.5 用 yield from 改进生成器协程</h2>
+<h3>4.5.1 yield from语法介绍</h3>
+<p>yield from 是Python 3.3 新引入的语法（PEP 380）。它主要解决的就是在生成器里玩生成器不方便的问题。它有两大主要功能。</p>
+<p>第一个功能是：让嵌套生成器不必通过循环迭代yield，而是直接yield from。以下两种在生成器里玩子生成器的方式是等价的。</p><!-- Crayon Syntax Highlighter v2.7.1.1 -->
+
+		<div id="crayon-5accb875c637e851351554" class="crayon-syntax crayon-theme-github crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style="margin-top: 12px; margin-bottom: 12px; font-size: 13px !important; line-height: 15px !important; height: auto;">
+		
+			<div class="crayon-toolbar" data-settings=" show" style="font-size: 13px !important;height: 19.5px !important; line-height: 19.5px !important;"><span class="crayon-title"></span>
+			<div class="crayon-tools" style="font-size: 13px !important;height: 19.5px !important; line-height: 19.5px !important;"><div class="crayon-button crayon-nums-button crayon-pressed" title="切换是否显示行编号"><div class="crayon-button-icon" style="background-size: 48px 128px; background-image: url(&quot;http://python.jobbole.com/wp-content/plugins/crayon-syntax-highlighter/css/images/toolbar/buttons@2x.png&quot;);"></div></div><div class="crayon-button crayon-plain-button" title="纯文本显示代码"><div class="crayon-button-icon" style="background-size: 48px 128px; background-image: url(&quot;http://python.jobbole.com/wp-content/plugins/crayon-syntax-highlighter/css/images/toolbar/buttons@2x.png&quot;);"></div></div><div class="crayon-button crayon-wrap-button" title="切换自动换行"><div class="crayon-button-icon" style="background-size: 48px 128px; background-image: url(&quot;http://python.jobbole.com/wp-content/plugins/crayon-syntax-highlighter/css/images/toolbar/buttons@2x.png&quot;);"></div></div><div class="crayon-button crayon-expand-button" title="点击展开代码" style="display: none;"><div class="crayon-button-icon" style="background-size: 48px 128px; background-image: url(&quot;http://python.jobbole.com/wp-content/plugins/crayon-syntax-highlighter/css/images/toolbar/buttons@2x.png&quot;);"></div></div><div class="crayon-button crayon-copy-button" title="复制代码"><div class="crayon-button-icon" style="background-size: 48px 128px; background-image: url(&quot;http://python.jobbole.com/wp-content/plugins/crayon-syntax-highlighter/css/images/toolbar/buttons@2x.png&quot;);"></div></div><div class="crayon-button crayon-popup-button" title="在新窗口中显示代码"><div class="crayon-button-icon" style="background-size: 48px 128px; background-image: url(&quot;http://python.jobbole.com/wp-content/plugins/crayon-syntax-highlighter/css/images/toolbar/buttons@2x.png&quot;);"></div></div></div></div>
+			<div class="crayon-info" style="min-height: 18.2px !important; line-height: 18.2px !important;"></div>
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly="" style="tab-size: 4; font-size: 13px !important; line-height: 15px !important; z-index: 0; opacity: 0;">def gen_one():
+    subgen = range(10)    yield from subgendef gen_two():
+    subgen = range(10)    for item in subgen:        yield item</textarea></div>
+			<div class="crayon-main" style="position: relative; z-index: 1;">
+				<table class="crayon-table">
+					<tbody><tr class="crayon-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="crayon-nums-content" style="font-size: 13px !important; line-height: 15px !important;"><div class="crayon-num" data-line="crayon-5accb875c637e851351554-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-5accb875c637e851351554-2">2</div><div class="crayon-num" data-line="crayon-5accb875c637e851351554-3">3</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 13px !important; line-height: 15px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5accb875c637e851351554-1"><span class="crayon-e">def </span><span class="crayon-e">gen_one</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span><span class="crayon-o">:</span></div><div class="crayon-line crayon-striped-line" id="crayon-5accb875c637e851351554-2"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">subgen</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-e">range</span><span class="crayon-sy">(</span><span class="crayon-cn">10</span><span class="crayon-sy">)</span><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-e">yield </span><span class="crayon-e">from </span><span class="crayon-e">subgendef </span><span class="crayon-e">gen_two</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span><span class="crayon-o">:</span></div><div class="crayon-line" id="crayon-5accb875c637e851351554-3"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">subgen</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-e">range</span><span class="crayon-sy">(</span><span class="crayon-cn">10</span><span class="crayon-sy">)</span><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-st">for</span><span class="crayon-h"> </span><span class="crayon-e">item </span><span class="crayon-st">in</span><span class="crayon-h"> </span><span class="crayon-v">subgen</span><span class="crayon-o">:</span><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-e">yield </span><span class="crayon-v">item</span></div></div></td>
+					</tr>
+				</tbody></table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0010 seconds] -->
+<p>第二个功能就是在子生成器和原生成器的调用者之间打开双向通道，两者可以直接通信。</p><!-- Crayon Syntax Highlighter v2.7.1.1 -->
+
+		<div id="crayon-5accb875c6382264417180" class="crayon-syntax crayon-theme-github crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style="margin-top: 12px; margin-bottom: 12px; font-size: 13px !important; line-height: 15px !important; height: auto;">
+		
+			<div class="crayon-toolbar" data-settings=" show" style="font-size: 13px !important;height: 19.5px !important; line-height: 19.5px !important;"><span class="crayon-title"></span>
+			<div class="crayon-tools" style="font-size: 13px !important;height: 19.5px !important; line-height: 19.5px !important;"><div class="crayon-button crayon-nums-button crayon-pressed" title="切换是否显示行编号"><div class="crayon-button-icon" style="background-size: 48px 128px; background-image: url(&quot;http://python.jobbole.com/wp-content/plugins/crayon-syntax-highlighter/css/images/toolbar/buttons@2x.png&quot;);"></div></div><div class="crayon-button crayon-plain-button" title="纯文本显示代码"><div class="crayon-button-icon" style="background-size: 48px 128px; background-image: url(&quot;http://python.jobbole.com/wp-content/plugins/crayon-syntax-highlighter/css/images/toolbar/buttons@2x.png&quot;);"></div></div><div class="crayon-button crayon-wrap-button" title="切换自动换行"><div class="crayon-button-icon" style="background-size: 48px 128px; background-image: url(&quot;http://python.jobbole.com/wp-content/plugins/crayon-syntax-highlighter/css/images/toolbar/buttons@2x.png&quot;);"></div></div><div class="crayon-button crayon-expand-button" title="点击展开代码" style="display: none;"><div class="crayon-button-icon" style="background-size: 48px 128px; background-image: url(&quot;http://python.jobbole.com/wp-content/plugins/crayon-syntax-highlighter/css/images/toolbar/buttons@2x.png&quot;);"></div></div><div class="crayon-button crayon-copy-button" title="复制代码"><div class="crayon-button-icon" style="background-size: 48px 128px; background-image: url(&quot;http://python.jobbole.com/wp-content/plugins/crayon-syntax-highlighter/css/images/toolbar/buttons@2x.png&quot;);"></div></div><div class="crayon-button crayon-popup-button" title="在新窗口中显示代码"><div class="crayon-button-icon" style="background-size: 48px 128px; background-image: url(&quot;http://python.jobbole.com/wp-content/plugins/crayon-syntax-highlighter/css/images/toolbar/buttons@2x.png&quot;);"></div></div></div></div>
+			<div class="crayon-info" style="min-height: 18.2px !important; line-height: 18.2px !important;"></div>
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly="" style="tab-size: 4; font-size: 13px !important; line-height: 15px !important; z-index: 0; opacity: 0;">def gen():
+    yield from subgen()def subgen():
+    while True:
+        x = yield
+        yield x+1def main():
+    g = gen()
+    next(g)                # 驱动生成器g开始执行到第一个 yield
+    retval = g.send(1)     # 看似向生成器 gen() 发送数据
+    print(retval)          # 返回2
+    g.throw(StopIteration) # 看似向gen()抛入异常</textarea></div>
+			<div class="crayon-main" style="position: relative; z-index: 1;">
+				<table class="crayon-table">
+					<tbody><tr class="crayon-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="crayon-nums-content" style="font-size: 13px !important; line-height: 15px !important;"><div class="crayon-num" data-line="crayon-5accb875c6382264417180-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-5accb875c6382264417180-2">2</div><div class="crayon-num" data-line="crayon-5accb875c6382264417180-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-5accb875c6382264417180-4">4</div><div class="crayon-num" data-line="crayon-5accb875c6382264417180-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-5accb875c6382264417180-6">6</div><div class="crayon-num" data-line="crayon-5accb875c6382264417180-7">7</div><div class="crayon-num crayon-striped-num" data-line="crayon-5accb875c6382264417180-8">8</div><div class="crayon-num" data-line="crayon-5accb875c6382264417180-9">9</div><div class="crayon-num crayon-striped-num" data-line="crayon-5accb875c6382264417180-10">10</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 13px !important; line-height: 15px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5accb875c6382264417180-1"><span class="crayon-e">def </span><span class="crayon-e">gen</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span><span class="crayon-o">:</span></div><div class="crayon-line crayon-striped-line" id="crayon-5accb875c6382264417180-2"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-e">yield </span><span class="crayon-e">from </span><span class="crayon-e">subgen</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span><span class="crayon-e">def </span><span class="crayon-e">subgen</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span><span class="crayon-o">:</span></div><div class="crayon-line" id="crayon-5accb875c6382264417180-3"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-st">while</span><span class="crayon-h"> </span><span class="crayon-t">True</span><span class="crayon-o">:</span></div><div class="crayon-line crayon-striped-line" id="crayon-5accb875c6382264417180-4"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">x</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-e">yield</span></div><div class="crayon-line" id="crayon-5accb875c6382264417180-5"><span class="crayon-e">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-i">yield</span><span class="crayon-h"> </span><span class="crayon-v">x</span><span class="crayon-o">+</span><span class="crayon-cn">1def</span><span class="crayon-h"> </span><span class="crayon-e">main</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span><span class="crayon-o">:</span></div><div class="crayon-line crayon-striped-line" id="crayon-5accb875c6382264417180-6"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">g</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-e">gen</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="crayon-5accb875c6382264417180-7"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-e">next</span><span class="crayon-sy">(</span><span class="crayon-v">g</span><span class="crayon-sy">)</span><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-p"># 驱动生成器g开始执行到第一个 yield</span></div><div class="crayon-line crayon-striped-line" id="crayon-5accb875c6382264417180-8"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">retval</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">g</span><span class="crayon-sy">.</span><span class="crayon-e">send</span><span class="crayon-sy">(</span><span class="crayon-cn">1</span><span class="crayon-sy">)</span><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-p"># 看似向生成器 gen() 发送数据</span></div><div class="crayon-line" id="crayon-5accb875c6382264417180-9"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-e">print</span><span class="crayon-sy">(</span><span class="crayon-v">retval</span><span class="crayon-sy">)</span><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-p"># 返回2</span></div><div class="crayon-line crayon-striped-line" id="crayon-5accb875c6382264417180-10"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">g</span><span class="crayon-sy">.</span><span class="crayon-st">throw</span><span class="crayon-sy">(</span><span class="crayon-v">StopIteration</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-p"># 看似向gen()抛入异常</span></div></div></td>
+					</tr>
+				</tbody></table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0018 seconds] -->
+<p>通过上述代码清晰地理解了yield from的双向通道功能。关键字yield from在gen()内部为subgen()和main()开辟了通信通道。main()里可以直接将数据1发送给subgen(),subgen()也可以将计算后的数据2返回到main()里，main()里也可以直接向subgen()抛入异常以终止subgen()。</p>
+<p>顺带一提，yield from 除了可以 yield from 还可以 yield from 。</p>
+<h3>4.5.2 重构代码</h3>
+<p>抽象socket连接的功能:</p>
+<p><a href="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/46d52cc58abf84225a529c280f199c7c.png"><img class="aligncenter wp-image-88304 size-full" src="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/46d52cc58abf84225a529c280f199c7c.png" alt="13_yf_conn" width="1326" height="520"></a></p>
+<p>抽象单次<strong><span style="color: #ff0000">recv()</span></strong>和读取完整的<span style="color: #ff0000">response</span>功能:</p>
+<p><a href="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/429685e8f353d20d8bce9990ceb529e1.png"><img class="aligncenter wp-image-88305 size-full" src="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/429685e8f353d20d8bce9990ceb529e1.png" alt="14_yf_read" width="1328" height="698"></a></p>
+<p>三个关键点的抽象已经完成，现在重构<strong><span style="color: #ff0000">Crawler</span></strong>类：</p>
+<p><a href="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/47558d12801fd122257c3feff7c94a61.png"><img class="aligncenter wp-image-88306 size-full" src="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/47558d12801fd122257c3feff7c94a61.png" alt="15_yf_crawler" width="1326" height="544"></a></p>
+<p>上面代码整体来讲没什么问题，可复用的代码已经抽象出去，作为子生成器也可以使用 <strong><span style="color: #ff0000">yield from</span></strong> 语法来获取值。但另外有个点需要<strong>注意</strong>：在第24和第35行返回<strong><span style="color: #ff0000">future</span></strong>对象的时候，我们了<strong><span style="color: #ff0000">yield from f</span> </strong>而不是原来的<strong><span style="color: #ff0000">yield f</span></strong>。<strong><span style="color: #ff0000">yield</span></strong>可以直接作用于普通Python对象，而<strong><span style="color: #ff0000">yield from</span></strong>却不行，所以我们对<strong><span style="color: #ff0000">Future</span></strong>还要进一步改造，把它变成一个<strong><span style="color: #ff0000">iterable</span></strong>对象就可以了。</p>
+<p><a href="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/b80205ab137273a4224d7284203c6ed9.png"><img class="aligncenter wp-image-88307 size-full" src="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/b80205ab137273a4224d7284203c6ed9.png" alt="16_yf_future" width="1324" height="584"></a></p>
+<p>只是增加了<strong><span style="color: #ff0000">__iter__()</span></strong>方法的实现。如果不把<strong><span style="color: #ff0000">Future</span></strong>改成<strong><span style="color: #ff0000">iterable</span></strong>也是可以的，还是用原来的<strong><span style="color: #ff0000">yield</span></strong> f即可。那为什么需要改进呢？</p>
+<p>首先，我们是在基于生成器做协程，而生成器还得是生成器，如果继续混用<strong><span style="color: #ff0000">yield</span></strong>和<strong><span style="color: #ff0000">yield from</span></strong> 做协程，代码可读性和可理解性都不好。其次，如果不改，协程内还得关心它等待的对象是否可被yield，如果协程里还想继续返回协程怎么办？如果想调用普通函数动态生成一个<strong><span style="color: #ff0000">Future</span></strong>对象再返回怎么办？</p>
+<p>所以，在Python 3.3 引入<strong><span style="color: #ff0000">yield from</span></strong>新语法之后，就不再推荐用yield去做协程。全都使用<strong><span style="color: #ff0000">yield from</span></strong>由于其双向通道的功能，可以让我们在协程间随心所欲地传递数据。</p>
+<h3>4.5.3 yield from改进协程总结</h3>
+<p>用<strong><span style="color: #ff0000">yield from</span></strong>改进基于生成器的协程，代码抽象程度更高。使业务逻辑相关的代码更精简。由于其双向通道功能可以让协程之间随心所欲传递数据，使Python异步编程的协程解决方案大大向前迈进了一步。</p>
+<p>于是Python语言开发者们充分利用<strong><span style="color: #ff0000">yield from</span></strong>，使 <strong><span style="color: #ff0000">Guido</span></strong> 主导的Python异步编程框架<strong><span style="color: #ff0000">Tulip</span></strong>迅速脱胎换骨，并迫不及待得让它在 Python 3.4 中换了个名字<strong><span style="color: #ff0000">asyncio</span></strong>以“实习生”角色出现在标准库中。</p>
+<h3>4.5.4 asyncio 介绍</h3>
+<p><strong><span style="color: #ff0000">asyncio</span></strong>是Python 3.4 试验性引入的异步I/O框架（PEP 3156），提供了基于协程做异步I/O编写单线程并发代码的基础设施。其核心组件有事件循环（Event Loop）、协程(Coroutine）、任务(Task)、未来对象(Future)以及其他一些扩充和辅助性质的模块。</p>
+<p>在引入asyncio的时候，还提供了一个装饰器<strong><span style="color: #ff0000">@asyncio.coroutine</span></strong>用于装饰使用了<strong><span style="color: #ff0000">yield from</span></strong>的函数，以标记其为协程。但并不强制使用这个装饰器。</p>
+<p>虽然发展到 Python 3.4 时有了<strong><span style="color: #ff0000">yield from</span></strong>的加持让协程更容易了，但是由于协程在Python中发展的历史包袱所致，很多人仍然弄不明白<strong>生成器</strong>和<strong>协程</strong>的联系与区别，也弄不明白<strong><span style="color: #ff0000">yield</span></strong> 和 <strong><span style="color: #ff0000">yield from</span></strong> 的区别。这种混乱的状态也违背Python之禅的一些准则。</p>
+<p>于是Python设计者们又快马加鞭地在 3.5 中新增了<strong><span style="color: #ff0000">async/await</span></strong>语法（PEP 492），对协程有了明确而显式的支持，称之为<strong>原生协程</strong>。<strong><span style="color: #ff0000">async/await</span></strong> 和 <strong><span style="color: #ff0000">yield from</span></strong>这两种风格的协程底层复用共同的实现，而且相互兼容。</p>
+<p>在Python 3.6 中<strong><span style="color: #ff0000">asyncio</span></strong>库“转正”，不再是实验性质的，成为标准库的正式一员。</p>
+<h2>4.6 总结</h2>
+<p>行至此处，我们已经掌握了<strong><span style="color: #ff0000">asyncio</span></strong>的核心原理，学习了它的原型，也学习了异步I/O在 CPython 官方支持的生态下是如何一步步发展至今的。</p>
+<p>实际上，真正的<strong><span style="color: #ff0000">asyncio</span></strong>比我们前几节中学到的要复杂得多，它还实现了零拷贝、公平调度、异常处理、任务状态管理等等使 Python 异步编程更完善的内容。理解原理和原型对我们后续学习有莫大的帮助。</p>
+<h1>5 asyncio和原生协程初体验</h1>
+<p>本节中，我们将初步体验<strong><span style="color: #ff0000">asyncio</span></strong>库和新增语法<strong><span style="color: #ff0000">async/await</span></strong>给我们带来的便利。由于Python2-3的过度期间，Python3.0-3.4的使用者并不是太多，也为了不让更多的人困惑，也因为<strong><span style="color: #ff0000">aysncio</span></strong>在3.6才转正，所以更深入学习asyncio库的时候我们将使用<strong><span style="color: #ff0000">async/await</span></strong>定义的原生协程风格，<strong><span style="color: #ff0000">yield from</span></strong>风格的协程不再阐述（实际上它们可用很小的代价相互代替）。</p>
+<p><a href="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/7e131eb91da34645a3d4fa24280fec62.png"><img class="aligncenter wp-image-88308 size-full" src="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/7e131eb91da34645a3d4fa24280fec62.png" alt="17_aio" width="1328" height="802"></a></p>
+<p>对比生成器版的协程，使用<strong><span style="color: #ff0000">asyncio</span></strong>库后变化很大：</p>
+<ul>
+<li>没有了<strong><span style="color: #ff0000">yield</span> </strong>或 <strong><span style="color: #ff0000">yield from</span></strong>，而是<strong><span style="color: #ff0000">async/await</span></strong></li>
+<li>没有了自造的<strong><span style="color: #ff0000">loop()</span></strong>，取而代之的是<strong><span style="color: #ff0000">asyncio.get_event_loop()</span></strong></li>
+<li>无需自己在<strong><span style="color: #ff0000">socket</span></strong>上做异步操作，不用显式地注册和注销事件，<strong><span style="color: #ff0000">aiohttp</span></strong>库已经代劳</li>
+<li>没有了显式的<strong><span style="color: #ff0000"> Future</span></strong> 和<strong><span style="color: #ff0000"> Task，asyncio</span></strong>已封装</li>
+<li>更少量的代码，更优雅的设计</li>
+</ul>
+<p>说明：我们这里发送和接收HTTP请求不再自己操作<strong><span style="color: #ff0000">socket</span></strong>的原因是，在实际做业务项目的过程中，要处理妥善地HTTP协议会很复杂，我们需要的是功能完善的异步HTTP客户端，业界已经有了成熟的解决方案，DRY不是吗？</p>
+<p>和同步阻塞版的代码对比：</p>
+<ul>
+<li>异步化</li>
+<li>代码量相当（引入<strong><span style="color: #ff0000">aiohttp</span></strong>框架后更少）</li>
+<li>代码逻辑同样简单，跟同步代码一样的结构、一样的逻辑</li>
+<li>接近10倍的性能提升</li>
+</ul>
+<h1>结语</h1>
+<p>到此为止，我们已经深入地学习了异步编程是什么、为什么、在Python里是怎么样发展的。我们找到了一种让代码看起来跟同步代码一样简单，而效率却提升N倍（具体提升情况取决于项目规模、网络环境、实现细节）的异步编程方法。它也没有回调的那些缺点。</p>
+<p>本系列教程接下来的一篇将是学习<span style="color: #ff0000"><strong>asyncio</strong></span>库如何的使用，快速掌握它的主要内容。后续我们还会深入探究<strong><span style="color: #ff0000">asyncio</span></strong>的优点与缺点，也会探讨Python生态中其他异步I/O方案和asyncio的区别。</p>
+<h1>附</h1>
+<h2><strong>参考资料</strong></h2>
+<ul>
+<li>《A Web Crawler With asyncio Coroutines》</li>
+<li>《让 CPU 告诉你硬盘和网络到底有多慢》</li>
+</ul>
+<h2><strong>相关代码</strong></h2>
+<ul>
+<li>http://github.com/denglj/aiotutorial</li>
+</ul>
+
+        
+        
+        
+    <div class="post-adds">
+        <span data-post-id="88291" class=" btn-bluet-bigger href-style vote-post-up   register-user-only "><i class="fa  fa-thumbs-o-up"></i> <h10 id="88291votetotal">1</h10> 赞</span>
+        <span data-book-type="1" data-site-id="13" data-item-id="88291" data-item-type="1" class=" btn-bluet-bigger href-style bookmark-btn  register-user-only "><i class="fa fa-bookmark-o  "></i> 28 收藏</span>
+
+                    <a href="http://python.jobbole.com/88291/#article-comment"><span class="btn-bluet-bigger href-style hide-on-480"><i class="fa fa-comments-o"></i> 8 评论</span></a>
+        
+        
+        
+        <!-- JiaThis Button BEGIN -->
+        <div class="jiathis_style_24x24" style="display: inline-flex; position: relative; margin: 0; clear: both;float: right;">
+            <a class="jiathis_button_tsina" title="分享到微博"><span class="jiathis_txt jtico jtico_tsina"></span></a>
+            <a class="jiathis_button_weixin" title="分享到微信"><span class="jiathis_txt jtico jtico_weixin"></span></a>
+            <a class="jiathis_button_qzone" title="分享到QQ空间"><span class="jiathis_txt jtico jtico_qzone"></span></a>
+            <a class="jiathis_button_fb hide-on-480" title="分享到Facebook"><span class="jiathis_txt jtico jtico_fb"></span></a>
+            <a href="http://www.jiathis.com/share?uid=1745061" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+        </div>
+
+    </div>
+
+
+
+
+        <!-- BEGIN #author-bio -->
+
+
+<!-- END #author-bio -->
+	</div>
+	<!-- END .entry -->
+
+
+<script type="text/javascript">
+var jiathis_config={
+	data_track_clickback:false,
+	title:"分享从伯乐在线看到的一篇好文章 ",
+	summary:"《深入理解 Python 异步编程(上)》",
+	pic:"http://jbcdn2.b0.upaiyun.com/2017/08/c4d9d606f774db64be492d4acd8c2cf1.png",
+	appkey:{
+         "tsina": 1473879058    },
+	ralateuid:{
+		"tsina": 5305630013	},
+	hideMore:false
+}
+</script>
+<script type="text/javascript" src="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/jia.js.下载" charset="utf-8"></script><script type="text/javascript" src="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/plugin.client.js.下载" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+			<div class="textwidget"><p><a href="http://group.jobbole.com/22945/" target="_blank"><img src="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/bfdcef89gy1fq547hqqaij20h803cgm9.jpg"></a></p>
+</div>
+		
+</div>
+<!-- END .post -->
+    
+    
+<div style="text-align: left;">
+    <h3>可能感兴趣的话题</h3>
+    <ul style="font-size: 13px; list-style: disc inside;">
+                        <li>
+                    <a href="http://group.jobbole.com/33039/?utm_source=python.jobbole.com&amp;utm_medium=article-related-group-topic" title="Eng  ---  React ,Vue ,Angular全家桶套餐外的另一种超轻量级实现方式 (16kb)" target="_blank">Eng  ---  React ,Vue ,Angular全家桶套餐外的另一种超轻量级实...</a>
+                                    </li>
+                            <li>
+                    <a href="http://group.jobbole.com/33038/?utm_source=python.jobbole.com&amp;utm_medium=article-related-group-topic" title="28岁刚入门，靠谱不？" target="_blank">28岁刚入门，靠谱不？</a>
+                     · <a href="http://group.jobbole.com/33038/#comments" target="_blank"><i class="fa fa-comments-o"></i> 8</a>                </li>
+                            <li>
+                    <a href="http://group.jobbole.com/32985/?utm_source=python.jobbole.com&amp;utm_medium=article-related-group-topic" title="工作四年，该如何晋级架构师？" target="_blank">工作四年，该如何晋级架构师？</a>
+                     · <a href="http://group.jobbole.com/32985/#comments" target="_blank"><i class="fa fa-comments-o"></i> 1</a>                </li>
+                            <li>
+                    <a href="http://group.jobbole.com/32958/?utm_source=python.jobbole.com&amp;utm_medium=article-related-group-topic" title="java 的nio和网络编程nio 的区别" target="_blank">java 的nio和网络编程nio 的区别</a>
+                                    </li>
+                            <li>
+                    <a href="http://group.jobbole.com/32933/?utm_source=python.jobbole.com&amp;utm_medium=article-related-group-topic" title="工作压力大，然后出错多。。然后工作压力大。该怎么调整自己的状态……" target="_blank">工作压力大，然后出错多。。然后工作压力大。该怎么调整自己的状态……</a>
+                     · <a href="http://group.jobbole.com/32933/#comments" target="_blank"><i class="fa fa-comments-o"></i> 6</a>                </li>
+                            <li>
+                    <a href="http://group.jobbole.com/32879/?utm_source=python.jobbole.com&amp;utm_medium=article-related-group-topic" title="是去北上广深闯几年还是留在二线城市？" target="_blank">是去北上广深闯几年还是留在二线城市？</a>
+                     · <a href="http://group.jobbole.com/32879/#comments" target="_blank"><i class="fa fa-comments-o"></i> 2</a>                </li>
+                </ul>
+</div>
+	
+            <div id="article-comment" class="dot-box center-align">
+
+                        <a href="http://www.jobbole.com/login?redirect=http://python.jobbole.com/88291/"><button type="button" class="btn btn-non-transparent">登录后评论</button></a>
+            
+            <a target="_blank" href="http://www.jobbole.com/register"><button type="button" class="btn btn-primary">新用户注册</button></a>
+
+            <br><br>
+            <span>直接登录</span>
+            <style type="text/css">.t_login_text{margin:0; padding:0;}.t_login_button{margin:0; padding: 5px 0;}.t_login_button a{margin:0; padding-right:3px; line-height:25px}.t_login_button img{display:inline; border:none;}</style><!-- 使用社交帐号登录 来自 WordPress连接微博 插件 --><span class="connectBox1 t_login_button"><a href="http://python.jobbole.com/wp-content/plugins/wp-connect/login.php?go=weixin&amp;redirect_url=http%3A%2F%2Fpython.jobbole.com%2F88291%2F" title="微信" rel="nofollow"><img src="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/btn_weixin.png"></a><a href="http://python.jobbole.com/wp-content/plugins/wp-connect/login.php?go=qzone&amp;redirect_url=http%3A%2F%2Fpython.jobbole.com%2F88291%2F" title="QQ" rel="nofollow"><img src="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/btn_qzone.png"></a><a href="http://python.jobbole.com/wp-content/plugins/wp-connect/login.php?go=sina&amp;redirect_url=http%3A%2F%2Fpython.jobbole.com%2F88291%2F" title="新浪微博" rel="nofollow"><img src="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/btn_sina.png"></a><a href="http://python.jobbole.com/wp-content/plugins/wp-connect/login.php?go=douban&amp;redirect_url=http%3A%2F%2Fpython.jobbole.com%2F88291%2F" title="豆瓣" rel="nofollow"><img src="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/btn_douban.png"></a><a href="http://python.jobbole.com/wp-content/plugins/wp-connect/login.php?go=github&amp;redirect_url=http%3A%2F%2Fpython.jobbole.com%2F88291%2F" title="GitHub" rel="nofollow"><img src="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/btn_github.png"></a></span>        </div>
+    
+
+    <div id="comment_list" class="comments">
+
+                    <h5 id="comments" class="sub-title"><i class="glyphicon"></i>最新评论</h5>
+            <ul class="cmnt-list">
+
+                        <li id="comment-94677" class="comment cmnt odd">
+    
+    <div class="cmnt-box">
+        <div class="cmnt-header">
+                            <a href="http://www.jobbole.com/members/tecle" class="cmnt-img"><img width="37" height="37" src="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/f79ff67d08927e77672959030be81867.jpg" alt=""></a>
+                <div class="cmnt-meta">
+                    <span><a href="http://www.jobbole.com/members/tecle">醉榻</a><label class="comment_author_data">&nbsp;</label></span>
+                    <span class="c-title">
+                        程序员                    </span>
+
+                    <span class="c-date">
+                        <a href="http://python.jobbole.com/88291/#comment-94677">2017/08/11</a>
+                    </span>
+
+                    
+                    
+                </div>
+                    </div>
+        <div class="cmnt-body">
+            <p>
+                </p><p>赞，之前看tornado源码总是不得要领，今天看完这个文章瞬间通了</p>
+            <p></p>
+                    </div>
+                    <div class="cmnt-footer">
+
+                
+                <p class="c-like">
+                    <a title="赞同" alt="赞同" class="94677voteflag  t-up  href-style vote-comment-up  register-user-only   " data-comment-id="94677"><i class="fa fa-thumbs-o-up"></i> <span id="94677voteuptotal"> 赞</span></a>
+
+                    
+                    <a rel="nofollow" class="comment-reply-link register-user-only" href="http://python.jobbole.com/88291/?replytocom=94677#respond" data-onclick="return addComment.moveForm( &quot;comment-94677&quot;, &quot;94677&quot;, &quot;respond&quot;, &quot;88291&quot; )" aria-label="回复给菜鸟先生">回复 <i class="fa fa-reply"></i></a>
+                </p>
+            </div>
+            </div>
+    </li>
+<!-- #comment-## -->
+        <li id="comment-94684" class="comment cmnt even">
+    
+    <div class="cmnt-box">
+        <div class="cmnt-header">
+                            <a href="http://www.jobbole.com/members/2287838181" class="cmnt-img"><img width="37" height="37" src="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/1" alt=""></a>
+                <div class="cmnt-meta">
+                    <span><a href="http://www.jobbole.com/members/2287838181">此Jian少年</a><label class="comment_author_data">&nbsp;（ <a title="微博主页" target="_blank" href="http://weibo.com/2287838181"><i class="fa fa-weibo"></i></a>&nbsp; ）</label></span>
+                    <span class="c-title">
+                        &nbsp;                    </span>
+
+                    <span class="c-date">
+                        <a href="http://python.jobbole.com/88291/#comment-94684">2017/08/14</a>
+                    </span>
+
+                    
+                    
+                </div>
+                    </div>
+        <div class="cmnt-body">
+            <p>
+                </p><p>，老听同事说js和java的异步，python也可以实现了</p>
+            <p></p>
+                    </div>
+                    <div class="cmnt-footer">
+
+                
+                <p class="c-like">
+                    <a title="赞同" alt="赞同" class="94684voteflag  t-up  href-style vote-comment-up  register-user-only   " data-comment-id="94684"><i class="fa fa-thumbs-o-up"></i> <span id="94684voteuptotal"> 赞</span></a>
+
+                    
+                    <a rel="nofollow" class="comment-reply-link register-user-only" href="http://python.jobbole.com/88291/?replytocom=94684#respond" data-onclick="return addComment.moveForm( &quot;comment-94684&quot;, &quot;94684&quot;, &quot;respond&quot;, &quot;88291&quot; )" aria-label="回复给此Jian少年">回复 <i class="fa fa-reply"></i></a>
+                </p>
+            </div>
+            </div>
+    </li>
+<!-- #comment-## -->
+        <li id="comment-94710" class="comment cmnt odd">
+    
+    <div class="cmnt-box">
+        <div class="cmnt-header">
+                            <a href="http://www.jobbole.com/members/wx2831280669" class="cmnt-img"><img width="37" height="37" src="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/8fbdaaa5ea6d3b49c8c1c825aafeb5d9.png" alt=""></a>
+                <div class="cmnt-meta">
+                    <span><a href="http://www.jobbole.com/members/wx2831280669">Yougar</a><label class="comment_author_data">&nbsp;</label></span>
+                    <span class="c-title">
+                        程序员                    </span>
+
+                    <span class="c-date">
+                        <a href="http://python.jobbole.com/88291/#comment-94710">2017/08/22</a>
+                    </span>
+
+                    
+                    
+                </div>
+                    </div>
+        <div class="cmnt-body">
+            <p>
+                </p><p>讲得真好..期待后面系列的文章...</p>
+            <p></p>
+                    </div>
+                    <div class="cmnt-footer">
+
+                
+                <p class="c-like">
+                    <a title="赞同" alt="赞同" class="94710voteflag  t-up  href-style vote-comment-up  register-user-only   " data-comment-id="94710"><i class="fa fa-thumbs-o-up"></i> <span id="94710voteuptotal"> 赞</span></a>
+
+                    
+                    <a rel="nofollow" class="comment-reply-link register-user-only" href="http://python.jobbole.com/88291/?replytocom=94710#respond" data-onclick="return addComment.moveForm( &quot;comment-94710&quot;, &quot;94710&quot;, &quot;respond&quot;, &quot;88291&quot; )" aria-label="回复给Yougar">回复 <i class="fa fa-reply"></i></a>
+                </p>
+            </div>
+            </div>
+    </li>
+<!-- #comment-## -->
+        <li id="comment-94801" class="comment cmnt even">
+    
+    <div class="cmnt-box">
+        <div class="cmnt-header">
+                            <a href="http://www.jobbole.com/members/3025131943" class="cmnt-img"><img width="37" height="37" src="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/1(1)" alt=""></a>
+                <div class="cmnt-meta">
+                    <span><a href="http://www.jobbole.com/members/3025131943">单车大彪客</a><label class="comment_author_data">&nbsp;（ <a title="微博主页" target="_blank" href="http://weibo.com/3025131943"><i class="fa fa-weibo"></i></a>&nbsp; ）</label></span>
+                    <span class="c-title">
+                        &nbsp;                    </span>
+
+                    <span class="c-date">
+                        <a href="http://python.jobbole.com/88291/#comment-94801">2017/09/23</a>
+                    </span>
+
+                    
+                    
+                </div>
+                    </div>
+        <div class="cmnt-body">
+            <p>
+                </p><p>源代码就是拿参考资料里的A Web Crawler With asyncio Coroutine<a target="_blank" href="http://aosabook.org/en/500L/a-web-crawler-with-asyncio-coroutines.html" rel="nofollow">http://aosabook.org/en/500L/a-web-crawler-with-asyncio-coroutines.html</a>改了下，还没给链接。</p>
+<p>‘借鉴’过来解释都解释不清，国内python都这样做的么？</p>
+            <p></p>
+                    </div>
+                    <div class="cmnt-footer">
+
+                
+                <p class="c-like">
+                    <a title="赞同" alt="赞同" class="94801voteflag  t-up  href-style vote-comment-up  register-user-only   " data-comment-id="94801"><i class="fa fa-thumbs-o-up"></i> <span id="94801voteuptotal"> 赞</span></a>
+
+                    
+                    <a rel="nofollow" class="comment-reply-link register-user-only" href="http://python.jobbole.com/88291/?replytocom=94801#respond" data-onclick="return addComment.moveForm( &quot;comment-94801&quot;, &quot;94801&quot;, &quot;respond&quot;, &quot;88291&quot; )" aria-label="回复给单车大彪客">回复 <i class="fa fa-reply"></i></a>
+                </p>
+            </div>
+            </div>
+    </li>
+<ul class="children">
+        <li id="comment-94803" class="comment cmnt odd">
+    
+    <div class="cmnt-box">
+        <div class="cmnt-header">
+                            <a href="http://www.jobbole.com/members/aoi" class="cmnt-img"><img width="37" height="37" src="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/f2bb4f6f428a49476a2e91c355c8d150.jpg" alt=""></a>
+                <div class="cmnt-meta">
+                    <span><a href="http://www.jobbole.com/members/aoi">伯小乐</a><label class="comment_author_data">&nbsp;（ <a title="声望值" target="_blank" href="http://www.jobbole.com/members/aoi/reputation/"><i class="fa fa-graduation-cap"></i> 263</a> ）</label></span>
+                    <span class="c-title">
+                        小编                    </span>
+
+                    <span class="c-date">
+                        <a href="http://python.jobbole.com/88291/#comment-94803">2017/09/24</a>
+                    </span>
+
+                    
+                    
+                </div>
+                    </div>
+        <div class="cmnt-body">
+            <p>
+                </p><p>替原作者解释一下：</p>
+<p>1. 原作者首发在微信公号，微信公号平台无法添加非微信站内的超链接；<br>
+2. 你觉得没解释清楚的地方，可以直接指出来。或给出你自己的解释，这样交流，不是更好么？</p>
+<p>祝好咯 :-)</p>
+            <p></p>
+                    </div>
+                    <div class="cmnt-footer">
+
+                
+                <p class="c-like">
+                    <a title="赞同" alt="赞同" class="94803voteflag  t-up  href-style vote-comment-up  register-user-only   " data-comment-id="94803"><i class="fa fa-thumbs-o-up"></i> <span id="94803voteuptotal">1 赞</span></a>
+
+                    
+                    <a rel="nofollow" class="comment-reply-link register-user-only" href="http://python.jobbole.com/88291/?replytocom=94803#respond" data-onclick="return addComment.moveForm( &quot;comment-94803&quot;, &quot;94803&quot;, &quot;respond&quot;, &quot;88291&quot; )" aria-label="回复给伯小乐">回复 <i class="fa fa-reply"></i></a>
+                </p>
+            </div>
+            </div>
+    </li>
+<ul class="children">
+        <li id="comment-94804" class="comment cmnt even">
+    
+    <div class="cmnt-box">
+        <div class="cmnt-header">
+                            <a href="http://www.jobbole.com/members/3025131943" class="cmnt-img"><img width="37" height="37" src="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/1(1)" alt=""></a>
+                <div class="cmnt-meta">
+                    <span><a href="http://www.jobbole.com/members/3025131943">单车大彪客</a><label class="comment_author_data">&nbsp;（ <a title="微博主页" target="_blank" href="http://weibo.com/3025131943"><i class="fa fa-weibo"></i></a>&nbsp; ）</label></span>
+                    <span class="c-title">
+                        &nbsp;                    </span>
+
+                    <span class="c-date">
+                        <a href="http://python.jobbole.com/88291/#comment-94804">2017/09/25</a>
+                    </span>
+
+                    
+                    
+                </div>
+                    </div>
+        <div class="cmnt-body">
+            <p>
+                </p><p>你说的是两个小问题。</p>
+<p>但作者给出的源代码（除了callback hell.py）https://github.com/denglj/aiotutorial/commit/6181f8a46909b19dc61c116e2f5c24ddbdf7882f 几乎全是照搬该文章的，这个是我争议的关键。</p>
+            <p></p>
+                    </div>
+                    <div class="cmnt-footer">
+
+                
+                <p class="c-like">
+                    <a title="赞同" alt="赞同" class="94804voteflag  t-up  href-style vote-comment-up  register-user-only   " data-comment-id="94804"><i class="fa fa-thumbs-o-up"></i> <span id="94804voteuptotal"> 赞</span></a>
+
+                    
+                    <a rel="nofollow" class="comment-reply-link register-user-only" href="http://python.jobbole.com/88291/?replytocom=94804#respond" data-onclick="return addComment.moveForm( &quot;comment-94804&quot;, &quot;94804&quot;, &quot;respond&quot;, &quot;88291&quot; )" aria-label="回复给单车大彪客">回复 <i class="fa fa-reply"></i></a>
+                </p>
+            </div>
+            </div>
+    </li>
+<ul class="children">
+        <li id="comment-94830" class="comment cmnt odd">
+    
+    <div class="cmnt-box">
+        <div class="cmnt-header">
+                            <a href="http://www.jobbole.com/members/aju" class="cmnt-img"><img width="37" height="37" src="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/8fbdaaa5ea6d3b49c8c1c825aafeb5d9.png" alt=""></a>
+                <div class="cmnt-meta">
+                    <span><a href="http://www.jobbole.com/members/aju">阿驹</a><label class="comment_author_data">&nbsp;</label></span>
+                    <span class="c-title">
+                        &nbsp;                    </span>
+
+                    <span class="c-date">
+                        <a href="http://python.jobbole.com/88291/#comment-94830">2017/10/16</a>
+                    </span>
+
+                    
+                    
+                </div>
+                    </div>
+        <div class="cmnt-body">
+            <p>
+                </p><p>《李白诗歌赏析》的作者太可恶了，抄袭了李白的全部作品。而且他还抄袭别的鉴赏人，别人说李白的“长风破浪会有时，直挂云帆济沧海。”是表达了世路艰难但相信抱负终能实现的情怀，嘿，他居然也这样说。</p>
+<p>君不见，该文开源，并未禁止转载、也未禁止演绎。国外对“500 lines Crawler”此文演绎解析的多了去了，其中不乏较好的还被原文作者之一Jesse亲自推荐。</p>
+<p>此中文教程有着自己的写作思路，和原文有很大区别，补充了许多原文没讲到的“是什么、为什么、怎么样”，也屏蔽了一些原文中对初学者不友好的太过细致的Python细节。</p>
+<p>我知道的是，此中文教程一出，几乎所有人对它是赞扬的态度。读者们都知道它参考了“500 lines Crawler”，用心读的也知道它不同于原文。再者，此教程可以说是弥补了中文Python异步教程的短缺，让更多的国内读者可以短时间内透彻理解Python异步。</p>
+<p>只知放嘴炮的你，有何贡献呢？</p>
+            <p></p>
+                    </div>
+                    <div class="cmnt-footer">
+
+                
+                <p class="c-like">
+                    <a title="赞同" alt="赞同" class="94830voteflag  t-up  href-style vote-comment-up  register-user-only   " data-comment-id="94830"><i class="fa fa-thumbs-o-up"></i> <span id="94830voteuptotal"> 赞</span></a>
+
+                    
+                    <a rel="nofollow" class="comment-reply-link register-user-only" href="http://python.jobbole.com/88291/?replytocom=94830#respond" data-onclick="return addComment.moveForm( &quot;comment-94830&quot;, &quot;94830&quot;, &quot;respond&quot;, &quot;88291&quot; )" aria-label="回复给阿驹">回复 <i class="fa fa-reply"></i></a>
+                </p>
+            </div>
+            </div>
+    </li>
+<!-- #comment-## -->
+        <li id="comment-94834" class="comment cmnt even">
+    
+    <div class="cmnt-box">
+        <div class="cmnt-header">
+                            <a href="http://www.jobbole.com/members/aoi" class="cmnt-img"><img width="37" height="37" src="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/f2bb4f6f428a49476a2e91c355c8d150.jpg" alt=""></a>
+                <div class="cmnt-meta">
+                    <span><a href="http://www.jobbole.com/members/aoi">伯小乐</a><label class="comment_author_data">&nbsp;（ <a title="声望值" target="_blank" href="http://www.jobbole.com/members/aoi/reputation/"><i class="fa fa-graduation-cap"></i> 263</a> ）</label></span>
+                    <span class="c-title">
+                        小编                    </span>
+
+                    <span class="c-date">
+                        <a href="http://python.jobbole.com/88291/#comment-94834">2017/10/18</a>
+                    </span>
+
+                    
+                    
+                </div>
+                    </div>
+        <div class="cmnt-body">
+            <p>
+                </p><p>① 《A Web Crawler With asyncio Coroutines》遵循 CC 3.0 协议，作者（阿驹）给了出处，<strong>这并没啥不妥</strong>。</p>
+<p>有空时，建议你去看看什么是 CC 协议。</p>
+<p>② 你最初评论是吐槽有解释不清的地方，现在作者来了。你若真想交流，还可以继续。</p>
+<p>&nbsp;</p>
+            <p></p>
+                    </div>
+                    <div class="cmnt-footer">
+
+                
+                <p class="c-like">
+                    <a title="赞同" alt="赞同" class="94834voteflag  t-up  href-style vote-comment-up  register-user-only   " data-comment-id="94834"><i class="fa fa-thumbs-o-up"></i> <span id="94834voteuptotal"> 赞</span></a>
+
+                    
+                    <a rel="nofollow" class="comment-reply-link register-user-only" href="http://python.jobbole.com/88291/?replytocom=94834#respond" data-onclick="return addComment.moveForm( &quot;comment-94834&quot;, &quot;94834&quot;, &quot;respond&quot;, &quot;88291&quot; )" aria-label="回复给伯小乐">回复 <i class="fa fa-reply"></i></a>
+                </p>
+            </div>
+            </div>
+    </li>
+<!-- #comment-## -->
+</ul><!-- .children -->
+<!-- #comment-## -->
+</ul><!-- .children -->
+<!-- #comment-## -->
+</ul><!-- .children -->
+<!-- #comment-## -->
+            </ul>
+        
+    </div>
+		
+
+	
+</div>
+<!-- END .grid-8 -->
+
+<!-- BEGIN #sidebar -->
+<div id="sidebar" class="grid-4">
+
+	    <div id="text-2" class="widget widget_text">			<div class="textwidget"><p><a href="http://group.jobbole.com/22945/" target="_blank"><img src="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/bfdcef89gy1fq547b3qybj208c046q3c.jpg"></a></p>
+</div>
+		</div>
+        <h3 class="widget-title">
+            <a target="_blank" href="http://group.jobbole.com/category/tech/python/?utm_source=python.jobbole.com&amp;utm_medium=sidebar-group-topics-more">Python小组话题</a>
+            <span style="float:right;"><a target="_blank" href="http://group.jobbole.com/newtopic/?group=15">我有新话题 <i class="fa fa-commenting-o"></i></a></span>
+        </h3>
+
+        <!-- BEGIN .container -->
+        <div class="container">
+
+            
+                <!-- BEGIN .grid-4 -->
+                <div class="grid-4 floated-thumb">
+
+                    
+                            <!-- BEGIN .post-thumb -->
+                            <div class="author-thumb">
+
+                                <a target="_blank" href="http://www.jobbole.com/members/wx3085091357" "="">
+                                    <img src="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/a8e0d2221917925675e4eff2e2a9b2fc.jpg" alt="" width="34" height="34">
+                                </a>
+
+                            </div>
+                            <!-- END .post-thumb -->
+
+                        <!-- BEGIN .post-meta -->
+                        <div class="post-meta">
+
+                            <p>
+                                <a class="meta-title" target="_blank" title="Python学习，有哪些方向可以选择" href="http://group.jobbole.com/32125/?utm_source=python.jobbole.com&amp;utm_medium=sidebar-group-topic">Python学习，有哪些方向可以选择</a><br>
+                                <a href="http://group.jobbole.com/author/wx3085091357/">小丑的哭笑</a> 发起
+                                                                    • 30 回复
+                                
+                            </p>
+
+                        </div>
+                        <!-- END .post-meta -->
+
+                        <div class="clear"></div>
+
+                    
+                            <!-- BEGIN .post-thumb -->
+                            <div class="author-thumb">
+
+                                <a target="_blank" href="http://www.jobbole.com/members/q4195729723" "="">
+                                    <img src="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/100" alt="" width="34" height="34">
+                                </a>
+
+                            </div>
+                            <!-- END .post-thumb -->
+
+                        <!-- BEGIN .post-meta -->
+                        <div class="post-meta">
+
+                            <p>
+                                <a class="meta-title" target="_blank" title="2年Java，想转 python" href="http://group.jobbole.com/32295/?utm_source=python.jobbole.com&amp;utm_medium=sidebar-group-topic">2年Java，想转 python</a><br>
+                                <a href="http://group.jobbole.com/author/q4195729723/">大概会吧</a> 发起
+                                                                    • 16 回复
+                                
+                            </p>
+
+                        </div>
+                        <!-- END .post-meta -->
+
+                        <div class="clear"></div>
+
+                    
+                            <!-- BEGIN .post-thumb -->
+                            <div class="author-thumb">
+
+                                <a target="_blank" href="http://www.jobbole.com/members/q4148319794" "="">
+                                    <img src="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/100(1)" alt="" width="34" height="34">
+                                </a>
+
+                            </div>
+                            <!-- END .post-thumb -->
+
+                        <!-- BEGIN .post-meta -->
+                        <div class="post-meta">
+
+                            <p>
+                                <a class="meta-title" target="_blank" title="python 真的能在人工智能领域 一骑绝尘吗 ？" href="http://group.jobbole.com/32372/?utm_source=python.jobbole.com&amp;utm_medium=sidebar-group-topic">python 真的能在人工智能领域 一骑...</a><br>
+                                <a href="http://group.jobbole.com/author/q4148319794/">✎﹏泽恒</a> 发起
+                                                                    • 9 回复
+                                
+                            </p>
+
+                        </div>
+                        <!-- END .post-meta -->
+
+                        <div class="clear"></div>
+
+                    
+                            <!-- BEGIN .post-thumb -->
+                            <div class="author-thumb">
+
+                                <a target="_blank" href="http://www.jobbole.com/members/81513950" "="">
+                                    <img src="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/u81513950-1.jpg" alt="" width="34" height="34">
+                                </a>
+
+                            </div>
+                            <!-- END .post-thumb -->
+
+                        <!-- BEGIN .post-meta -->
+                        <div class="post-meta">
+
+                            <p>
+                                <a class="meta-title" target="_blank" title="零基础自学Python感觉很难，不像大家说的那么简单" href="http://group.jobbole.com/17537/?utm_source=python.jobbole.com&amp;utm_medium=sidebar-group-topic">零基础自学Python感觉很难，不像大...</a><br>
+                                <a href="http://group.jobbole.com/author/81513950/">keepcalm</a> 发起
+                                                                    • 93 回复
+                                
+                            </p>
+
+                        </div>
+                        <!-- END .post-meta -->
+
+                        <div class="clear"></div>
+
+                    
+                            <!-- BEGIN .post-thumb -->
+                            <div class="author-thumb">
+
+                                <a target="_blank" href="http://www.jobbole.com/members/wx1874786499" "="">
+                                    <img src="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/8fbdaaa5ea6d3b49c8c1c825aafeb5d9.png" alt="" width="34" height="34">
+                                </a>
+
+                            </div>
+                            <!-- END .post-thumb -->
+
+                        <!-- BEGIN .post-meta -->
+                        <div class="post-meta">
+
+                            <p>
+                                <a class="meta-title" target="_blank" title="有關 pandas 的問題" href="http://group.jobbole.com/32699/?utm_source=python.jobbole.com&amp;utm_medium=sidebar-group-topic">有關 pandas 的問題</a><br>
+                                <a href="http://group.jobbole.com/author/wx1874786499/">許秉凱</a> 发起
+                                                                    • 2 回复
+                                
+                            </p>
+
+                        </div>
+                        <!-- END .post-meta -->
+
+                        <div class="clear"></div>
+
+                    
+                            <!-- BEGIN .post-thumb -->
+                            <div class="author-thumb">
+
+                                <a target="_blank" href="http://www.jobbole.com/members/pylean" "="">
+                                    <img src="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/8fbdaaa5ea6d3b49c8c1c825aafeb5d9.png" alt="" width="34" height="34">
+                                </a>
+
+                            </div>
+                            <!-- END .post-thumb -->
+
+                        <!-- BEGIN .post-meta -->
+                        <div class="post-meta">
+
+                            <p>
+                                <a class="meta-title" target="_blank" title="小弟机械行业3年了，自学了python半年，想找个python实习公司，不知道简历上要不要把前面几年的工作经历给写上？" href="http://group.jobbole.com/28708/?utm_source=python.jobbole.com&amp;utm_medium=sidebar-group-topic">小弟机械行业3年了，自学了python半年，想...</a><br>
+                                <a href="http://group.jobbole.com/author/pylean/">阅微</a> 发起
+                                                                    • 16 回复
+                                
+                            </p>
+
+                        </div>
+                        <!-- END .post-meta -->
+
+                        <div class="clear"></div>
+
+                    
+                </div>
+                <!-- END .grid-4 -->
+
+            
+            <div class="clear"></div>
+
+        </div>
+        <!-- END .container -->
+
+        <div id="text-11" class="widget widget_text">			<div class="textwidget"><p><a href="http://blog.jobbole.com/106093/" target="_blank"><img src="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/bfdcef89gw1f9cf776pjmj208c03c3yt.jpg"></a></p>
+</div>
+		</div><div class="tabs tabbed_widget"><ul class="nav clearfix"><li class="active"><a id="link-tab1" href="http://python.jobbole.com/88291/#tab1" title="本周热门Python文章">本周热门Python文章</a></li><li><a id="link-tab2" href="http://python.jobbole.com/88291/#tab2" title="本月热门">本月热门</a></li><li><a id="link-tab3" href="http://python.jobbole.com/88291/#tab3" title="热门标签">热门标签</a></li></ul><div id="tab1" class="tab" style="display: block;"><div class="floated-thumb"></div></div><div id="tab2" class="tab" style="display: none;"><div class="floated-thumb">
+                    
+                    <!-- BEGIN .post-meta -->
+                    <div class="post-meta  no-thumb">
+
+                        <p>
+                            <span class="numb">0</span>
+                            <a class="meta-title" target="_blank" href="http://python.jobbole.com/89041/" title="用 Python 构建一个极小的区块链">用 Python 构建一个极小的区块链</a><br>
+                        </p>
+
+                    </div>
+                    <!-- END .post-meta -->
+
+                    <div class="clear"></div>
+
+                
+                    
+                    <!-- BEGIN .post-meta -->
+                    <div class="post-meta  no-thumb">
+
+                        <p>
+                            <span class="numb">1</span>
+                            <a class="meta-title" target="_blank" href="http://python.jobbole.com/89031/" title="愉快地迁移到 Python 3">愉快地迁移到 Python 3</a><br>
+                        </p>
+
+                    </div>
+                    <!-- END .post-meta -->
+
+                    <div class="clear"></div>
+
+                
+                    
+                    <!-- BEGIN .post-meta -->
+                    <div class="post-meta  no-thumb">
+
+                        <p>
+                            <span class="numb">2</span>
+                            <a class="meta-title" target="_blank" href="http://python.jobbole.com/89046/" title="5 种使用 Python 代码轻松实现数据可视化的方法">5 种使用 Python 代码轻松实现数...</a><br>
+                        </p>
+
+                    </div>
+                    <!-- END .post-meta -->
+
+                    <div class="clear"></div>
+
+                </div></div><div id="tab3" class="tab" style="display: none;"><p><a href="http://python.jobbole.com/tag/api/" class="tag-link-1197 tag-link-position-1" title="5个话题" style="font-size: 8.6222222222222px;">API</a>
+<a href="http://python.jobbole.com/tag/beautifulsoup/" class="tag-link-1153 tag-link-position-2" title="4个话题" style="font-size: 8px;">beautifulsoup</a>
+<a href="http://python.jobbole.com/tag/celery/" class="tag-link-846 tag-link-position-3" title="7个话题" style="font-size: 9.5555555555556px;">Celery</a>
+<a href="http://python.jobbole.com/tag/django/" class="tag-link-674 tag-link-position-4" title="34个话题" style="font-size: 14.533333333333px;">Django</a>
+<a href="http://python.jobbole.com/tag/featuredpost/" class="tag-link-666 tag-link-position-5" title="5个话题" style="font-size: 8.6222222222222px;">featuredpost</a>
+<a href="http://python.jobbole.com/tag/flask/" class="tag-link-695 tag-link-position-6" title="69个话题" style="font-size: 16.944444444444px;">Flask</a>
+<a href="http://python.jobbole.com/tag/gdb/" class="tag-link-877 tag-link-position-7" title="6个话题" style="font-size: 9.1666666666667px;">GDB</a>
+<a href="http://python.jobbole.com/tag/gevent/" class="tag-link-1085 tag-link-position-8" title="6个话题" style="font-size: 9.1666666666667px;">gevent</a>
+<a href="http://python.jobbole.com/tag/gil/" class="tag-link-831 tag-link-position-9" title="6个话题" style="font-size: 9.1666666666667px;">GIL</a>
+<a href="http://python.jobbole.com/tag/import/" class="tag-link-906 tag-link-position-10" title="4个话题" style="font-size: 8px;">import</a>
+<a href="http://python.jobbole.com/tag/itertools/" class="tag-link-1052 tag-link-position-11" title="6个话题" style="font-size: 9.1666666666667px;">itertools</a>
+<a href="http://python.jobbole.com/tag/linux/" class="tag-link-684 tag-link-position-12" title="5个话题" style="font-size: 8.6222222222222px;">Linux</a>
+<a href="http://python.jobbole.com/tag/logging/" class="tag-link-799 tag-link-position-13" title="6个话题" style="font-size: 9.1666666666667px;">logging</a>
+<a href="http://python.jobbole.com/tag/matplotlib/" class="tag-link-735 tag-link-position-14" title="7个话题" style="font-size: 9.5555555555556px;">matplotlib</a>
+<a href="http://python.jobbole.com/tag/mongodb/" class="tag-link-753 tag-link-position-15" title="10个话题" style="font-size: 10.644444444444px;">MongoDB</a>
+<a href="http://python.jobbole.com/tag/mysql/" class="tag-link-722 tag-link-position-16" title="8个话题" style="font-size: 9.9444444444444px;">MySQL</a>
+<a href="http://python.jobbole.com/tag/nginx/" class="tag-link-1081 tag-link-position-17" title="7个话题" style="font-size: 9.5555555555556px;">Nginx</a>
+<a href="http://python.jobbole.com/tag/nlp/" class="tag-link-766 tag-link-position-18" title="5个话题" style="font-size: 8.6222222222222px;">NLP</a>
+<a href="http://python.jobbole.com/tag/numpy/" class="tag-link-757 tag-link-position-19" title="6个话题" style="font-size: 9.1666666666667px;">NumPy</a>
+<a href="http://python.jobbole.com/tag/oop/" class="tag-link-1371 tag-link-position-20" title="5个话题" style="font-size: 8.6222222222222px;">oop</a>
+<a href="http://python.jobbole.com/tag/opencv/" class="tag-link-681 tag-link-position-21" title="27个话题" style="font-size: 13.833333333333px;">OpenCV</a>
+<a href="http://python.jobbole.com/tag/orm/" class="tag-link-1024 tag-link-position-22" title="6个话题" style="font-size: 9.1666666666667px;">ORM</a>
+<a href="http://python.jobbole.com/tag/pandas/" class="tag-link-685 tag-link-position-23" title="11个话题" style="font-size: 10.955555555556px;">Pandas</a>
+<a href="http://python.jobbole.com/tag/pyenv/" class="tag-link-1128 tag-link-position-24" title="4个话题" style="font-size: 8px;">pyenv</a>
+<a href="http://python.jobbole.com/tag/pygame/" class="tag-link-851 tag-link-position-25" title="40个话题" style="font-size: 15.077777777778px;">pyGame</a>
+<a href="http://python.jobbole.com/tag/pyspider/" class="tag-link-721 tag-link-position-26" title="5个话题" style="font-size: 8.6222222222222px;">Pyspider</a>
+<a href="http://python.jobbole.com/tag/python/" class="tag-link-663 tag-link-position-27" title="316个话题" style="font-size: 22px;">Python</a>
+<a href="http://python.jobbole.com/tag/python%e6%ba%90%e7%a0%81/" class="tag-link-931 tag-link-position-28" title="6个话题" style="font-size: 9.1666666666667px;">python源码</a>
+<a href="http://python.jobbole.com/tag/r/" class="tag-link-1165 tag-link-position-29" title="6个话题" style="font-size: 9.1666666666667px;">R</a>
+<a href="http://python.jobbole.com/tag/restful/" class="tag-link-1057 tag-link-position-30" title="7个话题" style="font-size: 9.5555555555556px;">restful</a>
+<a href="http://python.jobbole.com/tag/scikit-learn/" class="tag-link-826 tag-link-position-31" title="5个话题" style="font-size: 8.6222222222222px;">Scikit-Learn</a>
+<a href="http://python.jobbole.com/tag/scrapy/" class="tag-link-752 tag-link-position-32" title="25个话题" style="font-size: 13.522222222222px;">Scrapy</a>
+<a href="http://python.jobbole.com/tag/setuptools/" class="tag-link-1130 tag-link-position-33" title="5个话题" style="font-size: 8.6222222222222px;">setuptools</a>
+<a href="http://python.jobbole.com/tag/socket/" class="tag-link-820 tag-link-position-34" title="10个话题" style="font-size: 10.644444444444px;">Socket</a>
+<a href="http://python.jobbole.com/tag/spark/" class="tag-link-875 tag-link-position-35" title="4个话题" style="font-size: 8px;">Spark</a>
+<a href="http://python.jobbole.com/tag/sqlalchemy/" class="tag-link-893 tag-link-position-36" title="10个话题" style="font-size: 10.644444444444px;">SQLAlchemy</a>
+<a href="http://python.jobbole.com/tag/tensorflow/" class="tag-link-1406 tag-link-position-37" title="8个话题" style="font-size: 9.9444444444444px;">tensorflow</a>
+<a href="http://python.jobbole.com/tag/tornado/" class="tag-link-867 tag-link-position-38" title="17个话题" style="font-size: 12.355555555556px;">Tornado</a>
+<a href="http://python.jobbole.com/tag/vim/" class="tag-link-1040 tag-link-position-39" title="5个话题" style="font-size: 8.6222222222222px;">Vim</a>
+<a href="http://python.jobbole.com/tag/virtualenv/" class="tag-link-1249 tag-link-position-40" title="8个话题" style="font-size: 9.9444444444444px;">virtualenv</a>
+<a href="http://python.jobbole.com/tag/web/" class="tag-link-1095 tag-link-position-41" title="7个话题" style="font-size: 9.5555555555556px;">web</a>
+<a href="http://python.jobbole.com/tag/web%e5%bc%80%e5%8f%91/" class="tag-link-1515 tag-link-position-42" title="6个话题" style="font-size: 9.1666666666667px;">web开发</a>
+<a href="http://python.jobbole.com/tag/web%e6%9c%8d%e5%8a%a1%e5%99%a8/" class="tag-link-800 tag-link-position-43" title="5个话题" style="font-size: 8.6222222222222px;">Web服务器</a>
+<a href="http://python.jobbole.com/tag/werkzeug/" class="tag-link-1149 tag-link-position-44" title="4个话题" style="font-size: 8px;">werkzeug</a>
+<a href="http://python.jobbole.com/tag/wsgi/" class="tag-link-1077 tag-link-position-45" title="9个话题" style="font-size: 10.333333333333px;">WSGI</a>
+<a href="http://python.jobbole.com/tag/xml/" class="tag-link-921 tag-link-position-46" title="4个话题" style="font-size: 8px;">XML</a>
+<a href="http://python.jobbole.com/tag/%e4%bd%9c%e7%94%a8%e5%9f%9f/" class="tag-link-747 tag-link-position-47" title="5个话题" style="font-size: 8.6222222222222px;">作用域</a>
+<a href="http://python.jobbole.com/tag/%e5%85%83%e7%b1%bb/" class="tag-link-1194 tag-link-position-48" title="7个话题" style="font-size: 9.5555555555556px;">元类</a>
+<a href="http://python.jobbole.com/tag/%e5%86%b3%e7%ad%96%e6%a0%91/" class="tag-link-1161 tag-link-position-49" title="6个话题" style="font-size: 9.1666666666667px;">决策树</a>
+<a href="http://python.jobbole.com/tag/%e5%87%bd%e6%95%b0/" class="tag-link-741 tag-link-position-50" title="7个话题" style="font-size: 9.5555555555556px;">函数</a>
+<a href="http://python.jobbole.com/tag/%e5%87%bd%e6%95%b0%e5%bc%8f%e7%bc%96%e7%a8%8b/" class="tag-link-711 tag-link-position-51" title="12个话题" style="font-size: 11.188888888889px;">函数式编程</a>
+<a href="http://python.jobbole.com/tag/%e5%88%97%e8%a1%a8/" class="tag-link-900 tag-link-position-52" title="5个话题" style="font-size: 8.6222222222222px;">列表</a>
+<a href="http://python.jobbole.com/tag/%e5%8d%8f%e7%a8%8b/" class="tag-link-1043 tag-link-position-53" title="17个话题" style="font-size: 12.355555555556px;">协程</a>
+<a href="http://python.jobbole.com/tag/%e5%9b%be%e5%83%8f%e5%a4%84%e7%90%86/" class="tag-link-1191 tag-link-position-54" title="12个话题" style="font-size: 11.188888888889px;">图像处理</a>
+<a href="http://python.jobbole.com/tag/%e5%9e%83%e5%9c%be%e5%9b%9e%e6%94%b6/" class="tag-link-864 tag-link-position-55" title="6个话题" style="font-size: 9.1666666666667px;">垃圾回收</a>
+<a href="http://python.jobbole.com/tag/%e5%a4%9a%e7%ba%bf%e7%a8%8b/" class="tag-link-1090 tag-link-position-56" title="15个话题" style="font-size: 11.888888888889px;">多线程</a>
+<a href="http://python.jobbole.com/tag/%e5%a4%9a%e8%bf%9b%e7%a8%8b/" class="tag-link-667 tag-link-position-57" title="12个话题" style="font-size: 11.188888888889px;">多进程</a>
+<a href="http://python.jobbole.com/tag/%e5%ad%97%e5%85%b8/" class="tag-link-1206 tag-link-position-58" title="4个话题" style="font-size: 8px;">字典</a>
+<a href="http://python.jobbole.com/tag/%e5%ad%97%e7%ac%a6%e4%b8%b2/" class="tag-link-882 tag-link-position-59" title="8个话题" style="font-size: 9.9444444444444px;">字符串</a>
+<a href="http://python.jobbole.com/tag/%e5%ad%97%e7%ac%a6%e7%bc%96%e7%a0%81/" class="tag-link-868 tag-link-position-60" title="8个话题" style="font-size: 9.9444444444444px;">字符编码</a>
+<a href="http://python.jobbole.com/tag/%e5%ae%89%e5%85%a8/" class="tag-link-917 tag-link-position-61" title="4个话题" style="font-size: 8px;">安全</a>
+<a href="http://python.jobbole.com/tag/%e5%b9%b6%e5%8f%91/" class="tag-link-699 tag-link-position-62" title="6个话题" style="font-size: 9.1666666666667px;">并发</a>
+<a href="http://python.jobbole.com/tag/%e5%b9%b6%e8%a1%8c/" class="tag-link-746 tag-link-position-63" title="12个话题" style="font-size: 11.188888888889px;">并行</a>
+<a href="http://python.jobbole.com/tag/%e5%bc%82%e6%ad%a5/" class="tag-link-1003 tag-link-position-64" title="15个话题" style="font-size: 11.888888888889px;">异步</a>
+<a href="http://python.jobbole.com/tag/%e5%be%ae%e4%bf%a1/" class="tag-link-1016 tag-link-position-65" title="5个话题" style="font-size: 8.6222222222222px;">微信</a>
+<a href="http://python.jobbole.com/tag/%e6%80%a7%e8%83%bd/" class="tag-link-706 tag-link-position-66" title="6个话题" style="font-size: 9.1666666666667px;">性能</a>
+<a href="http://python.jobbole.com/tag/%e6%80%a7%e8%83%bd%e5%88%86%e6%9e%90/" class="tag-link-1216 tag-link-position-67" title="4个话题" style="font-size: 8px;">性能分析</a>
+<a href="http://python.jobbole.com/tag/%e6%8f%8f%e8%bf%b0%e7%ac%a6/" class="tag-link-742 tag-link-position-68" title="9个话题" style="font-size: 10.333333333333px;">描述符</a>
+<a href="http://python.jobbole.com/tag/%e6%95%99%e7%a8%8b/" class="tag-link-894 tag-link-position-69" title="57个话题" style="font-size: 16.244444444444px;">教程</a>
+<a href="http://python.jobbole.com/tag/%e6%95%b0%e6%8d%ae%e5%88%86%e6%9e%90/" class="tag-link-700 tag-link-position-70" title="12个话题" style="font-size: 11.188888888889px;">数据分析</a>
+<a href="http://python.jobbole.com/tag/%e6%95%b0%e6%8d%ae%e5%8f%af%e8%a7%86%e5%8c%96/" class="tag-link-723 tag-link-position-71" title="8个话题" style="font-size: 9.9444444444444px;">数据可视化</a>
+<a href="http://python.jobbole.com/tag/%e6%95%b0%e6%8d%ae%e6%8c%96%e6%8e%98/" class="tag-link-732 tag-link-position-72" title="7个话题" style="font-size: 9.5555555555556px;">数据挖掘</a>
+<a href="http://python.jobbole.com/tag/%e6%95%b0%e6%8d%ae%e7%a7%91%e5%ad%a6/" class="tag-link-680 tag-link-position-73" title="8个话题" style="font-size: 9.9444444444444px;">数据科学</a>
+<a href="http://python.jobbole.com/tag/%e6%95%b0%e6%8d%ae%e7%bb%93%e6%9e%84/" class="tag-link-1228 tag-link-position-74" title="5个话题" style="font-size: 8.6222222222222px;">数据结构</a>
+<a href="http://python.jobbole.com/tag/%e6%95%b0%e6%8d%ae%e7%bb%93%e6%9e%84%e4%b8%8e%e7%ae%97%e6%b3%95/" class="tag-link-1237 tag-link-position-75" title="10个话题" style="font-size: 10.644444444444px;">数据结构与算法</a>
+<a href="http://python.jobbole.com/tag/machinelearning/" class="tag-link-703 tag-link-position-76" title="57个话题" style="font-size: 16.244444444444px;">机器学习</a>
+<a href="http://python.jobbole.com/tag/%e6%a0%87%e5%87%86%e5%ba%93/" class="tag-link-1053 tag-link-position-77" title="6个话题" style="font-size: 9.1666666666667px;">标准库</a>
+<a href="http://python.jobbole.com/tag/%e6%a0%91%e5%bd%a2%e7%bb%93%e6%9e%84/" class="tag-link-1245 tag-link-position-78" title="6个话题" style="font-size: 9.1666666666667px;">树形结构</a>
+<a href="http://python.jobbole.com/tag/%e6%ad%a3%e5%88%99%e8%a1%a8%e8%be%be%e5%bc%8f/" class="tag-link-1219 tag-link-position-79" title="8个话题" style="font-size: 9.9444444444444px;">正则表达式</a>
+<a href="http://python.jobbole.com/tag/%e6%b7%b1%e5%ba%a6%e5%ad%a6%e4%b9%a0/" class="tag-link-838 tag-link-position-80" title="6个话题" style="font-size: 9.1666666666667px;">深度学习</a>
+<a href="http://python.jobbole.com/tag/%e6%b8%b8%e6%88%8f%e7%bc%96%e7%a8%8b/" class="tag-link-1308 tag-link-position-81" title="9个话题" style="font-size: 10.333333333333px;">游戏编程</a>
+<a href="http://python.jobbole.com/tag/%e7%88%ac%e8%99%ab/" class="tag-link-714 tag-link-position-82" title="95个话题" style="font-size: 17.955555555556px;">爬虫</a>
+<a href="http://python.jobbole.com/tag/%e7%94%9f%e6%88%90%e5%99%a8/" class="tag-link-837 tag-link-position-83" title="13个话题" style="font-size: 11.5px;">生成器</a>
+<a href="http://python.jobbole.com/tag/%e7%a5%9e%e7%bb%8f%e7%bd%91%e7%bb%9c/" class="tag-link-749 tag-link-position-84" title="10个话题" style="font-size: 10.644444444444px;">神经网络</a>
+<a href="http://python.jobbole.com/tag/%e7%ae%97%e6%b3%95/" class="tag-link-772 tag-link-position-85" title="14个话题" style="font-size: 11.733333333333px;">算法</a>
+<a href="http://python.jobbole.com/tag/%e7%b1%bb/" class="tag-link-719 tag-link-position-86" title="7个话题" style="font-size: 9.5555555555556px;">类</a>
+<a href="http://python.jobbole.com/tag/%e7%ba%bf%e6%80%a7%e5%9b%9e%e5%bd%92/" class="tag-link-743 tag-link-position-87" title="5个话题" style="font-size: 8.6222222222222px;">线性回归</a>
+<a href="http://python.jobbole.com/tag/%e7%ba%bf%e7%a8%8b/" class="tag-link-698 tag-link-position-88" title="4个话题" style="font-size: 8px;">线程</a>
+<a href="http://python.jobbole.com/tag/%e7%bc%96%e7%a0%81/" class="tag-link-673 tag-link-position-89" title="11个话题" style="font-size: 10.955555555556px;">编码</a>
+<a href="http://python.jobbole.com/tag/%e7%bd%91%e7%bb%9c%e7%88%ac%e8%99%ab/" class="tag-link-1451 tag-link-position-90" title="4个话题" style="font-size: 8px;">网络爬虫</a>
+<a href="http://python.jobbole.com/tag/%e7%bd%91%e9%a1%b5%e7%88%ac%e8%99%ab/" class="tag-link-729 tag-link-position-91" title="7个话题" style="font-size: 9.5555555555556px;">网页爬虫</a>
+<a href="http://python.jobbole.com/tag/%e8%81%9a%e7%b1%bb/" class="tag-link-950 tag-link-position-92" title="4个话题" style="font-size: 8px;">聚类</a>
+<a href="http://python.jobbole.com/tag/%e8%a3%85%e9%a5%b0%e5%99%a8/" class="tag-link-718 tag-link-position-93" title="28个话题" style="font-size: 13.911111111111px;">装饰器</a>
+<a href="http://python.jobbole.com/tag/%e8%a7%a3%e9%87%8a%e5%99%a8/" class="tag-link-710 tag-link-position-94" title="7个话题" style="font-size: 9.5555555555556px;">解释器</a>
+<a href="http://python.jobbole.com/tag/%e8%b4%9d%e5%8f%b6%e6%96%af/" class="tag-link-825 tag-link-position-95" title="8个话题" style="font-size: 9.9444444444444px;">贝叶斯</a>
+<a href="http://python.jobbole.com/tag/%e8%bf%ad%e4%bb%a3%e5%99%a8/" class="tag-link-836 tag-link-position-96" title="12个话题" style="font-size: 11.188888888889px;">迭代器</a>
+<a href="http://python.jobbole.com/tag/%e9%81%97%e4%bc%a0%e7%ae%97%e6%b3%95/" class="tag-link-1541 tag-link-position-97" title="6个话题" style="font-size: 9.1666666666667px;">遗传算法</a>
+<a href="http://python.jobbole.com/tag/%e9%97%ad%e5%8c%85/" class="tag-link-885 tag-link-position-98" title="9个话题" style="font-size: 10.333333333333px;">闭包</a>
+<a href="http://python.jobbole.com/tag/%e9%9d%a2%e5%90%91%e5%af%b9%e8%b1%a1/" class="tag-link-861 tag-link-position-99" title="6个话题" style="font-size: 9.1666666666667px;">面向对象</a>
+<a href="http://python.jobbole.com/tag/%e9%9d%a2%e8%af%95/" class="tag-link-1037 tag-link-position-100" title="6个话题" style="font-size: 9.1666666666667px;">面试</a></p></div></div><div id="text-12" class="widget widget_text">			<div class="textwidget"><p><a href="http://blog.jobbole.com/84342/" target="_blank"><img src="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/74d126ea14f964e13bb07d24843bdab4.jpg"></a></p>
+</div>
+		</div>            <h3 class="widget-title">
+                <a href="http://hao.jobbole.com/?catid=144&amp;utm_source=python.jobbole.com&amp;utm_medium=sidebar-resources-more" target="_blank">Python工具资源</a>
+                <span style="float:right;"><a target="_blank" href="http://hao.jobbole.com/?catid=144&amp;utm_source=python.jobbole.com&amp;utm_medium=sidebar-resources-more">更多资源 »</a></span>
+            </h3>
+            <div class="container">
+                <div class="grid-4">
+                
+                    <div class="floated-thumb">
+                        <div class="post-thumb">
+                            <a target="_blank" href="http://hao.jobbole.com/tryton/?utm_source=python.jobbole.com&amp;utm_medium=sidebar-resources" title="Tryton：一个通用商务框架"><img src="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/fbce31ffc19ced1422abbb0a860c5ab7.png" alt="" width="50" height="50"></a>
+                        </div>
+                        <div class="post-meta">
+                            <p>
+                                <a class="meta-title" target="_blank" href="http://hao.jobbole.com/tryton/?utm_source=python.jobbole.com&amp;utm_medium=sidebar-resources" title="Tryton：一个通用商务框架">Tryton：一个通用商务框架</a><br>
+                                <a href="http://hao.jobbole.com/category/python-tools/python-misc/" rel="category tag">杂项</a>
+                            </p>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                
+                    <div class="floated-thumb">
+                        <div class="post-thumb">
+                            <a target="_blank" href="http://hao.jobbole.com/nltk/?utm_source=python.jobbole.com&amp;utm_medium=sidebar-resources" title="NLTK：一个先进的用来处理自然语言数据的Python程序。"><img src="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/0384e39ce19622237039c4a86febccc9.png" alt="" width="50" height="50"></a>
+                        </div>
+                        <div class="post-meta">
+                            <p>
+                                <a class="meta-title" target="_blank" href="http://hao.jobbole.com/nltk/?utm_source=python.jobbole.com&amp;utm_medium=sidebar-resources" title="NLTK：一个先进的用来处理自然语言数据的Python程序。">NLTK：一个先进的用来处理自然语言数据的Python程序。</a><br>
+                                <a href="http://hao.jobbole.com/category/python-tools/python-natural-lang/" rel="category tag">自然语言处理</a> · <a target="_blank" href="http://hao.jobbole.com/nltk/#comments"><i class="fa fa-comments-o"></i> 3</a>
+                            </p>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                
+                    <div class="floated-thumb">
+                        <div class="post-thumb">
+                            <a target="_blank" href="http://hao.jobbole.com/pymc/?utm_source=python.jobbole.com&amp;utm_medium=sidebar-resources" title="PyMC：马尔科夫链蒙特卡洛采样工具"><img src="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/bf6677dba678925802f3f1e76ec760c3.png" alt="" width="50" height="50"></a>
+                        </div>
+                        <div class="post-meta">
+                            <p>
+                                <a class="meta-title" target="_blank" href="http://hao.jobbole.com/pymc/?utm_source=python.jobbole.com&amp;utm_medium=sidebar-resources" title="PyMC：马尔科夫链蒙特卡洛采样工具">PyMC：马尔科夫链蒙特卡洛采样工具</a><br>
+                                <a href="http://hao.jobbole.com/category/python-tools/python-science-data-analysis/" rel="category tag">科学计算与分析</a>
+                            </p>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                
+                    <div class="floated-thumb">
+                        <div class="post-thumb">
+                            <a target="_blank" href="http://hao.jobbole.com/statsmodels/?utm_source=python.jobbole.com&amp;utm_medium=sidebar-resources" title="statsmodels：统计建模和计量经济学"><img src="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/e88a9784e92acb81d2f3c8331493e004.png" alt="" width="50" height="50"></a>
+                        </div>
+                        <div class="post-meta">
+                            <p>
+                                <a class="meta-title" target="_blank" href="http://hao.jobbole.com/statsmodels/?utm_source=python.jobbole.com&amp;utm_medium=sidebar-resources" title="statsmodels：统计建模和计量经济学">statsmodels：统计建模和计量经济学</a><br>
+                                <a href="http://hao.jobbole.com/category/python-tools/python-science-data-analysis/" rel="category tag">科学计算与分析</a>
+                            </p>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                
+                    <div class="floated-thumb">
+                        <div class="post-thumb">
+                            <a target="_blank" href="http://hao.jobbole.com/pylearn2/?utm_source=python.jobbole.com&amp;utm_medium=sidebar-resources" title="Pylearn2：一个基于Theano的机器学习库"><img src="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/660abdb1c0391cfc738b3266106119c9.png" alt="" width="50" height="50"></a>
+                        </div>
+                        <div class="post-meta">
+                            <p>
+                                <a class="meta-title" target="_blank" href="http://hao.jobbole.com/pylearn2/?utm_source=python.jobbole.com&amp;utm_medium=sidebar-resources" title="Pylearn2：一个基于Theano的机器学习库">Pylearn2：一个基于Theano的机器学习库</a><br>
+                                <a href="http://hao.jobbole.com/category/python-tools/python-machine-learning/" rel="category tag">机器学习</a> · <a target="_blank" href="http://hao.jobbole.com/pylearn2/#comments"><i class="fa fa-comments-o"></i> 1</a>
+                            </p>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                                </div>
+            </div>
+        	
+	<!-- BEGIN .container -->
+	<div class="container">
+	
+		<!-- BEGIN .grid-2 -->
+		<div class="grid-2">
+			
+						
+		</div>
+		<!-- END .grid-2 -->
+		
+		<!-- BEGIN .grid-2 -->
+		<div class="grid-2">
+			
+						
+		</div>
+		<!-- END .grid-2 -->
+		
+		<div class="clear"></div>
+			
+	</div>
+	<!-- END .container -->
+
+</div>
+<!-- END #sidebar -->
+<div class="clear"></div>	
+
+
+</div>
+<!-- END #wrapper -->
+
+<!-- BEGIN footer -->
+
+    <footer>
+
+        <!-- BEGIN .container -->
+        <div class="container">
+
+            <!-- BEGIN .grid-4 -->
+            <div class="grid-4">
+
+                <div id="text-3" class="widget widget_text"><h3 class="widget-title">关于 Python 频道</h3>			<div class="textwidget"><p>Python频道分享 Python 开发技术、相关的行业动态。</p>
+<p><b>快速链接</b><br>
+<a target="_blank" href="http://blog.jobbole.com/87622/">网站使用指南 » </a><br>
+<a target="_blank" href="http://group.jobbole.com/22422/">加入我们 » </a><br>
+<a target="_blank" href="http://group.jobbole.com/category/feedback/thanks">问题反馈与求助 » </a><br>
+<a target="_blank" href="http://group.jobbole.com/158/">网站积分规则 » </a><br>
+<a target="_blank" href="http://group.jobbole.com/175/">网站声望规则 » </a></p>
+</div>
+		</div>
+            </div>
+            <!-- END .grid-4 -->
+
+            <!-- BEGIN .grid-4 -->
+            <div class="grid-4">
+
+                <div id="text-5" class="widget widget_text"><h3 class="widget-title">关注我们</h3>			<div class="textwidget"><p>新浪微博：<a href="http://weibo.com/u/5305630013" target="_blank">@Python开发者</a><br>
+RSS：<a href="http://python.jobbole.com/feed/" target="_blank">订阅地址</a><br>
+推荐微信号<br>
+<img src="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/63918611gy1fpy4eqoaddj202s0320tg.jpg" width="100" height="110"><img src="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/63918611gy1fpy5j1qub8j202s032jrn.jpg" width="100" height="110"><img src="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/63918611gy1fpy5j6cozdj202s032mxc.jpg" width="100" height="110"></p>
+<p><strong>合作联系</strong><br>
+Email：<a href="mailto:bd@jobbole.com">bd@Jobbole.com</a><br>
+QQ： 2302462408  （加好友请注明来意）</p>
+</div>
+		</div>
+            </div>
+            <!-- END .grid-4 -->
+
+            <!-- BEGIN .grid-4 -->
+            <div class="grid-4">
+
+                <div id="text-4" class="widget widget_text"><h3 class="widget-title">更多频道</h3>			<div class="textwidget"><p><a href="http://group.jobbole.com/?utm_source=python.jobbole.com&amp;utm_medium=bottomText" target="_blank">小组</a> – 好的话题、有启发的回复、值得信赖的圈子<br>
+<a href="http://top.jobbole.com/?utm_source=python.jobbole.com&amp;utm_medium=bottomText" target="_blank">头条</a> – 分享和发现有价值的内容与观点<br>
+<a href="http://date.jobbole.com/?utm_source=python.jobbole.com&amp;utm_medium=bottomText" target="_blank">相亲</a> – 为IT单身男女服务的征婚传播平台<br>
+<a href="http://hao.jobbole.com/?utm_source=python.jobbole.com&amp;utm_medium=bottomText" target="_blank">资源</a> – 优秀的工具资源导航<br>
+<a href="http://fanyi.jobbole.com/?utm_source=python.jobbole.com&amp;utm_medium=bottomText" target="_blank">翻译</a> – 翻译传播优秀的外文文章<br>
+<a href="http://blog.jobbole.com/?utm_source=python.jobbole.com&amp;utm_medium=bottomText" target="_blank">文章</a> – 国内外的精选文章<br>
+<a href="http://design.jobbole.com/?utm_source=python.jobbole.com&amp;utm_medium=bottomText" target="_blank">设计</a> – UI,网页，交互和用户体验<br>
+<a href="http://ios.jobbole.com/?utm_source=python.jobbole.com&amp;utm_medium=bottomText" target="_blank">iOS</a> – 专注iOS技术分享<br>
+<a href="http://android.jobbole.com/?utm_source=python.jobbole.com&amp;utm_medium=bottomText" target="_blank">安卓</a> – 专注Android技术分享<br>
+<a href="http://web.jobbole.com/?utm_source=python.jobbole.com&amp;utm_medium=bottomText" target="_blank">前端</a> – JavaScript, HTML5, CSS<br>
+<a href="http://www.importnew.com/?utm_source=python.jobbole.com&amp;utm_medium=bottomText" target="_blank">Java</a> – 专注Java技术分享<br>
+<a href="http://python.jobbole.com/?utm_source=python.jobbole.com&amp;utm_medium=bottomText" target="_blank">Python</a> – 专注Python技术分享</p>
+</div>
+		</div>
+            </div>
+            <!-- END .grid-4 -->
+
+            <div class="clear"></div>
+
+        </div>
+        <!-- END .container -->
+
+        <!-- BEGIN #bottom -->
+        <div id="bottom">
+
+            <!-- BEGIN .container -->
+            <div class="container">
+
+                <!-- BEGIN .grid-12 -->
+                <div class="grid-12">
+
+                    <p>© 2018 伯乐在线
+                    <span style="margin: 0 40px;">
+                        <a href="http://blog.jobbole.com/">文章</a>&nbsp;&nbsp;
+                        <a href="http://group.jobbole.com/">小组</a>&nbsp;&nbsp;
+                        <a href="http://date.jobbole.com/">相亲</a>&nbsp;&nbsp;
+                        <a href="http://group.jobbole.com/22422/">加入我们</a>&nbsp;&nbsp;
+                        <a href="http://group.jobbole.com/category/feedback/thanks/"><i class="fa fa-bullhorn"></i> 反馈</a>
+                    </span>
+                    <a target="_blank" href="http://www.miitbeian.gov.cn/publish/query/indexFirst.action">沪ICP备14046347号-1</a>
+                    </p>
+                </div>
+                <!-- END .grid-12 -->
+
+                <div class="clear"></div>
+
+            </div>
+            <!-- END .container -->
+
+        </div>
+        <!-- END #bottom -->
+    </footer>
+
+    
+<!-- END footer -->
+
+
+
+<script type="text/javascript">
+/* <![CDATA[ */
+var thickboxL10n = {"next":"\u4e0b\u4e00\u9875 >","prev":"< \u4e0a\u4e00\u9875","image":"\u56fe\u50cf","of":"\/","close":"\u5173\u95ed","noiframes":"\u8fd9\u4e2a\u529f\u80fd\u9700\u8981iframe\u7684\u652f\u6301\u3002\u60a8\u53ef\u80fd\u7981\u6b62\u4e86iframe\u7684\u663e\u793a\uff0c\u6216\u60a8\u7684\u6d4f\u89c8\u5668\u4e0d\u652f\u6301\u6b64\u529f\u80fd\u3002","loadingAnimation":"http:\/\/python.jobbole.com\/wp-includes\/js\/thickbox\/loadingAnimation.gif"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/thickbox.js.下载"></script>
+<script type="text/javascript" src="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/underscore.min.js.下载"></script>
+<script type="text/javascript" src="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/shortcode.min.js.下载"></script>
+<script type="text/javascript" src="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/media-upload.min.js.下载"></script>
+<script type="text/javascript" src="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/comment-reply.min.js.下载"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var quicktagsL10n = {"closeAllOpenTags":"\u5173\u95ed\u6240\u6709\u6253\u5f00\u7684\u6807\u7b7e","closeTags":"\u5173\u95ed\u6807\u7b7e","enterURL":"\u8f93\u5165URL","enterImageURL":"\u8f93\u5165\u56fe\u50cfURL","enterImageDescription":"\u4e3a\u56fe\u50cf\u8f93\u5165\u63cf\u8ff0","textdirection":"\u6587\u672c\u65b9\u5411","toggleTextdirection":"\u5207\u6362\u7f16\u8f91\u5668\u6587\u672c\u4e66\u5199\u65b9\u5411","dfw":"\u514d\u6253\u6270\u5199\u4f5c\u6a21\u5f0f","strong":"\u7c97\u4f53","strongClose":"\u5173\u95ed\u7c97\u4f53\u6807\u7b7e","em":"\u659c\u4f53","emClose":"\u5173\u95ed\u659c\u4f53\u6807\u7b7e","link":"\u63d2\u5165\u94fe\u63a5","blockquote":"\u5757\u5f15\u7528","blockquoteClose":"\u5173\u95ed\u5757\u5f15\u7528\u6807\u7b7e","del":"\u5220\u9664\u7684\u6587\u5b57\uff08\u5220\u9664\u7ebf\uff09","delClose":"\u5173\u95ed\u5220\u9664\u7ebf\u6807\u7b7e","ins":"\u63d2\u5165\u7684\u6587\u5b57","insClose":"\u5173\u95ed\u63d2\u5165\u7684\u6587\u5b57\u6807\u7b7e","image":"\u63d2\u5165\u56fe\u50cf","ul":"\u9879\u76ee\u7b26\u53f7\u5217\u8868","ulClose":"\u5173\u95ed\u9879\u76ee\u7b26\u53f7\u5217\u8868\u6807\u7b7e","ol":"\u7f16\u53f7\u5217\u8868","olClose":"\u5173\u95ed\u7f16\u53f7\u5217\u8868\u6807\u7b7e","li":"\u5217\u8868\u9879\u76ee","liClose":"\u5173\u95ed\u5217\u8868\u9879\u76ee\u6807\u7b7e","code":"\u4ee3\u7801","codeClose":"\u5173\u95ed\u4ee3\u7801\u6807\u7b7e","more":"\u63d2\u5165\u201cMore\u201d\u6807\u7b7e"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/quicktags.min.js.下载"></script>
+<script type="text/javascript" src="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/crayon_qt.js.下载"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var viewsCacheL10n = {"admin_ajax_url":"http:\/\/python.jobbole.com\/wp-admin\/admin-ajax.php","post_id":"88291"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/postviews-cache.js.下载"></script>
+<script type="text/javascript" src="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/ready.js.下载"></script>
+<script type="text/javascript" src="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/easing.js.下载"></script>
+<script type="text/javascript" src="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/validate.js.下载"></script>
+<script type="text/javascript" src="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/touchwipe.js.下载"></script>
+<script type="text/javascript" src="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/caroufredsel.js.下载"></script>
+<script type="text/javascript" src="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/flexslider.js.下载"></script>
+<script type="text/javascript" src="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/jplayer.js.下载"></script>
+<script type="text/javascript" src="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/fitvids.js.下载"></script>
+<script type="text/javascript" src="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/selectnav.js.下载"></script>
+<script type="text/javascript" src="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/effects.js.下载"></script>
+<script type="text/javascript" src="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/wp-embed.min.js.下载"></script>
+
+
+<div id="full-btm" style="opacity: 1;">
+<a><img src="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/back-btm.png" width="20" border="0" alt="跳到底部" title="跳到底部"></a>
+</div>
+
+<script type="text/javascript">
+jQuery('#full-btm').click(function(){
+    jQuery('html, body').animate({scrollTop:jQuery(document).height()}, 'slow');
+    return false;
+});
+</script>
+
+<div id="full-top" style="opacity: 1;">
+<a><img src="./深入理解 Python 异步编程(上) - Python - 伯乐在线_files/back-top.png" width="20" border="0" alt="返回顶部" title="返回顶部"></a>
+</div>
+
+<script type="text/javascript">
+jQuery('#full-top').click(function(){
+    jQuery('html, body').animate({scrollTop:0}, 'slow');
+    return false;
+});
+
+</script>
+
+
+<!-- END body -->
+
+
+<!-- END html --><div id="cboxOverlay" style="display: none;"></div><div id="colorbox" class="" role="dialog" tabindex="-1" style="display: none;"><div id="cboxWrapper"><div><div id="cboxTopLeft" style="float: left;"></div><div id="cboxTopCenter" style="float: left;"></div><div id="cboxTopRight" style="float: left;"></div></div><div style="clear: left;"><div id="cboxMiddleLeft" style="float: left;"></div><div id="cboxContent" style="float: left;"><div id="cboxTitle" style="float: left;"></div><div id="cboxCurrent" style="float: left;"></div><button type="button" id="cboxPrevious"></button><button type="button" id="cboxNext"></button><button id="cboxSlideshow"></button><div id="cboxLoadingOverlay" style="float: left;"></div><div id="cboxLoadingGraphic" style="float: left;"></div></div><div id="cboxMiddleRight" style="float: left;"></div></div><div style="clear: left;"><div id="cboxBottomLeft" style="float: left;"></div><div id="cboxBottomCenter" style="float: left;"></div><div id="cboxBottomRight" style="float: left;"></div></div></div><div style="position: absolute; width: 9999px; visibility: hidden; display: none; max-width: none;"></div></div></body></html>
