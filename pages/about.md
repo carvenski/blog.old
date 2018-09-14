@@ -6,3 +6,5 @@ permalink: /about/
 ---
 
 ## About me
+![This is me, haha...](http://redhair.top/static/img/yx.jpg)
+
