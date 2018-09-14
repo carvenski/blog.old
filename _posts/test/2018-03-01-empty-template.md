@@ -5,5 +5,4 @@ comments: true
 categories: test
 ---
 
-## test Empty template
-Empty post template, haha
+## test empty template
