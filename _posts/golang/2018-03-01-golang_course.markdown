@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "golang staff"
+title:  "golang"
 date:   2018-03-01 14:00:00
 categories: golang
 comments: true

@@ -5,6 +5,7 @@ comments: true
 permalink: /about/
 ---
 
-## About me
-![This is me, haha...](http://redhair.top/static/img/yx.jpg)
+## About
+**wow, who is this guy...**       
+![This is me, haha...](http://redhair.top/static/img/yx.jpg)       
 
