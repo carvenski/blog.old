@@ -1,4 +1,4 @@
-# Michael.Y's Blog
+# Michael Yang's Blog
 
 Runing on Github + Jekyll theme
 

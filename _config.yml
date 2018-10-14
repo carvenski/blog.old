@@ -1,5 +1,5 @@
 # Site settings
-title: Michael.Y's Blog
+title: Michael Yang's Blog
 email: yangxing20107@gmail.com
 description: you konw they said that silent water runs deep.
 # > # this means to ignore newlines until "baseurl:"
@@ -19,8 +19,8 @@ newsourceroot: https://github.com/yxzoro/new/master
 #########################################
 # for duoshuo.com commenting system, uncomment following line if you do not want to include duoshuo.com. 
 # disqus.com commenting system. please note that it is exclusive with duoshuo.com
-disqus_shortname: yxzoro
-disqus_url: "http://yxzoro.github.io"
+# disqus_shortname: yxzoro
+# disqus_url: "http://yxzoro.github.io"
 #########################################
 
 # Build settings
