@@ -19,8 +19,8 @@ newsourceroot: https://github.com/yxzoro/new/master
 #########################################
 # for duoshuo.com commenting system, uncomment following line if you do not want to include duoshuo.com. 
 # disqus.com commenting system. please note that it is exclusive with duoshuo.com
-# disqus_shortname: yxzoro
-# disqus_url: "http://yxzoro.github.io"
+disqus_shortname: yxzoro
+disqus_url: "https://yxzoro.disqus.com"
 #########################################
 
 # Build settings
