@@ -4,12 +4,25 @@
 	<title>merry christmas!</title>
 </head>
 
-<body>
+<style type="text/css">
+#x{
+    background: url("./snow.jpg") no-repeat;
+    background-size: cover;
+     /*opacity: 0.8;        */
+}
+</style>
 
-<h1 style="color:red;">Merry Christmas !</h1>
-<img src="./snow.jpg">
+<body id="x">
 
-</body>
+
+
+<div >    
+<h1 style="color:red; text-align:center;">Merry Christmas !</h1>    
+</div>
+
+
+</body >
+
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js">
 </script>
 <script type="text/javascript">
@@ -50,9 +63,9 @@
 })(jQuery);
 $(function(){
     $.fn.snow({ 
-        minSize: 5, /* 定义雪花最小尺寸 */
+        minSize: 10, /* 定义雪花最小尺寸 */
         maxSize: 50,/* 定义雪花最大尺寸 */
-        newOn: 300  /* 定义密集程度，数字越小越密集 */
+        newOn: 200  /* 定义密集程度，数字越小越密集 */
     });
 });
 
