@@ -6,6 +6,7 @@ permalink: /about/
 ---
 
 ## About Me
-**a programmer who likes writing python/go/java code in linux**       
+**i'm a man who is seeking freedom.**
+
 ![This is me, haha...](http://redhair.top/static/img/me.jpg)       
 
