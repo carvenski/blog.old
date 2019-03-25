@@ -2,6 +2,7 @@
 
 <html>
 
+
 <style type="text/css">
     .tou_ming_tu_pian{
         /* background: url("/static/img/shanks.jpg") no-repeat; */
@@ -27,4 +28,27 @@
     </div>
     {% include footer.html %}
   </body>
+
+<style type="text/css">
+    footer{background-color: #ffc0cb;}
+    .fixed-bottom {position: fixed;bottom: 0;width:100%;}
+</style>
+
+
+<script>
+$(function(){
+    function footerPosition(){
+        $("footer").removeClass("fixed-bottom");
+        var contentHeight = document.body.scrollHeight,
+            winHeight = window.innerHeight;
+        if(!(contentHeight > winHeight)){
+            $("footer").addClass("fixed-bottom");
+        }
+    }
+    footerPosition();
+    $(window).resize(footerPosition);
+});
+</script>
+
+
 </html>
