@@ -6,7 +6,7 @@ permalink: /about/
 ---
 
 ## About Me
-**i'm a man who is seeking freedom.**
+**im just seeking freedom.**
 
 ![This is me, haha...](http://redhair.top/static/img/me.jpg)       
 
